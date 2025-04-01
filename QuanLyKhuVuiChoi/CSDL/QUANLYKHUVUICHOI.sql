@@ -101,3 +101,45 @@ create table NhanVien
 	ngayBatDauLam date,
 	luong decimal(10,0)
 )
+create table nhanvien_chucvu
+(
+	maNhanVien char(5),
+	maChucVu char(5),
+	tgian_batdau date,
+	tgian_ketthuc date,
+	primary key (maNhanVien, maChucVu),
+	foreign key (maNhanVien) references NhanVien(maNhanVien)
+			on update
+				cascade
+			on delete
+				cascade,
+	foreign key (maChucVu) references ChucVu(machucvu)
+			on update
+				cascade
+			on delete
+				cascade
+)
+create table calamViec
+(
+	maCa char(5) primary key,
+	tenca nvarchar(50),
+	gio_batdau date,
+	gio_ketthuc date,
+)
+create table phanCongCa
+(
+	maNhanVien char(5),
+	maCa char(5),
+	ngayLamViec date,
+	primary key (maNhanVien, maCa),
+	foreign key (maNhanVien) references NhanVien(maNhanVien)
+			on update
+				cascade
+			on delete
+				cascade,
+	foreign key (maCa) references calamViec(maCa)
+			on update
+				cascade
+			on delete
+				cascade
+)
