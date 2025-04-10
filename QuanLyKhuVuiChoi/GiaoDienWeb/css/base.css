@@ -1,0 +1,15 @@
+:root {
+  --white--color: #fff;
+  --black--color: #000;
+  --red--color: red;
+  --grey--color:  #8b8b8b;
+}
+* {
+  box-sizing: inherit;
+}
+html {
+  font-size: 62.5%;
+}
+button, html input[type=button], input[type=reset], input[type=submit]{
+  cursor: pointer;
+}

@@ -1,0 +1,352 @@
+* {
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .container{
+    /* width: 100%; */
+    position: relative;
+  }
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 50px;
+    height: 40px;
+    position: fixed;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.1); /* Ban đầu trong suốt */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Phần bên trái header */
+.header__left{
+    display: flex;
+    justify-content: center;
+
+}
+.header__left__menu{
+    display: flex;
+    
+}
+.header__left__menu >li{
+    display: flex;
+    margin: 0 12px;
+}
+.header__left__menu >li>a{
+    color: black;
+    font-weight: 200;
+    font-size: 16px;
+     margin: auto;
+}
+/* Phần tử thứ 7 của phần header bên trái */
+.header__left__menu--items--7{
+ margin: 0 12px;
+}
+.header__left__menu--items--7 > a{
+    text-align: center;
+   }
+/* Phần tử thứ 8 của phần header bên trái */
+.header__left__menu--items--8{
+    margin: 0 12px;
+    font-weight: 600;
+    text-align: center;
+    background: #F05B24;
+    border-radius: 100px;
+    padding: 7px;
+    min-width: 116px;
+    display: flex;
+}
+.header__left__menu--items--8 > a{
+    color: #FFFFFF;
+    margin: auto;
+}        
+/* Phần bên phải header */
+.header__right{
+    display: flex;
+    justify-content: space-around;
+}
+
+.header__right__menu--items--1{
+
+}
+.header__right__menu--items--2{
+
+}
+.header__right__menu--items--3{
+    display: flex;
+}
+.header__right__menu--items--3>a{
+    margin: auto;
+}
+.header__right__menu--items--4{
+    border: 1px solid #DC502C;
+    border-radius: 100px;
+    margin: 0 15px;
+    /* padding: 0px 25px; */
+    height: 100%;
+    text-align: center;
+    display: flex;
+    width: 120px;
+    box-sizing: border-box;
+    
+}
+.header__right__menu--items--4>a{
+    color: #DC502C;
+    margin: auto;
+    
+}
+/* Phần content */
+.content{
+    /* position: relative; */
+    height: 1000px;
+   
+}
+/* Phần ảnh nền */
+.content__image{
+    height: 95vh;
+}
+
+.content__image > img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+/* Nội dung trong ảnh */
+.content__wrap__textwidget{
+    padding-left: 15px;
+    padding-right: 15px;
+    position: absolute;
+    top: 320px;
+    left: 0;
+    right: 0;
+    display: flex;
+}
+.content__wrap__textwidget__child{
+    margin: auto;
+}
+.content__wrap__textwidget__child > h1 {
+    color: #fff;
+    font-size: 20px;
+    line-height: 28px;
+    /* font-family: montserrat-semibold; */
+    margin: 0px 0px 10px 0px;
+}
+.content__wrap__textwidget__child > h2 {
+    font-size: 32px;
+    color: #fff;
+    line-height: 45px;
+    /* font-family: montserrat-bold; */
+    margin: 0px 0px 10px 0px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.content__wrap__textwidget__child > p{    
+    color: #fff;
+    font-size: 16px;
+    line-height: 25px;
+    font-weight: bold;
+    /* font-family: montserrat-semibold; */
+    margin: 0px 0px 20px 0px;}
+.-color-purple{
+
+}
+/* Form  */
+.content__form{
+    position: relative;
+}
+.content__form__items{
+    border-radius: 24px;
+    background: #fff;
+    position: absolute;
+    bottom: -60px;
+    left: 20px;
+    right: 20px;
+    clear: both;
+    display: flex;
+    align-items: center;
+    padding: 36px 25px 27px 25px;
+    justify-content: center;
+    height: 50px;
+    
+}
+/* Chọn địa điểm */
+.content__choose__destination{
+    width: 200px;
+    position: relative;
+    padding: 0 30px 0 40px;
+}
+.content__choose__destination>p{
+    font-size: 18px;
+    line-height: 21px;
+    color: #231F20;
+    /* font-family: montserrat-semibold; */
+    font-weight: 700;
+    margin-top: 5px;
+    
+}
+
+.content__choose__destination::before{
+    content: url(/images/ping_map_search_hd.png.webp);
+    position: absolute;
+    top: 0;
+    left: 4px;
+}
+/* Chọn ngày  */
+.content__choose__day{
+    position: relative;
+    padding: 0 30px 0 70px;
+    border-left: 1px solid #a19b9b;
+    border-right: 1px solid #a19b9b;
+   
+}
+.content__choose__day span {
+    font-size: 13px;
+    display: block;
+    height: 20px;
+    width: 120px;
+}
+.content__choose__day::before{
+    content: url(/images/callendar_search_hd.png.webp);
+    position: absolute;
+    top: 10px;
+    left: 34px;
+}
+.content__choose__day > input{
+    height: auto;
+    border: none;
+    width: auto;
+    padding: 0px;
+    border-radius: 6px;
+    font-size: 18px;
+    color: #000;
+    font-family: "montserrat-semibold";
+    max-width: 115px;
+}
+.flatpickr-input[readonly] {
+    cursor: pointer;
+}
+/* Chọn số người lớn */
+.content__wrap__adultperson__choose{
+    position: relative;
+    padding: 0px 37px 0px 74px;
+}
+.content__wrap__adultperson__choose::before{
+    content: url(../images/human_icon_search.png.webp);
+    position: absolute;
+    top: 0px;
+    left: 41px;
+}
+/* Chọn số trẻ em*/
+.wrap_kid_person_choose{
+    position: relative;
+    padding: 0px 30px 0px 70px;
+    border-left: 1px solid #a19b9b;
+    border-right: 1px solid #a19b9b;
+}
+.wrap_kid_person_choose::before {
+    content: url(/images/baby_icon_search.png.webp);
+    position: absolute;
+    top: 7px;
+    left: 37px;
+}
+/* Chọn số người già*/
+.old_kid_person_choose{
+    position: relative;
+    padding: 0px 50px 0px 82px;
+}
+.old_kid_person_choose::before {
+    content: url(/images/old_man_icon_search.png.webp);
+    position: absolute;
+    top: -1px;
+    left: 41px;
+}
+.wrap_title_choose{
+    cursor: pointer;
+}
+.wrap_title_choose > span{
+    font-size: 13px;
+}
+.wrapper-tooltip-form-booking  img{
+    width: 12px;
+    height: 12px;
+}
+.wrapper-tooltip-form-booking  span:hover ~ .content-tooltip-form-booking{
+    display: block;
+}
+/* Chỉnh các nút cộng trừ */
+.btn_updown {
+    background: none;
+    border: none;
+    padding: 0px 5px;
+    position: relative;
+    top: -2px;
+}
+.btn_updown_plus {
+    margin: -2px 0px 0px 0px;
+    position: relative;
+    top: 2px;
+}
+/* Chỉnh ô input */
+.quantity_people {
+    border: none;
+    width: 35px;
+    text-align: center;
+    padding: 0;
+    font-size: 18px;
+    color: #f05a22;
+    font-family: "montserrat-bold";
+    background: none;
+}
+/* Nội dung điều kiện  */
+.content-tooltip-form-booking {
+    display: none;
+    position: absolute;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    color: #343A40;
+    width: max-content;
+    top: -40px;
+    left: -8px;
+    padding: 10px 14px;
+    background: #DFDFDF;
+    border-radius: 4px;
+}
+/* Nút điều kiện  */
+.wrapper-tooltip-form-booking {
+    position: absolute;
+    top: 2.5px;
+    right: 38px;
+}
+/* Khối chứa các nút cộng trừ và input */
+.nice-number {
+    display: flex;
+    margin: 2px 0px 0px 0px;
+}
+/* Bỏ nút điều chỉnh của input */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Nút tìm kiếm */
+.tg_hv_1{
+    background: #fff;
+    padding: 17px 0;
+    border-radius: 8px;
+    color: #DC502C;
+    border: 1px solid #DC502C;
+    width: 100%;
+    max-width: 130px;
+    font-size: 18px;
+    font-family: "montserrat-semibold";
+    margin-left: 20px;
+    border-radius: 100px;
+    cursor: pointer;
+}

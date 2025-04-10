@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/trangchu.css">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/resetcss.css">
+    <title>Document</title>
+</head>
+<body>
+   <div id="container">
+    <header>
+        <div class="header">
+            <div class="header__left">
+                <ul class="header__left__menu">
+                    <li class="header__left__menu--items--1"><a href=""></a><img src="" alt=""></li>
+                    <li class="header__left__menu--items--2"><a href="">Về chúng tôi</a></li>
+                    <li class="header__left__menu--items--3"><a href="">Điểm đến</a></li>
+                    <li class="header__left__menu--items--4"><a href="">Siêu phẩm</a></li>
+                    <li class="header__left__menu--items--5"><a href="">Ưu đãi</a></li>
+                    <li class="header__left__menu--items--6"><a href="">Wonderpedia</a></li>
+                    <li class="header__left__menu--items--7"><a href="">VinClub</a></li>
+                   
+                </ul>  
+                <div class="header__left__menu--items--8"><a href="">Đặt vé</a></div>
+            </div>
+            <div class="header__right">
+                    <div class="header__right__menu--items--1"><a href=""><img src="" alt=""></a></div>
+                    <div class="header__right__menu--items--2"><a href=""><img src="" alt=""></a></div>
+                    <div class="header__right__menu--items--3"><a href="">VI</a></div>
+                    <div class="header__right__menu--items--4"><a href="">Đăng nhập</a></div> 
+            </div>        
+        </div>
+    </header>
+    <main class="content">
+        <div class="content__image"><img src="/images/hoian.jpg" alt=""></div>
+        <div class="content__wrap__textwidget">
+            <div class="content__wrap__textwidget__child">
+                <h1 >VINWONDERS HỘI AN</h1>
+                <h2 >CÔNG VIÊN CHỦ ĐỀ LỚN NHẤT VIỆT NAM <br> HÀNG ĐẦU CHÂU Á</h2>
+                <p >Giờ hoạt động: 10:00 – 19:30 tất cả các ngày trong tuần</p>
+            </div>
+        </div>
+        <div class="content__form">
+            <form action="" class="content__form__items">
+                <div class="content__choose__destination">
+                    <span>Điểm đến</span>
+                    <p>VinWonders HỘI AN</p>
+                </div>
+                <div class="content__choose__day">
+                    <span>Chọn ngày</span>
+                    <input type="text" id="tg_date_choose" name="usingDate" placeholder="dd/mm/yyyy" data-cursor="-color-blue" class="flatpickr-input" readonly="readonly">
+                    
+                </div>   
+                <div class="content__wrap__adultperson__choose">
+                    <div class="wrap_title_choose">
+                        <span data-cursor="-color-green">
+                            Người lớn                            
+                            <div class="wrapper-tooltip-form-booking">
+                                <span data-cursor="-color-green"><img src="https://static.vinwonders.com/production_style/style/images/fi-rr-info.webp" alt="" loading="lazy" data-cursor="-color-blue"></span>
+                                <span class="content-tooltip-form-booking" data-cursor="-color-green">*cao từ 140cm</span>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="nice-number">
+                        <button type="button" class="button_change_quantity btn_updown btn_updown_minus tg_to_zero" data-cursor="-color-blue">
+                        <img src="https://static.vinwonders.com/production_style/style/images/minus_icon_hd.png.webp" alt="" loading="lazy" data-cursor="-color-blue">
+                        </button>
+                        <input type="number" value="2" name="adultQuantity" class="quantity_people" data-cursor="-color-blue">
+                        <button type="button" class="button_change_quantity btn_updown btn_updown_plus" data-cursor="-color-blue">
+                        <img src="https://static.vinwonders.com/production_style/style/images/plus_icon_hd.png.webp" alt="" loading="lazy" data-cursor="-color-blue">
+                        </button>
+                    </div>
+                </div> 
+                <div class="wrap_kid_person_choose">
+                    <div class="wrap_title_choose">
+                        <span data-cursor="-color-green">
+                            Trẻ em                            <div class="wrapper-tooltip-form-booking children-right">
+                                <span data-cursor="-color-green"><img src="https://static.vinwonders.com/production_style/style/images/fi-rr-info.webp" alt="" loading="lazy" data-cursor="-color-blue"></span>
+                                <span class="content-tooltip-form-booking" data-cursor="-color-green">
+                                    <span class="content-tooltip-first" data-cursor="-color-green" style="display: block;">*cao từ 100cm-140cm</span>
+                                    <span class="content-tooltip-second" data-cursor="-color-green" style="display: none;">*cao từ 80cm-140cm</span>
+                                </span>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="nice-number">
+                        <button type="button" class="button_change_quantity btn_updown btn_updown_minus tg_to_zero" data-cursor="-color-blue">
+                        <img src="https://static.vinwonders.com/production_style/style/images/minus_icon_hd.png.webp" alt="" loading="lazy" data-cursor="-color-blue">
+                        </button>
+                        <input type="number" value="0" name="childQuantity" class="quantity_people" data-cursor="-color-blue">
+                        <button type="button" class="button_change_quantity btn_updown btn_updown_plus" data-cursor="-color-blue">
+                        <img src="https://static.vinwonders.com/production_style/style/images/plus_icon_hd.png.webp" alt="" loading="lazy" data-cursor="-color-blue">
+                        </button>
+                    </div>
+                    <div class="mc_error_date error_long message_childQuantity" style="display: none;">Tối đa 20 khách trong một đơn hàng</div>
+                    <div class="mc_error_date error_long message_min" style="display: none;">Đối tượng cần lớn hơn 0</div>
+                </div>
+                <div class="old_kid_person_choose">
+                    <div class="wrap_title_choose">
+                        <span class="sub_sp" data-cursor="-color-green">Người cao tuổi</span>
+                        <span class="wrapper-tooltip-form-booking old-adult-right" data-cursor="-color-green">
+                            <span class="sub_sp" data-cursor="-color-green"><img src="https://static.vinwonders.com/production_style/style/images/fi-rr-info.webp" alt="" loading="lazy" data-cursor="-color-blue"></span>
+                            <span class="content-tooltip-form-booking" data-cursor="-color-green">*từ 60 tuổi</span>
+                        </span>
+                    </div>
+                    <div class="nice-number">
+                        <button type="button" class="button_change_quantity btn_updown btn_updown_minus tg_to_zero" data-cursor="-color-blue">
+                        <img src="https://static.vinwonders.com/production_style/style/images/minus_icon_hd.png.webp" alt="" loading="lazy" data-cursor="-color-blue"></button>
+                        <input type="number" value="0" name="seniorQuantity" class="quantity_people" data-cursor="-color-blue">
+                        <button type="button" class="button_change_quantity btn_updown btn_updown_plus" data-cursor="-color-blue">
+                        <img src="https://static.vinwonders.com/production_style/style/images/plus_icon_hd.png.webp" alt="" loading="lazy" data-cursor="-color-blue"></button>
+                    </div>
+                </div>   
+                <button type="submit" class="tg_hv_1" data-cursor="-color-blue">Tìm kiếm</button>
+                    
+            </form>
+        </div>
+    </main>
+    <footer></footer>
+   </div>
+</body>
+</html>
