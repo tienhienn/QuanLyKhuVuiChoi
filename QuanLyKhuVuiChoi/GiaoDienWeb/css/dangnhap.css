@@ -1,0 +1,136 @@
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #f1f3f5;
+    margin: 0;
+    padding: 40px;
+}
+
+.content-vinfast {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    padding: 32px;
+}
+
+/* Tabs */
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+
+.tab-btn {
+    padding: 10px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    background-color: transparent;
+    color: #007bff;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tab-btn.active,
+.tab-btn:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Form */
+.login-form {
+    width: 100%;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 500;
+    display: block;
+    margin-bottom: 8px;
+}
+
+input.form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+input.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Checkbox & link row */
+.row.remember {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0 16px;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.forgot-password a {
+    font-size: 14px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+
+/* Cookies */
+.accept-cookies {
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.accept-cookies a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+/* Button */
+.btn-active {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-active:hover {
+    background-color: #0056b3;
+}
+
+/* Footer */
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+.tab-content {
+    display: block;
+}
+
+.tab-content.hidden {
+    display: none;
+}
