@@ -18,33 +18,6 @@ create table Khu
 	tenKhu nvarchar(50),
 	mota nvarchar(100)
 )
-create table TroChoi
-(
-	maTroChoi char(5) primary key,
-	tenTrochoi nvarchar(50),
-	mota nvarchar(100),
-	gioiHanDoTuoi int,
-	sucChua int,
-	thoiGianHoatDong Date
-)
-create table SuKien
-(	
-	masukien char(5) primary key,
-	tenSuKien nvarchar(50),
-	TGianBatDau date,
-	TgianKetThuc date,
-	TrangThaiHoatDong nvarchar(10),
-	mucDoCuonHut nvarchar(50),
-	gioiHanDoTuoi int,
-	SucChua int
-)
-create table NhaHang
-(
-	maNhaHang char(5) primary key,
-	TGianMoCua date,
-	TgianDongCua date,
-	loaiNhaHang nvarchar(50)
-)
 create table dichvu
 (
 	maDichVu char(5) primary key,
@@ -56,6 +29,51 @@ create table dichvu
 			cascade 
 		on delete 
 			cascade
+)
+create table TroChoi
+(
+	maTroChoi char(5) primary key,
+	maDichVu char(5),
+	tenTrochoi nvarchar(50),
+	mota nvarchar(100),
+	gioiHanDoTuoi int,
+	sucChua int,
+	thoiGianHoatDong Date,
+	FOREIGN KEY (maDichVu) REFERENCES dichvu(maDichVu)
+			on update
+				cascade
+			on delete
+				cascade
+)
+create table SuKien
+(	
+	masukien char(5) primary key,
+	maDichVu char(5),
+	tenSuKien nvarchar(50),
+	TGianBatDau date,
+	TgianKetThuc date,
+	TrangThaiHoatDong nvarchar(10),
+	mucDoCuonHut nvarchar(50),
+	gioiHanDoTuoi int,
+	SucChua int,
+	FOREIGN KEY (maDichVu) REFERENCES dichvu(maDichVu)
+			on update
+				cascade
+			on delete
+				cascade
+)
+create table NhaHang
+(
+	maNhaHang char(5) primary key,
+	maDichVu char(5),
+	TGianMoCua date,
+	TgianDongCua date,
+	loaiNhaHang nvarchar(50)
+	FOREIGN KEY (maDichVu) REFERENCES dichvu(maDichVu)
+			on update
+				cascade
+			on delete
+				cascade
 )
 create table ChucVu
 (
@@ -133,6 +151,7 @@ create table nhanvien_dichvu
 CREATE TABLE khachhang (
     maKhachHang char(5) PRIMARY KEY,
     tenKhachHang nVARCHAR(100),
+	matkhau varchar(12),
     ngaySinh DATE,
     gioiTinh nVARCHAR(10),
     diaChi nVARCHAR(255),
