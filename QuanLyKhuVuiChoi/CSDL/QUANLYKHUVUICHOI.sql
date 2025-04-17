@@ -1,4 +1,3 @@
--- Xóa cơ sở dữ liệu nếu đã tồn tại
 --drop database if exists QUANLYKHUVUICHOI
 IF EXISTS (SELECT * FROM sys.databases WHERE name = 'QUANLYKHUVUICHOI')
 BEGIN
@@ -151,12 +150,11 @@ create table nhanvien_dichvu
 CREATE TABLE khachhang (
     maKhachHang char(5) PRIMARY KEY,
     tenKhachHang nVARCHAR(100),
-	matkhau varchar(12),
     ngaySinh DATE,
     gioiTinh nVARCHAR(10),
     diaChi nVARCHAR(255),
-    SDT VARCHAR(10),
-    email VARCHAR(100)
+    SDT VARCHAR(10) unique,
+    email VARCHAR(100) unique
 )
 
 -- Bảng Voucher
@@ -236,9 +234,9 @@ CREATE TABLE VeTour
 	Mavetour char(5) primary key,
     MaDatVe char(5),
     maTour char(5),
-    DiemDi nVARCHAR(100),
+    thoiGian date,
     PhuongTien nVARCHAR(100),
-    thoigian date,
+    GioDi time,
     FOREIGN KEY (MaDatVe) REFERENCES DatVe(MaDatVe)
 			on update
 				cascade
@@ -270,7 +268,7 @@ create table vele
 (
 	maVele char(5) primary key,
 	MaDatVe char(5)
-	 FOREIGN KEY (MaDatVe) REFERENCES DatVe(MaDatVe)
+	FOREIGN KEY (MaDatVe) REFERENCES DatVe(MaDatVe)
 			on update
 				cascade
 			on delete
@@ -278,55 +276,43 @@ create table vele
 )
 go
 --rằng buộc
-alter table nhanvien
-	add constraint CK_nhienvien_SDT 
-			check(SDT like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
 alter table khachhang
 	add constraint CK_khachhang_SDT 
-			check(SDT like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]')
-alter table khachhang
-	add constraint CK_KhachHang_Email
-			check(email like '[A-Za-z]%@gmail.com')
-alter table nhanvien
-	add constraint CK_NhanVien_Email
+			check(SDT like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+		constraint CK_KhachHang_Email
 			check(email like '[A-Za-z]%@gmail.com')
 -- Số lượng phải > 0
 ALTER TABLE KhachHang_Voucher 
 	ADD CONSTRAINT chk_KHVoucher_SoLuong 
 			CHECK (soLuong >= 0 AND SoLuongDaDung >= 0 AND SoLuongDaDung <= SoLuong);
+-- Bảng DatVe
 ALTER TABLE DatVe 
-	ADD CONSTRAINT chk_DatVe_SoLuong 
-			CHECK (SoLuong > 0)
+ADD CONSTRAINT chk_DatVe_SoLuong CHECK (SoLuong > 0),
+    CONSTRAINT chk_DatVe_Ngay CHECK (NgayDat <= NgayDi);
+-- Bảng voucher
 ALTER TABLE voucher 
-	ADD CONSTRAINT chk_Voucher_SoLuong 
-			CHECK (SoLuong >= 0)
+ADD CONSTRAINT chk_Voucher_SoLuong CHECK (SoLuong >= 0);
+-- Bảng NhanVien
 ALTER TABLE NhanVien 
-	ADD CONSTRAINT chk_NhanVien_Luong 
-			CHECK (luong >= 0)
+ADD CONSTRAINT chk_NhanVien_Luong CHECK (luong >= 0),
+	CONSTRAINT CK_nhienvien_SDT 
+			check(SDT like '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'),
+	CONSTRAINT CK_NhanVien_Email
+			check(email like '[A-Za-z]%@gmail.com')
+-- Bảng TroChoi
 ALTER TABLE TroChoi 
-	ADD CONSTRAINT chk_TroChoi_Tuoi 
-			CHECK (gioiHanDoTuoi >= 0)
-ALTER TABLE TroChoi 
-	ADD CONSTRAINT chk_TroChoi_SucChua
-			CHECK (sucChua > 0)
+ADD CONSTRAINT chk_TroChoi_Tuoi CHECK (gioiHanDoTuoi >= 0),
+    CONSTRAINT chk_TroChoi_SucChua CHECK (sucChua > 0);
+-- Bảng SuKien
 ALTER TABLE SuKien 
-	ADD CONSTRAINT chk_SuKien_Tuoi 
-			CHECK (gioiHanDoTuoi >= 0)
-ALTER TABLE SuKien
-	ADD CONSTRAINT chk_SuKien_SucChua 
-			CHECK (SucChua > 0)
+ADD CONSTRAINT chk_SuKien_Tuoi CHECK (gioiHanDoTuoi >= 0),
+    CONSTRAINT chk_SuKien_SucChua CHECK (SucChua > 0),
+    CONSTRAINT chk_SuKien_ThoiGian CHECK (TGianBatDau <= TgianKetThuc);
+
+-- Bảng Tour
 ALTER TABLE Tour 
-	ADD CONSTRAINT chk_Tour_SoLuongMax 
-			CHECK (soLuongMax > 0)
-ALTER TABLE SuKien 
-	ADD CONSTRAINT chk_SuKien_ThoiGian 
-			CHECK (TGianBatDau <= TgianKetThuc)
-ALTER TABLE Tour 
-	ADD CONSTRAINT chk_Tour_ThoiGian 
-			CHECK (tg_batDau <= tg_ketThuc)
-ALTER TABLE DatVe 
-	ADD CONSTRAINT chk_DatVe_Ngay 
-			CHECK (NgayDat <= NgayDi)
+ADD CONSTRAINT chk_Tour_SoLuongMax CHECK (soLuongMax > 0),
+    CONSTRAINT chk_Tour_ThoiGian CHECK (tg_batDau <= tg_ketThuc);
 
 go
 --insert
@@ -335,47 +321,6 @@ INSERT INTO Khu
 		('KH001', N'Khu A', N'Khu vui chơi'),
 		('KH002', N'Khu B', N'Khu sự kiện'),
 		('KH003', N'Khu C', N'Khu ẩm thực')
-
-SET DATEFORMAT dmy;
-INSERT INTO TroChoi VALUES 
-		('TC001', N'Tàu lượn', N'Tàu lượn siêu tốc', 12, 20, '01-01-2023'),
-		('TC002', N'Đu quay', N'Đu quay khổng lồ', 6, 30, '01-01-2023'),
-		('TC003', N'Thuyền ma', N'Trò chơi kinh dị', 16, 15, '01-01-2023'),
-		('TC004', N'Xe điện', N'Xe điện đụng', 8, 25, '01-01-2023'),
-		('TC005', N'Vòng xoay', N'Vòng xoay gia đình', 4, 40, '01-01-2023'),
-		('TC006', N'Thác nước', N'Trò chơi nước', 10, 20, '01-01-2023'),
-		('TC007', N'Khinh khí cầu', N'Khinh khí cầu mini', 8, 10, '01-01-2023'),
-		('TC008', N'Tường leo', N'Leo núi trong nhà', 10, 15, '01-01-2023'),
-		('TC009', N'Bắn súng', N'Bắn súng nước', 16, 20, '01-01-2023'),
-		('TC010', N'Đua xe', N'Đua xe mô hình', 8, 12, '01-01-2023')
-
--- Insert into SuKien
-SET DATEFORMAT dmy;
-INSERT INTO SuKien VALUES 
-		('SK001', N'Lễ hội ánh sáng', '01-12-2023', '31-12-2023', N'Hoạt động', N'Cao', 0, 500),
-		('SK002', N'Ngày gia đình', '01-06-2023', '02-06-2023', N'Kết thúc', N'Trung bình', 0, 300),
-		('SK003', N'Halloween', '31-10-2023', '31-10-2023', N'Chuẩn bị', N'Cao', 12, 200),
-		('SK004', N'Tết thiếu nhi', '01-06-2023', '01-06-2023', N'Hoạt động', N'Cao', 0, 400),
-		('SK005', N'Giáng sinh', '24-12-2023', '25-12-2023', N'Chuẩn bị', N'Cao', 0, 500),
-		('SK006', N'Hội chợ ẩm thực', '15-05-2023', '17-05-2023', N'Kết thúc', N'Trung bình', 0, 300),
-		('SK007', N'Biểu diễn xiếc', '01-04-2023', '03-04-2023', N'Hoạt động', N'Trung bình', 0, 200),
-		('SK008', N'Triển lãm nghệ thuật', '01-03-2023', '10-03-2023', N'Kết thúc', N'Thấp', 0, 150),
-		('SK009', N'Ngày Valentine', '14-02-2023', '14-02-2023', N'Kết thúc', N'Trung bình', 12, 200),
-		('SK010', N'Lễ hội hoa', '08-03-2023', '09-03-2023', N'Hoạt động', N'Thấp', 0, 250)
-
--- Insert into NhaHang
-SET DATEFORMAT dmy;
-INSERT INTO NhaHang VALUES 
-		('NH001', '01-01-2023', '01-01-2023', N'Nhà hàng gia đình'),
-		('NH002', '01-01-2023', '01-01-2023', N'Nhà hàng buffet'),
-		('NH003', '01-01-2023', '01-01-2023', N'Quán ăn nhanh'),
-		('NH004', '01-01-2023', '01-01-2023', N'Quán cà phê'),
-		('NH005', '01-01-2023', '01-01-2023', N'Nhà hàng hải sản'),
-		('NH006', '01-01-2023', '01-01-2023', N'Nhà hàng chay'),
-		('NH007', '01-01-2023', '01-01-2023', N'Quán bar'),
-		('NH008', '01-01-2023', '01-01-2023', N'Nhà hàng Âu'),
-		('NH009', '01-01-2023', '01-01-2023', N'Nhà hàng Á'),
-		('NH010', '01-01-2023', '01-01-2023', N'Nhà hàng Việt')
 
 -- Insert into dichvu
 INSERT INTO dichvu VALUES 
@@ -389,6 +334,50 @@ INSERT INTO dichvu VALUES
 		('DV008', 'KH003', N'Quầy giải khát', N'Phục vụ nước uống và đồ ăn nhẹ'),
 		('DV009', 'KH002', N'Phòng y tế', N'Hỗ trợ sơ cứu và chăm sóc y tế cơ bản cho khách'),
 		('DV010', 'KH001', N'WiFi miễn phí', N'Kết nối internet miễn phí trong toàn khuôn viên')
+
+SET DATEFORMAT dmy;
+INSERT INTO TroChoi VALUES 
+	('TC001', 'DV001', N'Tàu lượn', N'Tàu lượn siêu tốc', 12, 20, '01-01-2023'),
+	('TC002', 'DV001', N'Đu quay', N'Đu quay khổng lồ', 6, 30, '01-01-2023'),
+	('TC003', 'DV001', N'Thuyền ma', N'Trò chơi kinh dị', 16, 15, '01-01-2023'),
+	('TC004', 'DV001', N'Xe điện', N'Xe điện đụng', 8, 25, '01-01-2023'),
+	('TC005', 'DV001', N'Vòng xoay', N'Vòng xoay gia đình', 4, 40, '01-01-2023'),
+	('TC006', 'DV001', N'Thác nước', N'Trò chơi nước', 10, 20, '01-01-2023'),
+	('TC007', 'DV001', N'Khinh khí cầu', N'Khinh khí cầu mini', 8, 10, '01-01-2023'),
+	('TC008', 'DV001', N'Tường leo', N'Leo núi trong nhà', 10, 15, '01-01-2023'),
+	('TC009', 'DV001', N'Bắn súng', N'Bắn súng nước', 16, 20, '01-01-2023'),
+	('TC010', 'DV001', N'Đua xe', N'Đua xe mô hình', 8, 12, '01-01-2023');
+
+
+-- Insert into SuKien
+SET DATEFORMAT dmy;
+INSERT INTO SuKien VALUES 
+	('SK001', 'DV004', N'Lễ hội ánh sáng', '01-12-2023', '31-12-2023', N'Hoạt động', N'Cao', 0, 500),
+	('SK002', 'DV003', N'Ngày gia đình', '01-06-2023', '02-06-2023', N'Kết thúc', N'Trung bình', 0, 300),
+	('SK003', 'DV004', N'Halloween', '31-10-2023', '31-10-2023', N'Chuẩn bị', N'Cao', 12, 200),
+	('SK004', 'DV004', N'Tết thiếu nhi', '01-06-2023', '01-06-2023', N'Hoạt động', N'Cao', 0, 400),
+	('SK005', 'DV004', N'Giáng sinh', '24-12-2023', '25-12-2023', N'Chuẩn bị', N'Cao', 0, 500),
+	('SK006', 'DV003', N'Hội chợ ẩm thực', '15-05-2023', '17-05-2023', N'Kết thúc', N'Trung bình', 0, 300),
+	('SK007', 'DV003', N'Biểu diễn xiếc', '01-04-2023', '03-04-2023', N'Hoạt động', N'Trung bình', 0, 200),
+	('SK008', 'DV003', N'Triển lãm nghệ thuật', '01-03-2023', '10-03-2023', N'Kết thúc', N'Thấp', 0, 150),
+	('SK009', 'DV004', N'Ngày Valentine', '14-02-2023', '14-02-2023', N'Kết thúc', N'Trung bình', 12, 200),
+	('SK010', 'DV004', N'Lễ hội hoa', '08-03-2023', '09-03-2023', N'Hoạt động', N'Thấp', 0, 250);
+
+
+-- Insert into NhaHang
+SET DATEFORMAT dmy;
+INSERT INTO NhaHang VALUES 
+	('NH001', 'DV005', '01-01-2023', '01-01-2023', N'Nhà hàng gia đình'),
+	('NH002', 'DV006', '01-01-2023', '01-01-2023', N'Nhà hàng buffet'),
+	('NH003', 'DV007', '01-01-2023', '01-01-2023', N'Quán ăn nhanh'),
+	('NH004', 'DV008', '01-01-2023', '01-01-2023', N'Quán cà phê'),
+	('NH005', 'DV009', '01-01-2023', '01-01-2023', N'Nhà hàng hải sản'),
+	('NH006', 'DV010', '01-01-2023', '01-01-2023', N'Nhà hàng chay'),
+	('NH007', 'DV007', '01-01-2023', '01-01-2023', N'Quán bar'),
+	('NH008', 'DV010', '01-01-2023', '01-01-2023', N'Nhà hàng Âu'),
+	('NH009', 'DV001', '01-01-2023', '01-01-2023', N'Nhà hàng Á'),
+	('NH010', 'DV004', '01-01-2023', '01-01-2023', N'Nhà hàng Việt');
+
 
 -- Insert into ChucVu
 INSERT INTO ChucVu VALUES 
@@ -541,18 +530,19 @@ INSERT INTO DatVe VALUES
 		('DV009', 'KH009', '09-04-2025', N'Trẻ em', 2, '30-04-2025'),
 		('DV010', 'KH010', '10-04-2025', N'Người lớn', 3, '26-04-2025')
 
-SET DATEFORMAT dmy
+SET DATEFORMAT dmy;
 INSERT INTO VeTour VALUES
-		('VT001', 'DV001', 'TO001', N'Hà Nội', N'Xe buýt', '10-04-2025'),
-		('VT002', 'DV002', 'TO002', N'Hà Nội', N'Tàu hỏa', '12-04-2025'),
-		('VT003', 'DV003', 'TO003', N'Huế', N'Máy bay', '20-04-2025'),
-		('VT004', 'DV004', 'TO004', N'Hồ Chí Minh', N'Xe khách', '15-04-2025'),
-		('VT005', 'DV005', 'TO005', N'Hội An', N'Xe buýt', '18-04-2025'),
-		('VT006', 'DV006', 'TO006', N'Nha Trang', N'Máy bay', '25-04-2025'),
-		('VT007', 'DV007', 'TO007', N'Đà Lạt', N'Xe khách', '22-04-2025'),
-		('VT008', 'DV008', 'TO008', N'Cần Thơ', N'Tàu thủy', '28-04-2025'),
-		('VT009', 'DV009', 'TO009', N'Phú Quốc', N'Máy bay', '30-04-2025'),
-		('VT010', 'DV010', 'TO010', N'Sapa', N'Tàu hỏa', '26-04-2025')
+	('VT001', 'DV001', 'TO001', '10-04-2025', N'Xe buýt', '08:00:00'),
+	('VT002', 'DV002', 'TO002', '12-04-2025', N'Tàu hỏa', '09:00:00'),
+	('VT003', 'DV003', 'TO003', '20-04-2025', N'Máy bay', '07:30:00'),
+	('VT004', 'DV004', 'TO004', '15-04-2025', N'Xe khách', '06:45:00'),
+	('VT005', 'DV005', 'TO005', '18-04-2025', N'Xe buýt', '10:00:00'),
+	('VT006', 'DV006', 'TO006', '25-04-2025', N'Máy bay', '11:00:00'),
+	('VT007', 'DV007', 'TO007', '22-04-2025', N'Xe khách', '08:15:00'),
+	('VT008', 'DV008', 'TO008', '28-04-2025', N'Tàu thủy', '09:45:00'),
+	('VT009', 'DV009', 'TO009', '30-04-2025', N'Máy bay', '07:00:00'),
+	('VT010', 'DV010', 'TO010', '26-04-2025', N'Tàu hỏa', '06:30:00');
+
 
 INSERT INTO datve_dichvu VALUES
 		('DV001', 'DV001'),
@@ -644,6 +634,7 @@ JOIN DatVe DV ON VT.MaDatVe = DV.MaDatVe
 WHERE T.maTour = 'TO001'
 GROUP BY T.maTour
 go
+
 CREATE TRIGGER trg_KiemTraSoLuongVeTour
 ON VeTour
 AFTER INSERT
@@ -676,10 +667,11 @@ END
 -- Giả sử KH001 đã có rồi
 -- Chọn mã DatVe mới (ví dụ chưa dùng: DV011)
 go -- Đặt quá số lượng max
-INSERT INTO DatVe VALUES ('DV018', 'KH001', '13-04-2005', N'Người lớn', 10 , '15-04-2005')
+INSERT INTO DatVe VALUES ('DV019', 'KH001', '13-04-2005', N'Người lớn', 10 , '15-04-2005')
 
 -- Gắn DatVe mới này vào tour TO001
-INSERT INTO VeTour VALUES ('VT018', 'DV018', 'TO001', N'Hà Nội', N'Xe buýt', '15-04-2005')
+INSERT INTO VeTour
+VALUES 	('VT011', 'DV019', 'TO008', '04-04-2025', N'Tàu hỏa', '06:15:00');
 -- Xem giới hạn tour
 SELECT soLuongMax FROM Tour WHERE maTour = 'TO001'
 -- Xem tổng vé đã đặt
