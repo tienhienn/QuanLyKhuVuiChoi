@@ -191,7 +191,7 @@
 }
 
 .content__choose__destination::before{
-    content: url(/images/ping_map_search_hd.png.webp);
+    content: url(/images/trangchu/ping_map_search_hd.png.webp);
     position: absolute;
     top: 0;
     left: 4px;
@@ -211,7 +211,7 @@
     width: 120px;
 }
 .content__choose__day::before{
-    content: url(/images/callendar_search_hd.png.webp);
+    content: url(/images/trangchu/callendar_search_hd.png.webp);
     position: absolute;
     top: 10px;
     left: 34px;
@@ -236,7 +236,7 @@
     padding: 0px 37px 0px 74px;
 }
 .content__wrap__adultperson__choose::before{
-    content: url(../images/human_icon_search.png.webp);
+    content: url(../images/trangchu/human_icon_search.png.webp);
     position: absolute;
     top: 0px;
     left: 41px;
@@ -249,7 +249,7 @@
     border-right: 1px solid #a19b9b;
 }
 .wrap_kid_person_choose::before {
-    content: url(/images/baby_icon_search.png.webp);
+    content: url(/images/trangchu/baby_icon_search.png.webp);
     position: absolute;
     top: 7px;
     left: 37px;
@@ -260,7 +260,7 @@
     padding: 0px 50px 0px 82px;
 }
 .old_kid_person_choose::before {
-    content: url(/images/old_man_icon_search.png.webp);
+    content: url(/images/trangchu/old_man_icon_search.png.webp);
     position: absolute;
     top: -1px;
     left: 41px;
