@@ -153,6 +153,7 @@ CREATE TABLE khachhang (
     ngaySinh DATE,
     gioiTinh nVARCHAR(10),
     diaChi nVARCHAR(255),
+	matkhau varchar(50) unique,
     SDT VARCHAR(10) unique,
     email VARCHAR(100) unique
 )
@@ -455,16 +456,16 @@ INSERT INTO nhanvien_dichvu VALUES
 SET DATEFORMAT dmy
 INSERT INTO khachhang 
 	VALUES 
-		('KH001', N'Nguyễn Văn A', '01-01-1990', N'Nam', N'Hà Nội', '0901234567', 'a@gmail.com'),
-		('KH002', N'Trần Thị B', '15-03-1995', N'Nữ', N'HCM', '0912345678', 'b@gmail.com'),
-		('KH003', N'Lê Văn C', '25-12-1988', N'Nam', N'Đà Nẵng', '0923456789', 'c@gmail.com'),
-		('KH004', N'Phạm Thị D', '20-07-2000', N'Nữ', N'Hải Phòng', '0934567890', 'd@gmail.com'),
-		('KH005', N'Hoàng Văn E', '10-11-1992', N'Nam', N'Cần Thơ', '0945678901', 'e@gmail.com'),
-		('KH006', N'Đỗ Thị F', '05-06-1998', N'Nữ', N'Huế', '0956789012', 'f@gmail.com'),
-		('KH007', N'Bùi Văn G', '14-02-1985', N'Nam', N'Nha Trang', '0967890123', 'g@gmail.com'),
-		('KH008', N'Vũ Thị H', '30-09-1993', N'Nữ', N'Quảng Ninh', '0978901234', 'h@gmail.com'),
-		('KH009', N'Tô Văn I', '18-04-1996', N'Nam', N'Bắc Ninh', '0989012345', 'i@gmail.com'),
-		('KH010', N'Phan Thị J', '12-12-2002', N'Nữ', N'Bình Dương', '0990123456', 'j@gmail.com')
+		('KH001', N'Nguyễn Văn A', '01-01-1990', N'Nam', N'Hà Nội','matkhau123', '0901234567', 'a@gmail.com'),
+		('KH002', N'Trần Thị B', '15-03-1995', N'Nữ', N'HCM','matkhau345', '0912345678', 'b@gmail.com'),
+		('KH003', N'Lê Văn C', '25-12-1988', N'Nam', N'Đà Nẵng','matkhau723', '0923456789', 'c@gmail.com'),
+		('KH004', N'Phạm Thị D', '20-07-2000', N'Nữ', N'Hải Phòng','matkhfsd123', '0934567890', 'd@gmail.com'),
+		('KH005', N'Hoàng Văn E', '10-11-1992', N'Nam', N'Cần Thơ','matkhdfsgdsfu123', '0945678901', 'e@gmail.com'),
+		('KH006', N'Đỗ Thị F', '05-06-1998', N'Nữ', N'Huế','matgsdhau123', '0957890012', 'f@gmail.com'),
+		('KH007', N'Bùi Văn G', '14-02-1985', N'Nam', N'Nha Trang','matkhdfgsau123', '0967890123', 'g@gmail.com'),
+		('KH008', N'Vũ Thị H', '30-09-1993', N'Nữ', N'Quảng Ninh','matkh21au123', '0978901234', 'h@gmail.com'),
+		('KH009', N'Tô Văn I', '18-04-1996', N'Nam', N'Bắc Ninh','matkha2234u123', '0989012345', 'i@gmail.com'),
+		('KH010', N'Phan Thị J', '12-12-2002', N'Nữ', N'Bình Dương','matkxchdhau123', '0990123456', 'j@gmail.com')
 
 SET DATEFORMAT dmy
 INSERT INTO voucher VALUES 
