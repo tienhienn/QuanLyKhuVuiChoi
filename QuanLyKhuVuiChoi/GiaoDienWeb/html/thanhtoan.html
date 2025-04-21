@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidivlaukas - Thanh toán</title>
+    <link rel="stylesheet" href="/css/thanhtoan.css">
+</head>
+<body>
+    <header>
+        <div class="logo">VinWonders</div>
+        <nav>
+          <a href="#">Về chúng tôi</a>
+          <a href="#">Điểm đến</a>
+          <a href="#">Siêu phẩm</a>
+          <a href="#">Ưu đãi</a>
+          <a href="#">Tin tức</a>
+        </nav>
+        <div class="auth">
+          <a href="/html/dangnhap.html">
+            <button class="btn-register">Đăng ký</button>
+          </a>
+          <a href="/html/dangnhap.html">
+            <button class="btn-login">Đăng nhập</button>
+          </a>
+        </div>
+      </header>
+    <div class="container">
+        <h1>Thông tin khách hàng</h1>
+    
+    <div class="section">
+        <div class="section-title">
+            <span class="required">Họ</span>
+        </div>
+        
+        <div class="input-group">
+            <input type="text" placeholder="Nhập họ của bạn">
+            <div class="example">Vd: Nguyen</div>
+        </div>
+        <div class="section-title">
+            <span class="required">Tên đệm và tên</span>
+        </div>
+        <div class="input-group">
+            <input type="text" placeholder="Nhập tên đệm và tên">
+            <div class="example">Vd: Anh Duy</div>
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="section">
+        <h2 class="section-title">Email nhận thông tin đơn hàng</h2>
+        <div class="input-group">
+            <input type="email" placeholder="Nhập email của bạn">
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="section">
+        <div class="section-title">Ghi chú</div>
+        <div class="input-group">
+            <div class="section-title required">Số điện thoại</div>
+            <div class="phone-input">
+                <div class="phone-prefix">+84</div>
+                <input type="tel" class="phone-number" placeholder="Nhập số điện thoại">
+            </div>
+        </div>
+    </div>
+        
+        <div class="payment-methods">
+            <h3>Phương thức thanh toán</h3>
+            <p>Tất cả các thông tin thẻ đều được mã hoá bảo mật an toàn</p>
+            
+            <div class="payment-method">
+                <input type="checkbox" id="bank-transfer">
+                <label for="bank-transfer">Thẻ/Tài Khoản ngân hàng (ATM nội địa/quốc tế)</label>
+            </div>
+            
+            <div class="payment-method">
+                <input type="checkbox" id="credit-card">
+                <label for="credit-card">Thể tín dụng/ ghi nợ quốc tế (Visa/Master/JCB)</label>
+            </div>
+            
+            <div class="payment-method">
+                <input type="checkbox" id="qr-code">
+                <label for="qr-code">Thanh toán bằng mã QR code</label>
+            </div>
+            
+            <div class="payment-method">
+                <input type="checkbox" id="auto-pay">
+                <label for="auto-pay">Thanh toán bằng ví điện tử</label>
+            </div>
+        </div>
+        
+        <div class="payment-details">
+            <h3>Chi tiết thanh toán</h3>
+            
+            <div class="payment-item">
+                <div>[Smart World Phú Quốc] - Phú Quốc Trạnh VI</div>
+                <div>300.000 vnd</div>
+            </div>
+            
+            <div class="payment-item">
+                <div>người lớn x 2</div>
+                <div></div>
+            </div>
+            
+            <div class="payment-item">
+                <div>[Smart World Phú Quốc] - Vệ đi thought Vietnam (Water Trail)</div>
+                <div>200.000 vnd</div>
+            </div>
+            
+            <div class="payment-item">
+                <div>người lớn x 2</div>
+                <div></div>
+            </div>
+            
+            <div class="payment-item">
+                <div>Giảm giá toàn đơn hàng</div>
+                <div>0 vnd</div>
+            </div>
+            
+            <div class="payment-item total">
+                <div>Tổng cộng</div>
+                <div>1.000.000 vnd</div>
+            </div>
+        </div>
+        <div>
+            <button class="pay-button">Thanh toán</button>
+        </div>
+    </div>
+</body>
+</html>

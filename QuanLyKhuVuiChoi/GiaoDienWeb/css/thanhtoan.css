@@ -1,0 +1,216 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background: linear-gradient(90deg, #d80d8c, #9400d3);
+    padding: 10px 20px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header nav a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+  }
+  .logo {
+    font-size: 26px;
+    font-weight: bold;
+  }
+  .auth {
+    display: flex;
+    gap: 10px;
+  }
+  .auth button {
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .btn-login {
+    background: orange;
+    color: white;
+    font-weight: bold;
+  }
+  .btn-register {
+    background: white;
+    color: #9400d3;
+    font-weight: bold;
+  }
+h1 {
+    color: #000;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 20px 0;
+}
+
+.promo-section {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+table td:first-child {
+    width: 30%;
+}
+
+input[type="text"], input[type="email"], input[type="tel"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.payment-methods {
+    margin-bottom: 20px;
+}
+
+.payment-method {
+    margin-bottom: 10px;
+}
+
+.payment-details {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.payment-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.total {
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.footer-note {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.pay-button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+}
+
+.required::after {
+    content: "*";
+    color: red;
+    margin-left: 4px;
+}
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.required::after {
+    content: "*";
+    color: red;
+    margin-left: 4px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.example {
+    color: #666;
+    font-size: 14px;
+    margin-top: 5px;
+    margin-left: 15px;
+}
+
+input[type="text"], 
+input[type="email"], 
+input[type="tel"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.phone-input {
+    display: flex;
+}
+
+.phone-prefix {
+    width: 70px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    background-color: #f5f5f5;
+    text-align: center;
+}
+
+.phone-number {
+    flex-grow: 1;
+    border-radius: 0 4px 4px 0;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #eee;
+    margin: 25px 0;
+}
+
+.email-display {
+    color: #0066cc;
+    text-decoration: none;
+}
