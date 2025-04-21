@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đặt vé - VinWonders</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/chonve.css">
+</head>
+<body>
+  <header>
+    <div class="logo">VinWonders</div>
+    <nav>
+      <a href="#">Về chúng tôi</a>
+      <a href="#">Điểm đến</a>
+      <a href="#">Siêu phẩm</a>
+      <a href="#">Ưu đãi</a>
+      <a href="#">Tin tức</a>
+    </nav>
+    <div class="auth">
+      <a href="/html/dangnhap.html">
+        <button class="btn-register">Đăng ký</button>
+      </a>
+      <a href="/html/dangnhap.html">
+        <button class="btn-login">Đăng nhập</button>
+      </a>
+    </div>
+  </header>
+  <div class="container clearfix">
+    <h2><span class="step">1</span> Chọn vé</h2>
+    <!-- Tour 1 -->
+    <div class="ticket-box">
+      <input type="checkbox" class="ticket-checkbox" data-name="Phú Quốc Trọn Vị" data-price="600000" checked />
+      <div class="ticket-title">[Grand World Phú Quốc] - Phú Quốc Trọn Vị</div>
+      <div class="ticket-date">📅 Thứ Năm, 08/05/2025</div>
+      <div class="price">300.000 vnđ x 2 người</div>
+    </div>
+
+    <!-- Tour 2 -->
+    <div class="ticket-box">
+      <input type="checkbox" class="ticket-checkbox" data-name="Water Taxi" data-price="400000" checked />
+      <div class="ticket-title">[Grand World Phú Quốc] - Vé đi thuyền Venice (Water Taxi)</div>
+      <div class="ticket-date">📅 Thứ Năm, 08/05/2025</div>
+      <div class="price">200.000 vnđ x 2 người</div>
+    </div>
+
+    <!-- Sidebar thanh toán -->
+    <div class="sidebar">
+      <h3>Chi tiết thanh toán</h3>
+      <div id="selected-items">
+        <!-- Các tour sẽ hiện ra đây -->
+      </div>
+      <p><strong>Tổng cộng:</strong> <span id="total-price" style="color:red">0 vnđ</span></p>
+      <a href="/html/thanhtoan.html">
+        <button class="continue-btn">Tiếp tục</button>
+      </a>
+    </div>
+  </div>
+  <script src="/js/script.js"></script>
+</body>
+</html>
