@@ -74,7 +74,9 @@
 .header__right__menu--items--1{
 
 }
-.header__right__menu--items--2{
+.header__right__menu--items--2 {
+    margin-top: 6px ;
+    padding-right: 11px;
 
 }
 .header__right__menu--items--3{
@@ -82,24 +84,44 @@
 }
 .header__right__menu--items--3>a{
     margin: auto;
+    color: red;
 }
-.header__right__menu--items--4{
-    border: 1px solid #DC502C;
+.header__right__menu--items--4 {
+    border: 1px solid #fff;
     border-radius: 100px;
     margin: 0 15px;
-    /* padding: 0px 25px; */
     height: 100%;
     text-align: center;
     display: flex;
     width: 120px;
     box-sizing: border-box;
-    
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background-color: transparent;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
-.header__right__menu--items--4>a{
-    color: #DC502C;
-    margin: auto;
-    
+
+.header__right__menu--items--4 > a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
 }
+
+.header__right__menu--items--4:hover {
+    background-color: #DC502C;
+    border-color: #DC502C;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 80, 44, 0.3);
+}
+
+.header__right__menu--items--4:hover > a {
+    color: #fff;
+}
+
+
+
 /* Phần content */
 .content{
     /* position: relative; */
@@ -291,9 +313,21 @@
     position: relative;
     top: 2px;
 }
+.btn_updown.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: default;
+}
+
 /* Chỉnh ô input */
+#tg_date_choose {
+    border: none;
+    outline: none; /* Ẩn viền khi focus */
+}
+
 .quantity_people {
     border: none;
+    outline: none; /* Ẩn viền khi focus */
     width: 35px;
     text-align: center;
     padding: 0;
@@ -336,10 +370,10 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 /* Nút tìm kiếm */
-.tg_hv_1{
+.tg_hv_1 {
     background: #fff;
     padding: 17px 0;
-    border-radius: 8px;
+    border-radius: 100px;
     color: #DC502C;
     border: 1px solid #DC502C;
     width: 100%;
@@ -347,6 +381,14 @@ input[type="number"]::-webkit-inner-spin-button {
     font-size: 18px;
     font-family: "montserrat-semibold";
     margin-left: 20px;
-    border-radius: 100px;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
+
+.tg_hv_1:hover {
+    background: #DC502C;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 80, 44, 0.3);
+}
+
