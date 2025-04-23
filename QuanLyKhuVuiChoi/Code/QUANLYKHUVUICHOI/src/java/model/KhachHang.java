@@ -4,8 +4,6 @@
  */
 package model;
 
-import java.util.Date;
-
 /**
  *
  * @author admin
@@ -13,24 +11,18 @@ import java.util.Date;
 public class KhachHang {
     private String maKhachHang;
     private String tenKhachHang;
-    private Date ngaySinh;
-    private String gioiTinh;
-    private String diaChi;
     private String matKhau;
     private String SDT;
     private String email;
 
-    public KhachHang(String maKhachHang, String tenKhachHang, Date ngaySinh, String gioiTinh, String diaChi, String matKhau, String SDT, String email) {
+    public KhachHang(String maKhachHang, String tenKhachHang, String matKhau, String SDT, String email) {
         this.maKhachHang = maKhachHang;
         this.tenKhachHang = tenKhachHang;
-        this.ngaySinh = ngaySinh;
-        this.gioiTinh = gioiTinh;
-        this.diaChi = diaChi;
         this.matKhau = matKhau;
         this.SDT = SDT;
         this.email = email;
     }
-
+    
     public KhachHang() {
     }
 
@@ -48,30 +40,6 @@ public class KhachHang {
 
     public void setTenKhachHang(String tenKhachHang) {
         this.tenKhachHang = tenKhachHang;
-    }
-
-    public Date getNgaySinh() {
-        return ngaySinh;
-    }
-
-    public void setNgaySinh(Date ngaySinh) {
-        this.ngaySinh = ngaySinh;
-    }
-
-    public String getGioiTinh() {
-        return gioiTinh;
-    }
-
-    public void setGioiTinh(String gioiTinh) {
-        this.gioiTinh = gioiTinh;
-    }
-
-    public String getDiaChi() {
-        return diaChi;
-    }
-
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
     }
 
     public String getMatKhau() {
@@ -98,5 +66,15 @@ public class KhachHang {
         this.email = email;
     }
     
-    
+    @Override
+    public String toString() {
+        return "KhachHang{" +
+                "maKhachHang='" + maKhachHang + '\'' +
+                ", tenKhachHang='" + tenKhachHang + '\'' +
+                ", matKhau='" + matKhau + '\'' +
+                ", SDT='" + SDT + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
 }

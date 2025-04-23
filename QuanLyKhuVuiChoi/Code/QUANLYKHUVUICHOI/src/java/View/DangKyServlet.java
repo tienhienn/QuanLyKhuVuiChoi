@@ -1,6 +1,7 @@
 package View;
 
 import controller.MyUtils;
+import controller.KhachHangDAO;
 import model.KhachHang;
 
 import javax.servlet.*;
@@ -14,6 +15,10 @@ public class DangKyServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
+        
         String fullname = request.getParameter("fullname");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
@@ -27,28 +32,21 @@ public class DangKyServlet extends HttpServlet {
         }
 
         try (Connection conn = MyUtils.getStoredConnection(request)) {
-            String sql = "INSERT INTO khachhang (maKhachHang, tenKhachHang, email, SDT, matkhau, diaChi, gioiTinh) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement stmt = conn.prepareStatement(sql);
+            // Gọi phương thức từ KhachHangDAO để đăng ký khách hàng
+            boolean success = KhachHangDAO.registerCustomer(conn, fullname, email, phone, password);
 
-            String maKhachHang = "KH" + System.currentTimeMillis(); // Tạo mã khách hàng tạm thời
+            if (success) {
+                // Tạo đối tượng khách hàng mới với thông tin đã đăng ký
+                KhachHang newCustomer = new KhachHang(null, fullname, password, phone, email);
 
-            stmt.setString(1, maKhachHang);
-            stmt.setString(2, fullname);
-            stmt.setString(3, email);
-            stmt.setString(4, phone);
-            stmt.setString(5, password);
-            stmt.setNull(6, java.sql.Types.VARCHAR); // diaChi null
-            stmt.setNull(7, java.sql.Types.VARCHAR); // gioiTinh null
-
-            int rowsAffected = stmt.executeUpdate();
-
-            if (rowsAffected > 0) {
-                KhachHang newCustomer = new KhachHang(maKhachHang, fullname, null, null, null, password, phone, email);
+                // Lưu thông tin khách hàng vào session và cookie
                 MyUtils.storeLoginedUser(request.getSession(), newCustomer);
                 MyUtils.storeUserCookie(response, newCustomer);
 
+                // Redirect đến trang đăng nhập với trạng thái thành công
                 response.sendRedirect(request.getContextPath() + "/View/DangNhap.jsp?status=success");
             } else {
+                // Nếu có lỗi, redirect về trang đăng nhập với trạng thái lỗi
                 response.sendRedirect(request.getContextPath() + "/View/DangNhap.jsp?status=error");
             }
 
