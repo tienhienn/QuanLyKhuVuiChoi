@@ -67,7 +67,7 @@ create table NhaHang
 	maDichVu char(5),
 	TGianMoCua date,
 	TgianDongCua date,
-	loaiNhaHang nvarchar(50)
+	loaiNhaHang nvarchar(50),
 	FOREIGN KEY (maDichVu) REFERENCES dichvu(maDichVu)
 			on update
 				cascade
