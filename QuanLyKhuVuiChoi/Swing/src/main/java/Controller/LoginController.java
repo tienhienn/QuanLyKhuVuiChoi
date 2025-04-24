@@ -2,6 +2,7 @@ package Controller;
 
 import Model.UserModel;
 import View.LoginView;
+import View.MainAppForm;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -30,8 +31,8 @@ public class LoginController {
 
             if (model.isValid()) {
                 JOptionPane.showMessageDialog(view, "Đăng nhập thành công!");
-                // Chuyển đến giao diện chính ở đây nếu có
-                // new MainAppForm().setVisible(true);
+                //Chuyển đến giao diện chính ở đây nếu có
+                new MainAppForm().setVisible(true);
                 view.dispose();  // Đóng form đăng nhập
             } else {
                 view.showMessage("Sai tài khoản hoặc mật khẩu!");
