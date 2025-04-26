@@ -3,6 +3,8 @@ package View;
 import Controller.DBConnect;
 import Controller.KhachHangController;
 import Controller.NhanVienController;
+import Controller.TourController;
+import Controller.KhuController;
 import org.example.HomePageWithBackground;
 
 import javax.swing.*;
@@ -28,7 +30,7 @@ public class MainAppForm extends JFrame {
         sidebar.setBackground(new Color(45, 62, 80));  // Màu xanh đậm hiện đại
 
         String[] menuItems = {
-                "Trang chủ", "Khách hàng", "Nhân viên", "Tour", "Vé", "Dịch vụ", "Hóa đơn", "Đăng xuất"
+                "Trang chủ", "Khách hàng", "Nhân viên", "Tour", "Khu", "Vé", "Dịch vụ", "Hóa đơn", "Đăng xuất"
         };
 
         for (String item : menuItems) {
@@ -62,9 +64,15 @@ public class MainAppForm extends JFrame {
         contentPanel.add(nhanVienPanel, "Nhân viên");
         new NhanVienController(nhanVienPanel, conn);
 
-        // Các panel giả lập khác
         //contentPanel.add(createLabelPanel("Quản lý Nhân viên"), "Nhân viên");
-        contentPanel.add(createLabelPanel("Quản lý Tour"), "Tour");
+        TourPanel tourPanel = new TourPanel();
+        contentPanel.add(tourPanel, "Tour");
+        new TourController(tourPanel, conn);
+
+        // Panel Khu
+        KhuPanel khuPanel = new KhuPanel(conn);
+        contentPanel.add(khuPanel, "Khu");
+
         contentPanel.add(createLabelPanel("Quản lý Vé"), "Vé");
         contentPanel.add(createLabelPanel("Quản lý Dịch vụ"), "Dịch vụ");
         contentPanel.add(createLabelPanel("Quản lý Hóa đơn"), "Hóa đơn");
