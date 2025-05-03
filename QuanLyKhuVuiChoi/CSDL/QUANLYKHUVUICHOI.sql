@@ -188,11 +188,12 @@ CREATE TABLE KhachHang_Voucher (
 CREATE TABLE Tour (
     maTour char(5) PRIMARY KEY,
     tenTour nVARCHAR(100),
-    moTa nvarchar(100),
+    moTa nvarchar(1000),
     giaTour DECIMAL(10,2),
     tg_batDau DATE,
     tg_ketThuc DATE,
-    soLuongMax INT
+    soLuongMax INT,
+	soLuongConLai int
 )
 
 -- Bảng NhanVien_Tour
@@ -218,7 +219,6 @@ CREATE TABLE DatVe (
     maKhachHang char(5),
     NgayDat DATE,
     LoaiVe nVARCHAR(50),
-    SoLuong INT,
     NgayDi DATE,
     FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(maKhachHang)
 			on update
@@ -232,7 +232,7 @@ CREATE TABLE VeTour
 	Mavetour char(5) primary key,
     MaDatVe char(5),
     maTour char(5),
-    thoiGian date,
+    SoLuongNguoi int,
     PhuongTien nVARCHAR(100),
     GioDi time,
     FOREIGN KEY (MaDatVe) REFERENCES DatVe(MaDatVe)
@@ -265,7 +265,9 @@ create table datve_dichvu
 create table vele
 (
 	maVele char(5) primary key,
-	MaDatVe char(5)
+	MaDatVe char(5),
+	doituong nvarchar(50),
+	soluongnguoi int
 	FOREIGN KEY (MaDatVe) REFERENCES DatVe(MaDatVe)
 			on update
 				cascade
@@ -283,10 +285,6 @@ alter table khachhang
 ALTER TABLE KhachHang_Voucher 
 	ADD CONSTRAINT chk_KHVoucher_SoLuong 
 			CHECK (soLuong >= 0 AND SoLuongDaDung >= 0 AND SoLuongDaDung <= SoLuong);
--- Bảng DatVe
-ALTER TABLE DatVe 
-ADD CONSTRAINT chk_DatVe_SoLuong CHECK (SoLuong > 0),
-    CONSTRAINT chk_DatVe_Ngay CHECK (NgayDat <= NgayDi);
 -- Bảng voucher
 ALTER TABLE voucher 
 ADD CONSTRAINT chk_Voucher_SoLuong CHECK (SoLuong >= 0);
@@ -492,16 +490,55 @@ INSERT INTO KhachHang_Voucher VALUES
 
 SET DATEFORMAT dmy
 INSERT INTO Tour VALUES
-		('TO001', N'Tour Hà Nội', N'Tham quan phố cổ', 1000.00, '10-04-2025', '15-04-2025', 30),
-		('TO002', N'Tour Hạ Long', N'Du lịch vịnh biển', 1200.00, '12-04-2025', '18-04-2025', 40),
-		('TO003', N'Tour Huế', N'Thăm lăng tẩm', 900.00, '20-04-2025', '25-04-2025', 25),
-		('TO004', N'Tour Đà Nẵng', N'Biển Mỹ Khê', 1100.00, '15-04-2025', '20-04-2025', 35),
-		('TO005', N'Tour Hội An', N'Phố cổ đèn lồng', 950.00, '01-04-2025', '10-04-2025', 20),
-		('TO006', N'Tour Nha Trang', N'Thăm đảo Vinpearl', 1150.00, '25-04-2025', '30-04-2025', 30),
-		('TO007', N'Tour Đà Lạt', N'Khí hậu mát mẻ', 1050.00, '22-04-2025', '27-04-2025', 30),
-		('TO008', N'Tour Cần Thơ', N'Chợ nổi Cái Răng', 980.00, '28-04-2025', '02-05-2025', 25),
-		('TO009', N'Tour Phú Quốc', N'Tắm biển nghỉ dưỡng', 1300.00, '30-04-2025', '05-05-2025', 40),
-		('TO010', N'Tour Sapa', N'Leo Fansipan', 1020.00, '26-04-2025', '01-05-2025', 30)
+-- Vé đi thuyền thiên nga
+('TO001', N'Vé đi thuyền thiên nga', 
+ N'► Vé đi thuyền thiên nga dành cho 01 người lớn hoặc trẻ em. Vé chỉ có hiệu lực trong ngày ghi trên vé. Bao gồm: áo phao, hướng dẫn an toàn. Không áp dụng cho trẻ em dưới 3 tuổi không có người lớn đi cùng', 
+ 800000, '10-05-2025', '10-05-2025', 40, 40),
+
+-- Vé tham quan khu khủng long 4D
+('TO002', N'Vé tham quan khu khủng long 4D', 
+ N'► Vé tham quan khu trưng bày mô hình khủng long kết hợp hiệu ứng âm thanh và chuyển động 4D. Trẻ em dưới 1m miễn phí. Vé có hiệu lực 1 lần trong ngày. Mỗi suất tham quan kéo dài khoảng 30 phút', 
+ 120000, '10-05-2025', '10-05-2025', 50, 50),
+
+-- Vé trải nghiệm thực tế ảo (VR)
+('TO003', N'Vé trải nghiệm thực tế ảo (VR)', 
+ N'► Truy cập 5 khu vực trò chơi VR cao cấp: đua xe, phi hành gia, zombie, cảm giác mạnh, vũ trụ. Trẻ em từ 7 tuổi trở lên mới được tham gia. Vé có hiệu lực trong ngày, giới hạn 1 lần mỗi trò chơi. Miễn phí mượn kính VR và tay cầm', 
+ 150000, '10-05-2025', '10-05-2025', 30, 30),
+
+-- Vé xem biểu diễn nhạc nước
+('TO004', N'Vé xem biểu diễn nhạc nước', 
+ N'► Vé xem chương trình nhạc nước kéo dài 25 phút tại quảng trường trung tâm. Chỗ ngồi khu VIP gần sân khấu. Có hiệu lực đúng giờ ghi trên vé, không hoàn/trả nếu đến muộn. Miễn phí cho trẻ em dưới 90cm', 
+ 500000, '10-05-2025', '10-05-2025', 100, 100),
+
+-- Combo vui chơi trẻ em toàn khu
+('TO005', N'Combo vui chơi trẻ em toàn khu', 
+ N'► Vé trọn gói cho trẻ em bao gồm: nhà banh, cầu trượt, xe điện đụng, tô tượng, lớp vẽ. Miễn phí nước suối 1 chai, mượn đồng phục chơi. Trẻ dưới 3 tuổi phải có người lớn đi kèm. Vé có giá trị sử dụng trong 1 ngày', 
+ 180000, '10-05-2025', '10-05-2025', 60, 60),
+
+ ('TO006', N'Vé đi tàu cổ tích xuyên rừng', 
+ N'► Hành trình tàu đi qua các mô hình rừng cổ tích, động vật hoạt hình, và cảnh đêm phát sáng. Dành cho mọi lứa tuổi, trẻ em dưới 6 tuổi cần người lớn đi kèm. Vé có hiệu lực trong ngày ghi trên vé. Miễn phí ảnh lưu niệm 1 tấm/khách', 
+ 90000, '10-05-2025', '10-05-2025', 40, 40),
+
+-- Vé khu Game Center (máy chơi điện tử)
+('TO007', N'Vé khu Game Center', 
+ N'► Bao gồm 10 lượt chơi máy điện tử tự chọn: bắn súng, đua xe, nhảy nhạc, gắp thú, bắn bóng\n► Không áp dụng đổi trò chơi giữa chừng. Có hiệu lực trong ngày, không hoàn trả nếu không sử dụng hết lượt\n► Tặng 1 món quà bất ngờ nếu tích lũy đủ điểm', 
+ 130000, '10-05-2025', '10-05-2025', 50, 50),
+
+-- Vé tham quan thủy cung mini
+('TO008', N'Vé tham quan thuỷ cung mini', 
+ N'► Tham quan hệ sinh thái biển thu nhỏ, cá mập con, cá hề, san hô sống, rùa nước. Có khu vực chạm tay tương tác (touch tank). Vé có hiệu lực trong 1 ngày, không giới hạn thời gian tham quan. Miễn phí hướng dẫn viên nếu đi nhóm trên 10 người', 
+ 140000, '10-05-2025', '10-05-2025', 35, 35),
+
+-- Vé combo người lớn (trọn gói toàn khu)
+('TO009', N'Combo vui chơi người lớn', 
+ N'► Bao gồm: vé khu VR, khủng long 4D, tàu cổ tích, biểu diễn nhạc nước. Tặng kèm voucher ăn uống 50k tại khu ẩm thực. Sử dụng trong ngày, mỗi dịch vụ 1 lần. Áp dụng cho khách từ 16 tuổi trở lên', 
+ 250.00, '10-05-2025', '10-05-2025', 45, 45),
+
+-- Vé đêm lửa trại & pháo hoa
+('TO010', N'Vé đêm lửa trại & pháo hoa', 
+ N'► Vé vào khu vực tổ chức đêm lửa trại, chơi trò chơi dân gian, thưởng thức tiệc nhẹ\n► Bao gồm suất ngồi xem pháo hoa tại bãi cỏ trung tâm\n► Không hoàn lại nếu trời mưa nhưng được đổi vé sang hôm khác\n► Số lượng giới hạn 1 ngày chỉ 100 vé', 
+ 460000, '10-05-2025', '10-05-2025', 100, 100);
+
 
 INSERT INTO NhanVien_Tour VALUES
 		('NV001', 'TO001'),
@@ -517,29 +554,29 @@ INSERT INTO NhanVien_Tour VALUES
 
 SET DATEFORMAT dmy
 INSERT INTO DatVe VALUES
-		('DV001', 'KH001', '01-04-2025', N'Người lớn', 2, '10-04-2025'),
-		('DV002', 'KH002', '02-04-2025', N'Trẻ em', 1, '12-04-2025'),
-		('DV003', 'KH003', '03-04-2025', N'Người lớn', 3, '20-04-2025'),
-		('DV004', 'KH004', '04-04-2025', N'Trẻ em', 1, '15-04-2025'),
-		('DV005', 'KH005', '05-04-2025', N'Người lớn', 2, '18-04-2025'),
-		('DV006', 'KH006', '06-04-2025', N'Người lớn', 1, '25-04-2025'),
-		('DV007', 'KH007', '07-04-2025', N'Người lớn', 4, '22-04-2025'),
-		('DV008', 'KH008', '08-04-2025', N'Người lớn', 2, '28-04-2025'),
-		('DV009', 'KH009', '09-04-2025', N'Trẻ em', 2, '30-04-2025'),
-		('DV010', 'KH010', '10-04-2025', N'Người lớn', 3, '26-04-2025')
+		('DV001', 'KH001', '01-04-2025', N'Vé Tour', '10-04-2025'),
+		('DV002', 'KH002', '02-04-2025', N'Vé Lẻ',  '12-04-2025'),
+		('DV003', 'KH003', '03-04-2025', N'Vé Tour', '20-04-2025'),
+		('DV004', 'KH004', '04-04-2025', N'Vé Lẻ', '15-04-2025'),
+		('DV005', 'KH005', '05-04-2025', N'Vé Tour', '18-04-2025'),
+		('DV006', 'KH006', '06-04-2025', N'Vé Tour', '25-04-2025'),
+		('DV007', 'KH007', '07-04-2025', N'Vé Lẻ',  '22-04-2025'),
+		('DV008', 'KH008', '08-04-2025', N'Vé Tour', '28-04-2025'),
+		('DV009', 'KH009', '09-04-2025', N'Vé Lẻ', '30-04-2025'),
+		('DV010', 'KH010', '10-04-2025', N'Vé Tour', '26-04-2025')
 
 SET DATEFORMAT dmy;
 INSERT INTO VeTour VALUES
-	('VT001', 'DV001', 'TO001', '10-04-2025', N'Xe buýt', '08:00:00'),
-	('VT002', 'DV002', 'TO002', '12-04-2025', N'Tàu hỏa', '09:00:00'),
-	('VT003', 'DV003', 'TO003', '20-04-2025', N'Máy bay', '07:30:00'),
-	('VT004', 'DV004', 'TO004', '15-04-2025', N'Xe khách', '06:45:00'),
-	('VT005', 'DV005', 'TO005', '18-04-2025', N'Xe buýt', '10:00:00'),
-	('VT006', 'DV006', 'TO006', '25-04-2025', N'Máy bay', '11:00:00'),
-	('VT007', 'DV007', 'TO007', '22-04-2025', N'Xe khách', '08:15:00'),
-	('VT008', 'DV008', 'TO008', '28-04-2025', N'Tàu thủy', '09:45:00'),
-	('VT009', 'DV009', 'TO009', '30-04-2025', N'Máy bay', '07:00:00'),
-	('VT010', 'DV010', 'TO010', '26-04-2025', N'Tàu hỏa', '06:30:00');
+	('VT001', 'DV001', 'TO001', 2, N'Xe buýt', '08:00:00'),
+	('VT002', 'DV002', 'TO002', 3, N'Tàu hỏa', '09:00:00'),
+	('VT003', 'DV003', 'TO003', 1, N'Máy bay', '07:30:00'),
+	('VT004', 'DV004', 'TO004', 2, N'Xe khách', '06:45:00'),
+	('VT005', 'DV005', 'TO005', 2, N'Xe buýt', '10:00:00'),
+	('VT006', 'DV006', 'TO006', 1, N'Máy bay', '11:00:00'),
+	('VT007', 'DV007', 'TO007',4, N'Xe khách', '08:15:00'),
+	('VT008', 'DV008', 'TO008', 4, N'Tàu thủy', '09:45:00'),
+	('VT009', 'DV009', 'TO009', 6, N'Máy bay', '07:00:00'),
+	('VT010', 'DV010', 'TO010',3, N'Tàu hỏa', '06:30:00');
 
 
 INSERT INTO datve_dichvu VALUES
@@ -554,29 +591,22 @@ INSERT INTO datve_dichvu VALUES
 		('DV009', 'DV009'),
 		('DV010', 'DV010')
 INSERT INTO vele VALUES
-		('VL001', 'DV001'),
-		('VL002', 'DV002'),
-		('VL003', 'DV003'),
-		('VL004', 'DV004'),
-		('VL005', 'DV005'),
-		('VL006', 'DV006'),
-		('VL007', 'DV007'),
-		('VL008', 'DV008'),
-		('VL009', 'DV009'),
-		('VL010', 'DV010')
+		('VL001', 'DV001', N'Người lớn', 2),
+		('VL002', 'DV002', N'Trẻ em', 3),
+		('VL003', 'DV003', N'Người già', 1),
+		('VL004', 'DV004', N'Người lớn', 4),
+		('VL005', 'DV005', N'Trẻ em', 2),
+		('VL006', 'DV006', N'Người lớn', 3),
+		('VL007', 'DV007', N'Trẻ em', 4),
+		('VL008', 'DV008', N'Người già', 2),
+		('VL009', 'DV009', N'Người lớn', 5),
+		('VL010', 'DV010', N'Trẻ em', 1)
 
 -- Danh sách các tour sắp diễn ra
 SELECT * FROM Tour
 WHERE tg_batDau >= GETDATE()
 ORDER BY tg_batDau
 
---Thống kê số lượng vé đã đặt theo tour
-SELECT T.maTour, T.tenTour, SUM(DV.SoLuong) AS TongSoLuongDat
-FROM Tour T
-JOIN VeTour VT ON T.maTour = VT.maTour
-JOIN DatVe DV ON VT.MaDatVe = DV.MaDatVe
-GROUP BY T.maTour, T.tenTour
-ORDER BY TongSoLuongDat DESC
 
 --Danh sách khách hàng cùng số voucher còn lại
 SELECT KH.maKhachHang, KH.tenKhachHang, V.tenVoucher, KHV.soLuong - KHV.SoLuongDaDung AS SoLuongConLai
@@ -585,13 +615,6 @@ JOIN KhachHang_Voucher KHV ON KH.maKhachHang = KHV.maKhachHang
 JOIN Voucher V ON KHV.MaVoucher = V.MaVoucher
 ORDER BY SoLuongConLai DESC
 
---Chi tiết đặt vé của 1 khách hàng
-SELECT KH.tenKhachHang, DV.MaDatVe, DV.LoaiVe, DV.SoLuong, DV.NgayDi, T.tenTour
-FROM KhachHang KH
-JOIN DatVe DV ON KH.maKhachHang = DV.maKhachHang
-JOIN VeTour VT ON DV.MaDatVe = VT.MaDatVe
-JOIN Tour T ON VT.maTour = T.maTour
-WHERE KH.maKhachHang = 'KH001'
 
 --Danh sách nhân viên, chức vụ hiện tại
 SELECT NV.maNhanVien, NV.tenNhanVien, CV.tenChuCVu, NCV.tgian_batdau, NCV.tgian_ketthuc
@@ -604,127 +627,14 @@ WHERE NCV.tgian_ketthuc IS NULL OR NCV.tgian_ketthuc >= GETDATE()
 SELECT DV.maDichVu, DV.tenDichVu, DV.mota, K.tenKhu
 FROM dichvu DV
 JOIN Khu K ON DV.makhu = K.maKhu
-
 --Các trò chơi có giới hạn độ tuổi < 10
 SELECT * FROM TroChoi
 WHERE gioiHanDoTuoi < 10
-
 --Các voucher còn hiệu lực
 SELECT * FROM Voucher
 WHERE TGianHieuLuc <= GETDATE() AND TGianKetThuc >= GETDATE()
-
---Top 5 tour có nhiều người đặt nhất
-SELECT TOP 5 T.maTour, T.tenTour, SUM(DV.SoLuong) AS TongSoLuong
-FROM Tour T
-JOIN VeTour VT ON T.maTour = VT.maTour
-JOIN DatVe DV ON DV.MaDatVe = VT.MaDatVe
-GROUP BY T.maTour, T.tenTour
-ORDER BY TongSoLuong DESC
-
---Trigger kiểm tra số lượng khách không vượt quá số lượng tour cho phép
 -- Xem giới hạn tour
 SELECT soLuongMax FROM Tour WHERE maTour = 'TO001'
--- Xem tổng vé đã đặt
-SELECT T.maTour, SUM(DV.SoLuong) AS TongSoLuongDat
-FROM Tour T
-JOIN VeTour VT ON T.maTour = VT.maTour
-JOIN DatVe DV ON VT.MaDatVe = DV.MaDatVe
-WHERE T.maTour = 'TO001'
-GROUP BY T.maTour
-go
-
-CREATE TRIGGER trg_KiemTraSoLuongVeTour
-ON VeTour
-AFTER INSERT
-AS
-BEGIN
-    SET NOCOUNT ON
-
-    IF EXISTS (
-        SELECT 1
-        FROM (
-            SELECT VT.maTour, SUM(DV.SoLuong) AS soLuongMoi
-            FROM Inserted VT
-            JOIN DatVe DV ON VT.MaDatVe = DV.MaDatVe
-            GROUP BY VT.maTour
-        ) AS Moi
-        JOIN (
-            SELECT VT.maTour, SUM(DV.SoLuong) AS soLuongDaCo
-            FROM VeTour VT
-            JOIN DatVe DV ON VT.MaDatVe = DV.MaDatVe
-            GROUP BY VT.maTour
-        ) AS DaCo ON Moi.maTour = DaCo.maTour
-        JOIN Tour T ON T.maTour = Moi.maTour
-        WHERE DaCo.soLuongDaCo + Moi.soLuongMoi > T.soLuongMax
-    )
-    BEGIN
-        RAISERROR(N'Số lượng vé đặt vượt quá giới hạn của tour!', 16, 1)
-        ROLLBACK
-    END
-END
--- Giả sử KH001 đã có rồi
--- Chọn mã DatVe mới (ví dụ chưa dùng: DV011)
-go -- Đặt quá số lượng max
-INSERT INTO DatVe VALUES ('DV019', 'KH001', '13-04-2005', N'Người lớn', 10 , '15-04-2005')
-
--- Gắn DatVe mới này vào tour TO001
-INSERT INTO VeTour
-VALUES 	('VT011', 'DV019', 'TO008', '04-04-2025', N'Tàu hỏa', '06:15:00');
--- Xem giới hạn tour
-SELECT soLuongMax FROM Tour WHERE maTour = 'TO001'
--- Xem tổng vé đã đặt
-SELECT T.maTour, SUM(DV.SoLuong) AS TongSoLuongDat
-FROM Tour T
-JOIN VeTour VT ON T.maTour = VT.maTour
-JOIN DatVe DV ON VT.MaDatVe = DV.MaDatVe
-WHERE T.maTour = 'TO001'
-GROUP BY T.maTour
---Cập nhật số lượng sử dụng vocher của từng khách hàng
-go
-CREATE TRIGGER trg_CapNhatSoLuongVoucher
-ON DatVe
-AFTER INSERT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    UPDATE KV
-    SET SoLuongDaDung = 
-        CASE 
-            WHEN KV.SoLuong - KV.SoLuongDaDung >= I.SoLuong 
-                THEN KV.SoLuongDaDung + I.SoLuong
-            ELSE KV.SoLuong  -- chỉ cộng tới mức tối đa
-        END
-    FROM Inserted I
-    JOIN KhachHang_Voucher KV ON KV.MaKhachHang = I.MaKhachHang
-    WHERE KV.SoLuong > KV.SoLuongDaDung
-END
---Đặt quá số lượng vé thì nó cộng cộng lên số lượng vc đã sử dụng của khách hàng đó
-go
-INSERT INTO DatVe VALUES ('DV020', 'KH001', '2025-04-13', N'Trẻ em', 6, '2025-04-20')
-go
---Khi khách hàng đặt quá số lượng vocher đã cho phép thì sẽ thông báo
-CREATE TRIGGER trg_KiemTraVoucherDatVe
-ON DatVe
-AFTER INSERT
-AS
-BEGIN
-    SET NOCOUNT ON;
-
-    IF EXISTS (
-        SELECT 1
-        FROM Inserted I
-        JOIN KhachHang_Voucher KV ON I.MaKhachHang = KV.MaKhachHang
-        WHERE I.SoLuong > (KV.SoLuong - KV.SoLuongDaDung)
-    )
-    BEGIN
-        RAISERROR(N'Khách hàng đã dùng vượt quá số lượng voucher cho phép!', 16, 1)
-        ROLLBACK;
-    END
-END
-go
---INSERT INTO DatVe VALUES ('DV025', 'KH001', '2025-04-13', N'Người lớn', 2, '2025-04-20')
-go
 GO
 CREATE TRIGGER trg_KiemTraNgayDatTour
 ON VeTour
@@ -750,4 +660,31 @@ go
 --INSERT INTO DatVe VALUES ('DV999', 'KH002', '2025-04-13', N'Người lớn', 1 , '2025-04-13')
 -- Bước 3: Thêm VeTour sẽ bị lỗi
 --INSERT INTO VeTour VALUES ('VT999', 'DV999', 'TO999', N'Đà Nẵng', N'Xe khách', '2025-04-13')
+go
+--tự động cập nhật số lượng vé còn lại khi có người mua vé
+CREATE TRIGGER UpdateSoLuongConLai
+ON VeTour
+AFTER INSERT, DELETE
+AS
+BEGIN
+    DECLARE @maTour VARCHAR(10);
+    DECLARE @soLuongNguoi INT;
+
+    -- Lấy thông tin từ bảng VeTour
+    SELECT @maTour = maTour, @soLuongNguoi = soLuongNguoi FROM inserted;
+
+    -- Cập nhật số lượng vé còn lại trong bảng Tour
+    UPDATE Tour
+    SET soLuongConLai = soLuongConLai - @soLuongNguoi
+    WHERE maTour = @maTour;
+
+    -- Nếu xóa, giảm lại số lượng
+    IF EXISTS (SELECT * FROM deleted)
+    BEGIN
+        SELECT @soLuongNguoi = soLuongNguoi FROM deleted;
+        UPDATE Tour
+        SET soLuongConLai = soLuongConLai + @soLuongNguoi
+        WHERE maTour = @maTour;
+    END
+END
 
