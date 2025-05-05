@@ -1,6 +1,7 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
@@ -15,8 +16,10 @@ public class TourPanel extends JPanel {
     public TourPanel() {
         setLayout(new BorderLayout(10, 10));
 
-        // === Input Panel: Nhập thông tin Tour ===
+        // === Panel Nhập thông tin ===
         JPanel inputPanel = new JPanel(new GridLayout(7, 2, 10, 10));
+        inputPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Thông tin Tour", TitledBorder.LEFT, TitledBorder.TOP));
+
         tfMaTour = new JTextField();
         tfTenTour = new JTextField();
         tfMieuTa = new JTextField();
@@ -35,28 +38,39 @@ public class TourPanel extends JPanel {
 
         add(inputPanel, BorderLayout.NORTH);
 
-        // === Table Panel: Hiển thị danh sách Tour ===
+        // === Table Panel ===
         model = new DefaultTableModel();
-        model.setColumnIdentifiers(new String[] {
+        model.setColumnIdentifiers(new String[]{
                 "Mã Tour", "Tên Tour", "Mô Tả", "Giá Tour", "Ngày Bắt Đầu", "Ngày Kết Thúc", "Số Lượng Max"
         });
-        table = new JTable(model);
-        add(new JScrollPane(table), BorderLayout.CENTER);
 
-        // === Button Panel: Các nút chức năng ===
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        table = new JTable(model);
+        table.setFillsViewportHeight(true);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Danh sách Tour", TitledBorder.LEFT, TitledBorder.TOP));
+        add(scrollPane, BorderLayout.CENTER);
+
+        // === Panel Tìm kiếm + nút chức năng ===
+        JPanel controlPanel = new JPanel(new BorderLayout(10, 10));
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
         tfTimKiem = new JTextField(20);
         btnTim = new JButton("Tìm Kiếm");
+        searchPanel.add(new JLabel("Tìm kiếm:"));
+        searchPanel.add(tfTimKiem);
+        searchPanel.add(btnTim);
+
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
-
-        buttonPanel.add(tfTimKiem);
-        buttonPanel.add(btnTim);
         buttonPanel.add(btnThem);
         buttonPanel.add(btnSua);
         buttonPanel.add(btnXoa);
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        controlPanel.add(searchPanel, BorderLayout.WEST);
+        controlPanel.add(buttonPanel, BorderLayout.EAST);
+
+        add(controlPanel, BorderLayout.SOUTH);
     }
 }

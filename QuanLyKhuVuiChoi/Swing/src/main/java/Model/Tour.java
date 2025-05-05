@@ -10,8 +10,11 @@ public class Tour {
     private Date tgBatDau;
     private Date tgKetThuc;
     private int soLuongMax;
+    private int soLuongConLai;
 
-    public Tour(String maTour, String tenTour, String moTa, double giaTour, Date tgBatDau, Date tgKetThuc, int soLuongMax) {
+    // Constructor đầy đủ
+    public Tour(String maTour, String tenTour, String moTa, double giaTour,
+                Date tgBatDau, Date tgKetThuc, int soLuongMax, int soLuongConLai) {
         this.maTour = maTour;
         this.tenTour = tenTour;
         this.moTa = moTa;
@@ -19,6 +22,13 @@ public class Tour {
         this.tgBatDau = tgBatDau;
         this.tgKetThuc = tgKetThuc;
         this.soLuongMax = soLuongMax;
+        this.soLuongConLai = soLuongConLai;
+    }
+
+    // Constructor không có soLuongConLai (nếu cần)
+    public Tour(String maTour, String tenTour, String moTa, double giaTour,
+                Date tgBatDau, Date tgKetThuc, int soLuongMax) {
+        this(maTour, tenTour, moTa, giaTour, tgBatDau, tgKetThuc, soLuongMax, soLuongMax); // mặc định còn lại = max
     }
 
     // Getter - Setter
@@ -42,4 +52,7 @@ public class Tour {
 
     public int getSoLuongMax() { return soLuongMax; }
     public void setSoLuongMax(int soLuongMax) { this.soLuongMax = soLuongMax; }
+
+    public int getSoLuongConLai() { return soLuongConLai; }
+    public void setSoLuongConLai(int soLuongConLai) { this.soLuongConLai = soLuongConLai; }
 }

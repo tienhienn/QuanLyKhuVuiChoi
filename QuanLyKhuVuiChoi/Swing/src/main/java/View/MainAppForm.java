@@ -1,10 +1,6 @@
 package View;
 
-import Controller.DBConnect;
-import Controller.KhachHangController;
-import Controller.NhanVienController;
-import Controller.TourController;
-import Controller.KhuController;
+import Controller.*;
 import org.example.HomePageWithBackground;
 
 import javax.swing.*;
@@ -73,7 +69,10 @@ public class MainAppForm extends JFrame {
         KhuPanel khuPanel = new KhuPanel(conn);
         contentPanel.add(khuPanel, "Khu");
 
-        contentPanel.add(createLabelPanel("Quản lý Vé"), "Vé");
+        // Panel Vé
+        QuanLyVeForm quanLyVeForm = new QuanLyVeForm(conn, cardLayout, contentPanel);
+        contentPanel.add(quanLyVeForm, "Vé");
+
         contentPanel.add(createLabelPanel("Quản lý Dịch vụ"), "Dịch vụ");
         contentPanel.add(createLabelPanel("Quản lý Hóa đơn"), "Hóa đơn");
 

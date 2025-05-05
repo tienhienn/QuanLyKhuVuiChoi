@@ -10,6 +10,7 @@ public class KhachHangDAO {
     public KhachHangDAO(Connection conn) {
         this.conn = conn;
     }
+    
 
     public List<KhachHang> getAllKhachHang() {
         List<KhachHang> list = new ArrayList<>();
@@ -76,4 +77,22 @@ public class KhachHangDAO {
             return false;
         }
     }
+
+    public List<String> getAllMaKhachHang() {
+        List<String> list = new ArrayList<>();
+        String sql = "SELECT maKhachHang FROM KhachHang";
+
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(rs.getString("maKhachHang"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }

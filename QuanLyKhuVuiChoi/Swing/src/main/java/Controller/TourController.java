@@ -58,13 +58,22 @@ public class TourController {
 
     private void themTour() {
         Tour tour = layDuLieuForm();
-        if (tour != null && tourDAO.themTour(tour)) {
+        if (tour == null) return;
+
+        if (tourDAO.getTourById(tour.getMaTour()) != null) {
+            JOptionPane.showMessageDialog(view, "Mã tour đã tồn tại!");
+            return;
+        }
+
+        if (tourDAO.themTour(tour)) {
             JOptionPane.showMessageDialog(view, "Thêm thành công!");
             loadDataToTable();
+            resetForm();
         } else {
             JOptionPane.showMessageDialog(view, "Thêm thất bại!");
         }
     }
+
 
     private void suaTour() {
         Tour tour = layDuLieuForm();
@@ -78,13 +87,29 @@ public class TourController {
 
     private void xoaTour() {
         String maTour = view.tfMaTour.getText();
-        if (tourDAO.xoaTour(maTour)) {
-            JOptionPane.showMessageDialog(view, "Xoá thành công!");
-            loadDataToTable();
-        } else {
-            JOptionPane.showMessageDialog(view, "Xoá thất bại!");
+        int confirm = JOptionPane.showConfirmDialog(view, "Bạn có chắc muốn xoá tour này?", "Xác nhận xoá", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            if (tourDAO.xoaTour(maTour)) {
+                JOptionPane.showMessageDialog(view, "Xoá thành công!");
+                loadDataToTable();
+                resetForm();
+            } else {
+                JOptionPane.showMessageDialog(view, "Xoá thất bại!");
+            }
         }
     }
+
+    private void resetForm() {
+        view.tfMaTour.setText("");
+        view.tfTenTour.setText("");
+        view.tfMieuTa.setText("");
+        view.tfGiaTour.setText("");
+        view.tfNgayBatDau.setText("");
+        view.tfNgayKetThuc.setText("");
+        view.tfSoLuongMax.setText("");
+    }
+
+
 
     private void timKiemTour() {
         String keyword = view.tfTimKiem.getText();
