@@ -58,6 +58,30 @@ body {
   color: #9400d3;
   font-weight: bold;
 }
+.icon-cart img {
+  margin-top: 3px;
+}
+.icon-cart {
+  position: relative;
+  display: inline-block;
+}
+.icon-cart:hover {
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: white;
+  color: red;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 14px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+  display: none; /* ẩn mặc định */
+}
 /*  */
 input {
   outline: none;

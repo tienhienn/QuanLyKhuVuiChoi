@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VinWonders Nam Hội An</title>
-    <link rel="stylesheet" href="/css/datve.css" />
-    <script src="/js/datve.js"></script>
+    <title>Đặt Vé VinWonders</title>
+    <link rel="stylesheet" href="/css/bk.css" />
+    <script src="/js/bk.js"></script>
   </head>
   <body>
     <div class="header">
@@ -22,7 +22,6 @@
           <img src="/images/datve/shopping-cart.svg" alt="cart icon" />
           <span class="cart-count" id="cartCount">0</span>
         </div>
-
         <a href="/html/dangnhap.html">
           <button class="btn-register">Đăng ký</button>
         </a>
@@ -31,7 +30,6 @@
         </a>
       </div>
     </div>
-
     <div class="container">
       <div class="breadcrumbs">VinWonders / VINWONDERS NAM HỘI AN</div>
       <div class="title">VINWONDERS NAM HỘI AN</div>
@@ -95,12 +93,7 @@
           <p>Người lớn x2 <span>300.000 VNĐ x 2</span></p>
           <p class="old-price">Tổng tiền: <del>760.000 VNĐ</del></p>
           <p class="new-price">600.000 VNĐ</p>
-          <button
-            class="btn-booking"
-            onclick="window.location.href='/html/booking.html'"
-          >
-            Đặt ngay
-          </button>
+          <button class="btn-booking">Đặt ngay</button>
         </div>
       </div>
       <div class="vinwonders-section">
@@ -290,6 +283,259 @@
         <p class="map-address">
           📍 Đường Võ Chí Công, Bình Minh, Thăng Bình, Quảng Nam
         </p>
+      </div>
+    </div>
+    <div class="container-outlet">
+      <div class="step-progress">
+        <div class="step done">
+          <div class="circle">1</div>
+          <div class="label">Chọn vé</div>
+        </div>
+        <div class="line"></div>
+        <div class="step current">
+          <div class="circle">2</div>
+          <div class="label">Dịch vụ mua thêm</div>
+          <!-- ← cái này để bắt sự kiện click -->
+        </div>
+        <div class="line"></div>
+        <div class="step upcoming">
+          <div class="circle">3</div>
+          <div class="label">Thanh toán</div>
+        </div>
+      </div>
+
+      <div class="flex-container">
+        <div class="ticket-section">
+          <div class="ticket-container">
+            <label
+              class="ant-checkbox-wrapper ant-checkbox-wrapper-checked vw-cart-item-select ml-2"
+              ><span class="ant-checkbox ant-checkbox-checked"
+                ><input
+                  type="checkbox"
+                  class="ant-checkbox-input"
+                  value=""
+                  checked="" /></span
+            ></label>
+            <div class="ticket-content">
+              <div class="ticket-title">
+                [VinWonders Phú Quốc] - Vé Vào Cửa + Quà lưu niệm + Voucher ẩm
+                thực
+              </div>
+              <div>Thứ Tư, 23/04/2025</div>
+
+              <div class="ticket-group">
+                <div>Vé người lớn (Cao từ 140cm)</div>
+                <div class="counter">
+                  <span class="price">1.000.000 vnđ</span>
+                  <button>-</button>
+                  <span>2</span>
+                  <button>+</button>
+                </div>
+              </div>
+
+              <div id="child-ticket" class="ticket-extra" style="display: none">
+                <div class="ticket-group">
+                  <div>Vé trẻ em (Dưới 140cm)</div>
+                  <div class="counter">
+                    <span class="price">700.000 vnđ</span>
+                    <button>-</button>
+                    <span>1</span>
+                    <button>+</button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="senior-ticket"
+                class="ticket-extra"
+                style="display: none"
+              >
+                <div class="ticket-group">
+                  <div>Vé người cao tuổi (Trên 60 tuổi)</div>
+                  <div class="counter">
+                    <span class="price">800.000 vnđ</span>
+                    <button>-</button>
+                    <span>1</span>
+                    <button>+</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ticket-options">
+                <button
+                  class="btn"
+                  id="add-child"
+                  onclick="toggleChildTicket()"
+                >
+                  + Thêm vé trẻ em
+                </button>
+                <button
+                  class="btn"
+                  id="add-senior"
+                  onclick="toggleSeniorTicket()"
+                >
+                  + Thêm vé người cao tuổi
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="ticket-container">
+            <label
+              class="ant-checkbox-wrapper ant-checkbox-wrapper-checked vw-cart-item-select ml-2"
+              ><span class="ant-checkbox ant-checkbox-checked"
+                ><input
+                  type="checkbox"
+                  class="ant-checkbox-input"
+                  value=""
+                  checked="" /></span
+            ></label>
+            <div class="ticket-content">
+              <div class="ticket-title">
+                [VinWonders Hội An] - Vé Vào Cửa + Quà lưu niệm + Voucher ẩm
+                thực
+              </div>
+              <div>Thứ Tư, 23/04/2025</div>
+
+              <div class="ticket-group">
+                <div>Vé người lớn (Cao từ 140cm)</div>
+                <div class="counter">
+                  <span class="price">1.000.000 vnđ</span>
+                  <button>-</button>
+                  <span>2</span>
+                  <button>+</button>
+                </div>
+              </div>
+
+              <div id="child-ticket" class="ticket-extra" style="display: none">
+                <div class="ticket-group">
+                  <div>Vé trẻ em (Dưới 140cm)</div>
+                  <div class="counter">
+                    <span class="price">700.000 vnđ</span>
+                    <button>-</button>
+                    <span>1</span>
+                    <button>+</button>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                id="senior-ticket"
+                class="ticket-extra"
+                style="display: none"
+              >
+                <div class="ticket-group">
+                  <div>Vé người cao tuổi (Trên 60 tuổi)</div>
+                  <div class="counter">
+                    <span class="price">500.000 vnđ</span>
+                    <button>-</button>
+                    <span>1</span>
+                    <button>+</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="ticket-options">
+                <button
+                  class="btn"
+                  id="add-child"
+                  onclick="toggleChildTicket()"
+                >
+                  + Thêm vé trẻ em
+                </button>
+                <button
+                  class="btn"
+                  id="add-senior"
+                  onclick="toggleSeniorTicket()"
+                >
+                  + Thêm vé người cao tuổi
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="step-2">
+            <!-- Left: Customer info & payment -->
+            <div class="left-panel">
+              <h3>Thông tin khách hàng</h3>
+
+              <div class="field">
+                <label>Họ *</label>
+                <input type="text" placeholder="Nguyễn" />
+              </div>
+              <div class="field">
+                <label>Tên đệm và tên *</label>
+                <input type="text" placeholder="Văn A" />
+              </div>
+
+              <div class="field">
+                <label>Email nhận thông tin đơn hàng</label>
+                <input type="email" placeholder="abc@xxx.com" />
+              </div>
+
+              <div class="field">
+                <label>Số điện thoại *</label>
+                <div style="display: flex; gap: 5px">
+                  <select style="width: 80px">
+                    <option>+84</option>
+                  </select>
+                  <input type="tel" placeholder="0123456789" />
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Ghi chú</label>
+                <input />
+              </div>
+              <h3>Phương thức thanh toán</h3>
+              <!-- Payment methods -->
+              <div class="payment-methods">
+                <label class="method">
+                  <input type="radio" name="pay" />
+                  Thẻ/ATM nội địa/quốc tế
+                  <div class="icons">🏦💳</div>
+                </label>
+                <label class="method">
+                  <input type="radio" name="pay" />
+                  Thẻ tín dụng quốc tế
+                  <div class="icons">VISA Mastercard</div>
+                </label>
+                <label class="method">
+                  <input type="radio" name="pay" />
+                  QR code
+                  <div class="icons">📱</div>
+                </label>
+                <label class="method">
+                  <input type="radio" name="pay" />
+                  Ví điện tử
+                  <div class="icons">💰</div>
+                </label>
+
+                <!-- Add payment button -->
+                <button class="btn-payment">Thanh toán</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-box-container">
+          <div class="payment-box">
+            <h4>Chi tiết thanh toán</h4>
+            <div class="summary-line" id="line-adult" style="display: none">
+              <span>Người lớn x2</span><span>2.000.000 vnđ</span>
+            </div>
+
+            <div class="summary-line" id="line-child" style="display: none">
+              <span>Trẻ em x1</span><span>700.000 vnđ</span>
+            </div>
+            <div class="summary-line" id="line-senior" style="display: none">
+              <span>Người cao tuổi x1</span><span>800.000 vnđ</span>
+            </div>
+            <hr />
+            <div class="summary-line total" id="total-line">
+              <span>Tổng cộng</span><span>0 vnđ</span>
+            </div>
+            <button class="btn-pay">Tiếp tục</button>
+          </div>
+        </div>
       </div>
     </div>
     <footer class="vin-footer">

@@ -283,3 +283,69 @@ document.addEventListener("DOMContentLoaded", function () {
     steps[2].classList.add("upcoming");
   });
 });
+
+// Sự kiện đưa đến bước thứ 2
+document.addEventListener("DOMContentLoaded", function () {
+  // Lấy phần tử cần thao tác
+  const bookingButton = document.querySelector(".btn-booking");
+  const container = document.querySelector(".container");
+  const containerOutlet = document.querySelector(".container-outlet");
+  const iconCart = document.querySelector(".icon-cart");
+
+  // Kiểm tra nếu các phần tử tồn tại
+  if (bookingButton && container && containerOutlet) {
+    // Khi nhấn vào nút "Đặt ngay"
+    bookingButton.addEventListener("click", function () {
+      // Ẩn <div class="container">
+      container.style.display = "none";
+
+      // Xóa thuộc tính display: none của <div class="container-outlet">
+      containerOutlet.style.display = "block"; // Hiển thị lại phần tử container-outlet
+    });
+    iconCart.addEventListener("click", function () {
+      // Ẩn <div class="container">
+      container.style.display = "none";
+
+      // Xóa thuộc tính display: none của <div class="container-outlet">
+      containerOutlet.style.display = "block"; // Hiển thị lại phần tử container-outlet
+    });
+  }
+});
+// Quay lại trang trước đó (trang ban đầu)
+document.addEventListener("DOMContentLoaded", function () {
+  // Lấy các phần tử cần thao tác
+  const bookingButton = document.querySelector(".btn-booking");
+  const container = document.querySelector(".container");
+  const containerOutlet = document.querySelector(".container-outlet");
+  const circle = document.querySelector(".circle");
+  const label = document.querySelector(".label");
+
+  // Kiểm tra nếu các phần tử tồn tại
+  if (bookingButton && container && containerOutlet && circle && label) {
+    // Khi nhấn vào nút "Đặt ngay"
+    bookingButton.addEventListener("click", function () {
+      // Ẩn <div class="container">
+      container.style.display = "none";
+
+      // Hiển thị lại <div class="container-outlet">
+      containerOutlet.style.display = "block";
+    });
+
+    // Khi nhấn vào <div class="circle"> hoặc <div class="label">
+    circle.addEventListener("click", function () {
+      // Hiển thị lại <div class="container">
+      container.style.display = "block";
+
+      // Ẩn <div class="container-outlet">
+      containerOutlet.style.display = "none";
+    });
+
+    label.addEventListener("click", function () {
+      // Hiển thị lại <div class="container">
+      container.style.display = "block";
+
+      // Ẩn <div class="container-outlet">
+      containerOutlet.style.display = "none";
+    });
+  }
+});

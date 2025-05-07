@@ -18,6 +18,10 @@
         <a href="#">Tin tức</a>
       </nav>
       <div class="auth">
+        <div class="icon-cart">
+          <img src="/images/datve/shopping-cart.svg" alt="cart icon" />
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
         <a href="/html/dangnhap.html">
           <button class="btn-register">Đăng ký</button>
         </a>
@@ -30,7 +34,9 @@
       <div class="step-progress">
         <div class="step done">
           <div class="circle">1</div>
-          <div class="label">Chọn vé</div>
+          <div class="label" onclick="window.location.href='/html/datve.html'">
+            Chọn vé
+          </div>
         </div>
         <div class="line"></div>
         <div class="step current">
