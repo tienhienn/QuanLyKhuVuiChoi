@@ -407,3 +407,20 @@ h3 {
 .btn-payment:hover {
   background-color: #45a049;
 }
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Khoảng cách giữa ảnh và tên */
+  cursor: pointer;
+}
+
+.user-avatar {
+    width: 40px; /* Kích thước của ảnh */
+    height: 40px;
+    border-radius: 50%; /* Để ảnh tròn */
+}
+
+.user-name {
+    font-size: 16px; /* Kích thước chữ của tên người dùng */
+    font-weight: bold;
+}
