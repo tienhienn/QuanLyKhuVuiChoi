@@ -152,7 +152,11 @@ CREATE TABLE khachhang (
     tenKhachHang nVARCHAR(100),
 	matkhau varchar(50) unique,
     SDT VARCHAR(10) unique,
-    email VARCHAR(100) unique
+    email VARCHAR(100) unique,
+	diaChi nvarchar(100),
+	gioiTinh nvarchar(10),
+	ngaySinh date,
+	quocTich nvarchar(100)
 )
 
 -- Bảng Voucher
@@ -229,12 +233,13 @@ CREATE TABLE DatVe (
 
 CREATE TABLE VeTour 
 (
-	Mavetour char(5) primary key,
-    MaDatVe char(5),
-    maTour char(5),
-    SoLuongNguoi int,
-    PhuongTien nVARCHAR(100),
-    GioDi time,
+	MaVeTour CHAR(5) PRIMARY KEY,
+    MaDatVe CHAR(5),
+    MaTour CHAR(5),
+    NgayDi DATE,
+    NguoiLon INT,
+    TreEm INT,
+    NguoiGia INT,
     FOREIGN KEY (MaDatVe) REFERENCES DatVe(MaDatVe)
 			on update
 				cascade
@@ -257,18 +262,6 @@ create table datve_dichvu
 			on delete
 				cascade,
     FOREIGN KEY (maDichVu) REFERENCES dichvu(maDichVu)
-			on update
-				cascade
-			on delete
-				cascade
-)
-create table vele
-(
-	maVele char(5) primary key,
-	MaDatVe char(5),
-	doituong nvarchar(50),
-	soluongnguoi int
-	FOREIGN KEY (MaDatVe) REFERENCES DatVe(MaDatVe)
 			on update
 				cascade
 			on delete
@@ -450,17 +443,18 @@ INSERT INTO nhanvien_dichvu VALUES
 
 SET DATEFORMAT dmy
 INSERT INTO khachhang 
-	VALUES 
-		('KH001', N'Nguyễn Văn A','matkhau123', '0901234567', 'a@gmail.com'),
-		('KH002', N'Trần Thị B','matkhau345', '0912345678', 'b@gmail.com'),
-		('KH003', N'Lê Văn C','matkhau723', '0923456789', 'c@gmail.com'),
-		('KH004', N'Phạm Thị D','matkhfsd123', '0934567890', 'd@gmail.com'),
-		('KH005', N'Hoàng Văn E','matkhdfsgdsfu123', '0945678901', 'e@gmail.com'),
-		('KH006', N'Đỗ Thị F','matgsdhau123', '0957890012', 'f@gmail.com'),
-		('KH007', N'Bùi Văn G','matkhdfgsau123', '0967890123', 'g@gmail.com'),
-		('KH008', N'Vũ Thị H','matkh21au123', '0978901234', 'h@gmail.com'),
-		('KH009', N'Tô Văn I','matkha2234u123', '0989012345', 'i@gmail.com'),
-		('KH010', N'Phan Thị J','matkxchdhau123', '0990123456', 'j@gmail.com')
+VALUES 
+    ('KH001', N'Nguyễn Văn A', 'matkhau123', '0901234567', 'a@gmail.com', N'123 Lê Lợi', N'Nam', '01/01/1990', N'Việt Nam'),
+    ('KH002', N'Trần Thị B', 'matkhau345', '0912345678', 'b@gmail.com', N'234 Trần Hưng Đạo', N'Nữ', '02/02/1991', N'Việt Nam'),
+    ('KH003', N'Lê Văn C', 'matkhau723', '0923456789', 'c@gmail.com', N'345 Nguyễn Huệ', N'Nam', '03/03/1992', N'Việt Nam'),
+    ('KH004', N'Phạm Thị D', 'matkhfsd123', '0934567890', 'd@gmail.com', N'456 Hai Bà Trưng', N'Nữ', '04/04/1993', N'Việt Nam'),
+    ('KH005', N'Hoàng Văn E', 'matkhdfsgdsfu123', '0945678901', 'e@gmail.com', N'567 Lý Thường Kiệt', N'Nam', '05/05/1994', N'Việt Nam'),
+    ('KH006', N'Đỗ Thị F', 'matgsdhau123', '0957890012', 'f@gmail.com', N'678 Nguyễn Trãi', N'Nữ', '06/06/1995', N'Việt Nam'),
+    ('KH007', N'Bùi Văn G', 'matkhdfgsau123', '0967890123', 'g@gmail.com', N'789 Phan Đình Phùng', N'Nam', '07/07/1996', N'Việt Nam'),
+    ('KH008', N'Vũ Thị H', 'matkh21au123', '0978901234', 'h@gmail.com', N'890 Trường Chinh', N'Nữ', '08/08/1997', N'Việt Nam'),
+    ('KH009', N'Tô Văn I', 'matkha2234u123', '0989012345', 'i@gmail.com', N'901 Cách Mạng Tháng 8', N'Nam', '09/09/1998', N'Việt Nam'),
+    ('KH010', N'Phan Thị J', 'matkxchdhau123', '0990123456', 'j@gmail.com', N'012 Điện Biên Phủ', N'Nữ', '10/10/1999', N'Việt Nam');
+
 
 SET DATEFORMAT dmy
 INSERT INTO voucher VALUES 
@@ -566,17 +560,18 @@ INSERT INTO DatVe VALUES
 		('DV010', 'KH010', '10-04-2025', N'Vé Tour', '26-04-2025')
 
 SET DATEFORMAT dmy;
-INSERT INTO VeTour VALUES
-	('VT001', 'DV001', 'TO001', 2, N'Xe buýt', '08:00:00'),
-	('VT002', 'DV002', 'TO002', 3, N'Tàu hỏa', '09:00:00'),
-	('VT003', 'DV003', 'TO003', 1, N'Máy bay', '07:30:00'),
-	('VT004', 'DV004', 'TO004', 2, N'Xe khách', '06:45:00'),
-	('VT005', 'DV005', 'TO005', 2, N'Xe buýt', '10:00:00'),
-	('VT006', 'DV006', 'TO006', 1, N'Máy bay', '11:00:00'),
-	('VT007', 'DV007', 'TO007',4, N'Xe khách', '08:15:00'),
-	('VT008', 'DV008', 'TO008', 4, N'Tàu thủy', '09:45:00'),
-	('VT009', 'DV009', 'TO009', 6, N'Máy bay', '07:00:00'),
-	('VT010', 'DV010', 'TO010',3, N'Tàu hỏa', '06:30:00');
+INSERT INTO VeTour 
+VALUES
+    ('VT001', 'DV001', 'TO001', '01/06/2025', 2, 1, 0),
+    ('VT002', 'DV002', 'TO002', '02/06/2025', 3, 0, 1),
+    ('VT003', 'DV003', 'TO003', '03/06/2025', 1, 0, 0),
+    ('VT004', 'DV004', 'TO004', '04/06/2025', 2, 2, 0),
+    ('VT005', 'DV005', 'TO005', '05/06/2025', 2, 0, 1),
+    ('VT006', 'DV006', 'TO006', '06/06/2025', 1, 1, 0),
+    ('VT007', 'DV007', 'TO007', '07/06/2025', 4, 0, 2),
+    ('VT008', 'DV008', 'TO008', '08/06/2025', 4, 1, 1),
+    ('VT009', 'DV009', 'TO009', '09/06/2025', 6, 2, 0),
+    ('VT010', 'DV010', 'TO010', '10/06/2025', 3, 1, 1)
 
 
 INSERT INTO datve_dichvu VALUES
@@ -590,24 +585,6 @@ INSERT INTO datve_dichvu VALUES
 		('DV008', 'DV008'),
 		('DV009', 'DV009'),
 		('DV010', 'DV010')
-INSERT INTO vele VALUES
-		('VL001', 'DV001', N'Người lớn', 2),
-		('VL002', 'DV002', N'Trẻ em', 3),
-		('VL003', 'DV003', N'Người già', 1),
-		('VL004', 'DV004', N'Người lớn', 4),
-		('VL005', 'DV005', N'Trẻ em', 2),
-		('VL006', 'DV006', N'Người lớn', 3),
-		('VL007', 'DV007', N'Trẻ em', 4),
-		('VL008', 'DV008', N'Người già', 2),
-		('VL009', 'DV009', N'Người lớn', 5),
-		('VL010', 'DV010', N'Trẻ em', 1)
-
--- Danh sách các tour sắp diễn ra
-SELECT * FROM Tour
-WHERE tg_batDau >= GETDATE()
-ORDER BY tg_batDau
-
-
 --Danh sách khách hàng cùng số voucher còn lại
 SELECT KH.maKhachHang, KH.tenKhachHang, V.tenVoucher, KHV.soLuong - KHV.SoLuongDaDung AS SoLuongConLai
 FROM KhachHang KH
@@ -662,29 +639,29 @@ go
 --INSERT INTO VeTour VALUES ('VT999', 'DV999', 'TO999', N'Đà Nẵng', N'Xe khách', '2025-04-13')
 go
 --tự động cập nhật số lượng vé còn lại khi có người mua vé
-CREATE TRIGGER UpdateSoLuongConLai
-ON VeTour
-AFTER INSERT, DELETE
-AS
-BEGIN
-    DECLARE @maTour VARCHAR(10);
-    DECLARE @soLuongNguoi INT;
+--CREATE TRIGGER UpdateSoLuongConLai
+--ON VeTour
+--AFTER INSERT, DELETE
+--AS
+--BEGIN
+    --DECLARE @maTour VARCHAR(10);
+    --DECLARE @soLuongNguoi INT;
 
     -- Lấy thông tin từ bảng VeTour
-    SELECT @maTour = maTour, @soLuongNguoi = soLuongNguoi FROM inserted;
+    --SELECT @maTour = maTour, @soLuongNguoi = soLuongNguoi FROM inserted;
 
     -- Cập nhật số lượng vé còn lại trong bảng Tour
-    UPDATE Tour
-    SET soLuongConLai = soLuongConLai - @soLuongNguoi
-    WHERE maTour = @maTour;
+    --UPDATE Tour
+    --SET soLuongConLai = soLuongConLai - @soLuongNguoi
+    --WHERE maTour = @maTour;
 
     -- Nếu xóa, giảm lại số lượng
-    IF EXISTS (SELECT * FROM deleted)
-    BEGIN
-        SELECT @soLuongNguoi = soLuongNguoi FROM deleted;
-        UPDATE Tour
-        SET soLuongConLai = soLuongConLai + @soLuongNguoi
-        WHERE maTour = @maTour;
-    END
-END
+    --IF EXISTS (SELECT * FROM deleted)
+    --BEGIN
+        --SELECT @soLuongNguoi = soLuongNguoi FROM deleted;
+        --UPDATE Tour
+        --SET soLuongConLai = soLuongConLai + @soLuongNguoi
+        --WHERE maTour = @maTour;
+    --END
+--END
 
