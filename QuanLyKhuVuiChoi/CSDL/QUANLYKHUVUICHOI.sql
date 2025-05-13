@@ -222,7 +222,6 @@ CREATE TABLE DatVe (
     MaDatVe char(5) PRIMARY KEY,
     maKhachHang char(5),
     NgayDat DATE,
-    LoaiVe nVARCHAR(50),
     NgayDi DATE,
     FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(maKhachHang)
 			on update
@@ -236,7 +235,6 @@ CREATE TABLE VeTour
 	MaVeTour CHAR(5) PRIMARY KEY,
     MaDatVe CHAR(5),
     MaTour CHAR(5),
-    NgayDi DATE,
     NguoiLon INT,
     TreEm INT,
     NguoiGia INT,
@@ -487,51 +485,51 @@ INSERT INTO Tour VALUES
 -- Vé đi thuyền thiên nga
 ('TO001', N'Vé đi thuyền thiên nga', 
  N'► Vé đi thuyền thiên nga dành cho 01 người lớn hoặc trẻ em. Vé chỉ có hiệu lực trong ngày ghi trên vé. Bao gồm: áo phao, hướng dẫn an toàn. Không áp dụng cho trẻ em dưới 3 tuổi không có người lớn đi cùng', 
- 800000, '10-05-2025', '10-05-2025', 40, 40),
+ 800000, '10-05-2025', '12-09-2026', 40, 40),
 
 -- Vé tham quan khu khủng long 4D
 ('TO002', N'Vé tham quan khu khủng long 4D', 
  N'► Vé tham quan khu trưng bày mô hình khủng long kết hợp hiệu ứng âm thanh và chuyển động 4D. Trẻ em dưới 1m miễn phí. Vé có hiệu lực 1 lần trong ngày. Mỗi suất tham quan kéo dài khoảng 30 phút', 
- 120000, '10-05-2025', '10-05-2025', 50, 50),
+ 120000, '10-05-2025', '06-05-2026', 50, 50),
 
 -- Vé trải nghiệm thực tế ảo (VR)
 ('TO003', N'Vé trải nghiệm thực tế ảo (VR)', 
  N'► Truy cập 5 khu vực trò chơi VR cao cấp: đua xe, phi hành gia, zombie, cảm giác mạnh, vũ trụ. Trẻ em từ 7 tuổi trở lên mới được tham gia. Vé có hiệu lực trong ngày, giới hạn 1 lần mỗi trò chơi. Miễn phí mượn kính VR và tay cầm', 
- 150000, '10-05-2025', '10-05-2025', 30, 30),
+ 150000, '10-05-2025', '10-08-2026', 30, 30),
 
 -- Vé xem biểu diễn nhạc nước
 ('TO004', N'Vé xem biểu diễn nhạc nước', 
  N'► Vé xem chương trình nhạc nước kéo dài 25 phút tại quảng trường trung tâm. Chỗ ngồi khu VIP gần sân khấu. Có hiệu lực đúng giờ ghi trên vé, không hoàn/trả nếu đến muộn. Miễn phí cho trẻ em dưới 90cm', 
- 500000, '10-05-2025', '10-05-2025', 100, 100),
+ 500000, '10-05-2025', '11-09-2026', 100, 100),
 
 -- Combo vui chơi trẻ em toàn khu
 ('TO005', N'Combo vui chơi trẻ em toàn khu', 
  N'► Vé trọn gói cho trẻ em bao gồm: nhà banh, cầu trượt, xe điện đụng, tô tượng, lớp vẽ. Miễn phí nước suối 1 chai, mượn đồng phục chơi. Trẻ dưới 3 tuổi phải có người lớn đi kèm. Vé có giá trị sử dụng trong 1 ngày', 
- 180000, '10-05-2025', '10-05-2025', 60, 60),
+ 180000, '10-05-2025', '02-06-2026', 60, 60),
 
  ('TO006', N'Vé đi tàu cổ tích xuyên rừng', 
  N'► Hành trình tàu đi qua các mô hình rừng cổ tích, động vật hoạt hình, và cảnh đêm phát sáng. Dành cho mọi lứa tuổi, trẻ em dưới 6 tuổi cần người lớn đi kèm. Vé có hiệu lực trong ngày ghi trên vé. Miễn phí ảnh lưu niệm 1 tấm/khách', 
- 90000, '10-05-2025', '10-05-2025', 40, 40),
+ 90000, '10-05-2025', '01-10-2026', 40, 40),
 
 -- Vé khu Game Center (máy chơi điện tử)
 ('TO007', N'Vé khu Game Center', 
  N'► Bao gồm 10 lượt chơi máy điện tử tự chọn: bắn súng, đua xe, nhảy nhạc, gắp thú, bắn bóng\n► Không áp dụng đổi trò chơi giữa chừng. Có hiệu lực trong ngày, không hoàn trả nếu không sử dụng hết lượt\n► Tặng 1 món quà bất ngờ nếu tích lũy đủ điểm', 
- 130000, '10-05-2025', '10-05-2025', 50, 50),
+ 130000, '07-05-2025', '07-09-2026', 50, 50),
 
 -- Vé tham quan thủy cung mini
 ('TO008', N'Vé tham quan thuỷ cung mini', 
  N'► Tham quan hệ sinh thái biển thu nhỏ, cá mập con, cá hề, san hô sống, rùa nước. Có khu vực chạm tay tương tác (touch tank). Vé có hiệu lực trong 1 ngày, không giới hạn thời gian tham quan. Miễn phí hướng dẫn viên nếu đi nhóm trên 10 người', 
- 140000, '10-05-2025', '10-05-2025', 35, 35),
+ 140000, '10-05-2025', '10-05-2026', 35, 35),
 
 -- Vé combo người lớn (trọn gói toàn khu)
 ('TO009', N'Combo vui chơi người lớn', 
  N'► Bao gồm: vé khu VR, khủng long 4D, tàu cổ tích, biểu diễn nhạc nước. Tặng kèm voucher ăn uống 50k tại khu ẩm thực. Sử dụng trong ngày, mỗi dịch vụ 1 lần. Áp dụng cho khách từ 16 tuổi trở lên', 
- 250.00, '10-05-2025', '10-05-2025', 45, 45),
+ 250000, '10-05-2025', '10-08-2026', 45, 45),
 
 -- Vé đêm lửa trại & pháo hoa
 ('TO010', N'Vé đêm lửa trại & pháo hoa', 
  N'► Vé vào khu vực tổ chức đêm lửa trại, chơi trò chơi dân gian, thưởng thức tiệc nhẹ\n► Bao gồm suất ngồi xem pháo hoa tại bãi cỏ trung tâm\n► Không hoàn lại nếu trời mưa nhưng được đổi vé sang hôm khác\n► Số lượng giới hạn 1 ngày chỉ 100 vé', 
- 460000, '10-05-2025', '10-05-2025', 100, 100);
+ 460000, '10-05-2025', '10-04-2026', 100, 100);
 
 
 INSERT INTO NhanVien_Tour VALUES
@@ -548,30 +546,30 @@ INSERT INTO NhanVien_Tour VALUES
 
 SET DATEFORMAT dmy
 INSERT INTO DatVe VALUES
-		('DV001', 'KH001', '01-04-2025', N'Vé Tour', '10-04-2025'),
-		('DV002', 'KH002', '02-04-2025', N'Vé Lẻ',  '12-04-2025'),
-		('DV003', 'KH003', '03-04-2025', N'Vé Tour', '20-04-2025'),
-		('DV004', 'KH004', '04-04-2025', N'Vé Lẻ', '15-04-2025'),
-		('DV005', 'KH005', '05-04-2025', N'Vé Tour', '18-04-2025'),
-		('DV006', 'KH006', '06-04-2025', N'Vé Tour', '25-04-2025'),
-		('DV007', 'KH007', '07-04-2025', N'Vé Lẻ',  '22-04-2025'),
-		('DV008', 'KH008', '08-04-2025', N'Vé Tour', '28-04-2025'),
-		('DV009', 'KH009', '09-04-2025', N'Vé Lẻ', '30-04-2025'),
-		('DV010', 'KH010', '10-04-2025', N'Vé Tour', '26-04-2025')
+		('DV001', 'KH001', '01-04-2025', '10-04-2025'),
+		('DV002', 'KH002', '02-04-2025',  '12-04-2025'),
+		('DV003', 'KH003', '03-04-2025', '20-04-2025'),
+		('DV004', 'KH004', '04-04-2025', '15-04-2025'),
+		('DV005', 'KH005', '05-04-2025', '18-04-2025'),
+		('DV006', 'KH006', '06-04-2025', '25-04-2025'),
+		('DV007', 'KH007', '07-04-2025',  '22-04-2025'),
+		('DV008', 'KH008', '08-04-2025', '28-04-2025'),
+		('DV009', 'KH009', '09-04-2025', '30-04-2025'),
+		('DV010', 'KH010', '10-04-2025', '26-04-2025')
 
 SET DATEFORMAT dmy;
 INSERT INTO VeTour 
 VALUES
-    ('VT001', 'DV001', 'TO001', '01/06/2025', 2, 1, 0),
-    ('VT002', 'DV002', 'TO002', '02/06/2025', 3, 0, 1),
-    ('VT003', 'DV003', 'TO003', '03/06/2025', 1, 0, 0),
-    ('VT004', 'DV004', 'TO004', '04/06/2025', 2, 2, 0),
-    ('VT005', 'DV005', 'TO005', '05/06/2025', 2, 0, 1),
-    ('VT006', 'DV006', 'TO006', '06/06/2025', 1, 1, 0),
-    ('VT007', 'DV007', 'TO007', '07/06/2025', 4, 0, 2),
-    ('VT008', 'DV008', 'TO008', '08/06/2025', 4, 1, 1),
-    ('VT009', 'DV009', 'TO009', '09/06/2025', 6, 2, 0),
-    ('VT010', 'DV010', 'TO010', '10/06/2025', 3, 1, 1)
+    ('VT001', 'DV001', 'TO001', 2, 1, 0),
+    ('VT002', 'DV002', 'TO002', 3, 0, 1),
+    ('VT003', 'DV003', 'TO003', 1, 0, 0),
+    ('VT004', 'DV004', 'TO004', 2, 2, 0),
+    ('VT005', 'DV005', 'TO005', 2, 0, 1),
+    ('VT006', 'DV006', 'TO006', 1, 1, 0),
+    ('VT007', 'DV007', 'TO007', 4, 0, 2),
+    ('VT008', 'DV008', 'TO008', 4, 1, 1),
+    ('VT009', 'DV009', 'TO009', 6, 2, 0),
+    ('VT010', 'DV010', 'TO010', 3, 1, 1)
 
 
 INSERT INTO datve_dichvu VALUES
@@ -664,4 +662,7 @@ go
         --WHERE maTour = @maTour;
     --END
 --END
-
+select * from Tour
+select * from khachhang
+select * from datve
+select * from vetour
