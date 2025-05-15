@@ -1,14 +1,14 @@
 package Model;
 
-import java.sql.Date;
+import java.sql.Time;
 
 public class CaLamViec {
     private String maCa;
     private String tenCa;
-    private Date gioBatDau;
-    private Date gioKetThuc;
+    private Time gioBatDau;
+    private Time gioKetThuc;
 
-    public CaLamViec(String maCa, String tenCa, Date gioBatDau, Date gioKetThuc) {
+    public CaLamViec(String maCa, String tenCa, Time gioBatDau, Time gioKetThuc) {
         this.maCa = maCa;
         this.tenCa = tenCa;
         this.gioBatDau = gioBatDau;
@@ -19,31 +19,15 @@ public class CaLamViec {
         return maCa;
     }
 
-    public void setMaCa(String maCa) {
-        this.maCa = maCa;
-    }
-
     public String getTenCa() {
         return tenCa;
     }
 
-    public void setTenCa(String tenCa) {
-        this.tenCa = tenCa;
-    }
-
-    public Date getGioBatDau() {
+    public Time getGioBatDau() {
         return gioBatDau;
     }
 
-    public void setGioBatDau(Date gioBatDau) {
-        this.gioBatDau = gioBatDau;
-    }
-
-    public Date getGioKetThuc() {
+    public Time getGioKetThuc() {
         return gioKetThuc;
-    }
-
-    public void setGioKetThuc(Date gioKetThuc) {
-        this.gioKetThuc = gioKetThuc;
     }
 }

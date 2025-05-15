@@ -24,7 +24,7 @@ public class CaDaPhanCongForm extends JDialog {
         setLayout(new BorderLayout());
 
         model = new DefaultTableModel();
-        model.setColumnIdentifiers(new String[]{"Mã NV", "Tên ca", "Ngày làm", "Giờ bắt đầu", "Giờ kết thúc"});
+        model.setColumnIdentifiers(new String[]{"Mã NV","Tên NV", "Tên ca", "Ngày làm", "Giờ bắt đầu", "Giờ kết thúc"});
 
         table = new JTable(model);
         add(new JScrollPane(table), BorderLayout.CENTER);

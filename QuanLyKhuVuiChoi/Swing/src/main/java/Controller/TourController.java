@@ -53,6 +53,7 @@ public class TourController {
             view.tfNgayBatDau.setText(view.table.getValueAt(row, 4).toString());
             view.tfNgayKetThuc.setText(view.table.getValueAt(row, 5).toString());
             view.tfSoLuongMax.setText(view.table.getValueAt(row, 6).toString());
+            view.tfMaTour.setEditable(false);
         }
     }
 

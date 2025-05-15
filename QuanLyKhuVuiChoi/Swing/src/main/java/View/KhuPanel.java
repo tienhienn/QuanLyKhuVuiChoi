@@ -5,6 +5,7 @@ import DAO.KhuDAO;
 import Model.Khu;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
@@ -20,44 +21,42 @@ public class KhuPanel extends JPanel {
 
     public KhuPanel(Connection conn) {
         this.khuController = new KhuController(new KhuDAO(conn));
+        setLayout(new BorderLayout(10, 10));
         initComponents();
         loadTable();
         addListeners();
     }
 
     private void initComponents() {
-        setLayout(new BorderLayout());
-
-        // Bảng hiển thị
-        model = new DefaultTableModel(new String[]{"Mã khu", "Tên khu", "Mô tả"}, 0);
-        table = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER);
-
-        // Form nhập
-        JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
-        formPanel.setBorder(BorderFactory.createTitledBorder("Thông tin khu"));
+        // === Panel Nhập thông tin ===
+        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
+        inputPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Thông tin Khu", TitledBorder.LEFT, TitledBorder.TOP));
 
         tfMaKhu = new JTextField();
         tfTenKhu = new JTextField();
         tfMoTa = new JTextField();
 
-        formPanel.add(new JLabel("Mã khu:"));
-        formPanel.add(tfMaKhu);
-        formPanel.add(new JLabel("Tên khu:"));
-        formPanel.add(tfTenKhu);
-        formPanel.add(new JLabel("Mô tả:"));
-        formPanel.add(tfMoTa);
+        inputPanel.add(new JLabel("Mã Khu:")); inputPanel.add(tfMaKhu);
+        inputPanel.add(new JLabel("Tên Khu:")); inputPanel.add(tfTenKhu);
+        inputPanel.add(new JLabel("Mô Tả:")); inputPanel.add(tfMoTa);
 
-        add(formPanel, BorderLayout.NORTH);
+        add(inputPanel, BorderLayout.NORTH);
 
-        // Các nút chức năng
+        // === Table Panel ===
+        model = new DefaultTableModel(new String[]{"Mã Khu", "Tên Khu", "Mô Tả"}, 0);
+        table = new JTable(model);
+        table.setFillsViewportHeight(true);
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Danh sách Khu", TitledBorder.LEFT, TitledBorder.TOP));
+        add(scrollPane, BorderLayout.CENTER);
+
+        // === Panel Chức năng ===
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
         btnReset = new JButton("Reset");
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         buttonPanel.add(btnThem);
         buttonPanel.add(btnSua);
         buttonPanel.add(btnXoa);
@@ -79,7 +78,6 @@ public class KhuPanel extends JPanel {
     }
 
     private void addListeners() {
-        // Click vào dòng để đổ dữ liệu vào form
         table.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int row = table.getSelectedRow();

@@ -13,22 +13,23 @@ public class PhanCongCaDAO {
 
     public List<Object[]> getCaDaPhanCongTheoNhanVien(String maNhanVien) {
         List<Object[]> result = new ArrayList<>();
-        String sql = "SELECT p.maNhanVien, c.tenca, p.ngayLamViec, c.gio_batdau, c.gio_ketthuc " +
-                "FROM phanCongCa p " +
-                "JOIN calamViec c ON p.maCa = c.maCa " +
-                "WHERE p.maNhanVien = ?";
+        String sql = "SELECT nv.maNhanVien, nv.tenNhanVien, c.tenca, p.ngayLamViec, c.gio_batdau, c.gio_ketthuc " +
+                     "FROM phanCongCa p " +
+                     "JOIN calamViec c ON p.maCa = c.maCa " +
+                     "JOIN NhanVien nv ON p.maNhanVien = nv.maNhanVien " +
+                     "WHERE nv.maNhanVien = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, maNhanVien);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Object[] row = {
                         rs.getString("maNhanVien"),
+                        rs.getString("tenNhanVien"),
                         rs.getString("tenca"),
                         rs.getDate("ngayLamViec"),
-                        rs.getTimestamp("gio_batdau"),
-                        rs.getTimestamp("gio_ketthuc")
+                        rs.getTime("gio_batdau"),
+                        rs.getTime("gio_ketthuc")
                 };
-
                 result.add(row);
             }
         } catch (SQLException e) {

@@ -1,26 +1,28 @@
 package View;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class NhanVienPanel extends JPanel {
-    public JTable table;
-    public DefaultTableModel model;
     public JTextField tfMa, tfTen, tfNgaySinh, tfSDT, tfEmail, tfNgayBD, tfLuong, tfTimKiem;
     public JButton btnThem, btnSua, btnXoa, btnTim, btnPhanCong, btnXemCa;
+    public JTable table;
+    public DefaultTableModel model;
 
     public NhanVienPanel() {
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
 
-        // Bảng
-        model = new DefaultTableModel();
-        model.setColumnIdentifiers(new String[]{"Mã NV", "Tên", "Ngày sinh", "SĐT", "Email", "Ngày bắt đầu", "Lương"});
-        table = new JTable(model);
-        add(new JScrollPane(table), BorderLayout.CENTER);
+        // ===== Panel nhập liệu phía trên =====
+        JPanel inputPanel = new JPanel(new GridLayout(7, 2, 10, 10));
+        inputPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createEtchedBorder(),
+                "Thông tin Nhân Viên",
+                TitledBorder.LEFT,
+                TitledBorder.TOP
+        ));
 
-        // Form nhập liệu
-        JPanel formPanel = new JPanel(new GridLayout(7, 2, 10, 5));
         tfMa = new JTextField();
         tfTen = new JTextField();
         tfNgaySinh = new JTextField();
@@ -29,34 +31,55 @@ public class NhanVienPanel extends JPanel {
         tfNgayBD = new JTextField();
         tfLuong = new JTextField();
 
-        formPanel.add(new JLabel("Mã nhân viên:")); formPanel.add(tfMa);
-        formPanel.add(new JLabel("Tên nhân viên:")); formPanel.add(tfTen);
-        formPanel.add(new JLabel("Ngày sinh (yyyy-MM-dd):")); formPanel.add(tfNgaySinh);
-        formPanel.add(new JLabel("SĐT:")); formPanel.add(tfSDT);
-        formPanel.add(new JLabel("Email:")); formPanel.add(tfEmail);
-        formPanel.add(new JLabel("Ngày bắt đầu (yyyy-MM-dd):")); formPanel.add(tfNgayBD);
-        formPanel.add(new JLabel("Lương:")); formPanel.add(tfLuong);
+        inputPanel.add(new JLabel("Mã NV:")); inputPanel.add(tfMa);
+        inputPanel.add(new JLabel("Tên NV:")); inputPanel.add(tfTen);
+        inputPanel.add(new JLabel("Ngày sinh (yyyy-MM-dd):")); inputPanel.add(tfNgaySinh);
+        inputPanel.add(new JLabel("SĐT:")); inputPanel.add(tfSDT);
+        inputPanel.add(new JLabel("Email:")); inputPanel.add(tfEmail);
+        inputPanel.add(new JLabel("Ngày bắt đầu (yyyy-MM-dd):")); inputPanel.add(tfNgayBD);
+        inputPanel.add(new JLabel("Lương:")); inputPanel.add(tfLuong);
 
-        add(formPanel, BorderLayout.NORTH);
+        add(inputPanel, BorderLayout.NORTH);
 
-        // Panel nút
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 3, 10, 5));
+        // ===== Bảng danh sách nhân viên =====
+        model = new DefaultTableModel();
+        model.setColumnIdentifiers(new String[]{
+            "Mã NV", "Tên", "Ngày sinh", "SĐT", "Email", "Ngày bắt đầu", "Lương"
+        });
+
+        table = new JTable(model);
+        table.setFillsViewportHeight(true);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBorder(BorderFactory.createTitledBorder("Danh sách Nhân Viên"));
+        add(scrollPane, BorderLayout.CENTER);
+
+        // ===== Panel chức năng phía dưới =====
+        JPanel controlPanel = new JPanel(new BorderLayout());
+        JPanel searchPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+
+        tfTimKiem = new JTextField(20);
+        btnTim = new JButton("Tìm");
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
-        btnTim = new JButton("Tìm kiếm");
         btnPhanCong = new JButton("Phân công ca");
-        btnXemCa = new JButton("Xem ca đã phân công");
+        btnXemCa = new JButton("Xem ca");
 
-        tfTimKiem = new JTextField();
+        searchPanel.add(new JLabel("Tìm kiếm:"));
+        searchPanel.add(tfTimKiem);
+        searchPanel.add(btnTim);
+
         buttonPanel.add(btnThem);
         buttonPanel.add(btnSua);
         buttonPanel.add(btnXoa);
-        buttonPanel.add(tfTimKiem);
-        buttonPanel.add(btnTim);
         buttonPanel.add(btnPhanCong);
         buttonPanel.add(btnXemCa);
 
-        add(buttonPanel, BorderLayout.SOUTH);
+        controlPanel.add(searchPanel, BorderLayout.WEST);
+        controlPanel.add(buttonPanel, BorderLayout.EAST);
+
+        add(controlPanel, BorderLayout.SOUTH);
     }
 }

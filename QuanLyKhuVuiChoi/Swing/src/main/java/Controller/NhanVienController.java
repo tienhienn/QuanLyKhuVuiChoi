@@ -1,6 +1,8 @@
 package Controller;
 
+import DAO.CaLamViecDAO;
 import DAO.NhanVienDAO;
+import Model.CaLamViec;
 import Model.NhanVien;
 import View.NhanVienPanel;
 import View.PhanCongCaForm;
@@ -59,6 +61,7 @@ public class NhanVienController {
             view.tfEmail.setText(view.table.getValueAt(row, 4).toString());
             view.tfNgayBD.setText(view.table.getValueAt(row, 5).toString());
             view.tfLuong.setText(view.table.getValueAt(row, 6).toString());
+            view.tfMa.setEditable(false);
         }
     }
 
@@ -109,26 +112,18 @@ public class NhanVienController {
     private void moFormPhanCongCa() {
         String maNV = view.tfMa.getText();
         if (!maNV.isEmpty()) {
-            PhanCongCaForm form = new PhanCongCaForm((JFrame) SwingUtilities.getWindowAncestor(view));
-            form.tfMaNV.setText(maNV);
+            // Truyền Connection và maNV vào PhanCongCaForm
+            PhanCongCaForm form = new PhanCongCaForm((JFrame) SwingUtilities.getWindowAncestor(view), maNV, conn);
+
+            // Nạp danh sách ca từ DB
+            List<CaLamViec> danhSachCa = new CaLamViecDAO(conn).layTatCaCa();
+            for (CaLamViec ca : danhSachCa) {
+                form.cbTenCa.addItem(ca.getTenCa());
+                form.caMap.put(ca.getTenCa(), ca);
+            }
+
+            // Hiện form
             form.setVisible(true);
-
-            form.btnXacNhan.addActionListener(e -> {
-                String maCa = form.tfMaCa.getText();
-                String ngay = form.tfNgay.getText();
-
-                if (!maCa.isEmpty() && !ngay.isEmpty()) {
-                    boolean success = new DAO.PhanCongCaDAO(conn).phanCongCa(maNV, maCa, ngay);
-                    if (success) {
-                        JOptionPane.showMessageDialog(form, "Phân công ca thành công!");
-                        form.dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(form, "Phân công thất bại!");
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(form, "Vui lòng nhập đầy đủ thông tin!");
-                }
-            });
         } else {
             JOptionPane.showMessageDialog(view, "Chọn nhân viên để phân công ca!");
         }
