@@ -10,8 +10,6 @@ import View.CaDaPhanCongForm;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.List;
@@ -32,8 +30,9 @@ public class NhanVienController {
         view.btnSua.addActionListener(e -> suaNhanVien());
         view.btnXoa.addActionListener(e -> xoaNhanVien());
         view.btnTim.addActionListener(e -> timKiemNhanVien());
+        view.btnClear.addActionListener(e -> clearForm());
         view.btnPhanCong.addActionListener(e -> moFormPhanCongCa());
-        view.btnXemCa.addActionListener(e -> moFormXemCa());
+        view.btnXemCa.addActionListener(e -> moFormXemCa()); 
 
         view.table.getSelectionModel().addListSelectionListener(e -> fillFormTuTable());
     }
@@ -156,5 +155,16 @@ public class NhanVienController {
             JOptionPane.showMessageDialog(view, "Dữ liệu không hợp lệ! Vui lòng kiểm tra lại.");
             return null;
         }
+    }
+    private void clearForm() {
+        view.tfMa.setText("");
+        view.tfTen.setText("");
+        view.tfNgaySinh.setText("");
+        view.tfSDT.setText("");
+        view.tfEmail.setText("");
+        view.tfNgayBD.setText("");
+        view.tfLuong.setText("");
+        view.tfMa.setEditable(true);
+        view.table.clearSelection();
     }
 }

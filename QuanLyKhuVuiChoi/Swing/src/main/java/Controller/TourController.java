@@ -21,7 +21,8 @@ public class TourController {
         view.btnThem.addActionListener(e -> themTour());
         view.btnSua.addActionListener(e -> suaTour());
         view.btnXoa.addActionListener(e -> xoaTour());
-        view.btnTim.addActionListener(e -> timKiemTour());
+        view.btnClear.addActionListener(e -> clearForm());
+        view.btnTim.addActionListener(e -> timKiemTour());     
 
         view.table.getSelectionModel().addListSelectionListener(e -> fillFormTuBang());
     }
@@ -145,5 +146,16 @@ public class TourController {
             JOptionPane.showMessageDialog(view, "Dữ liệu không hợp lệ! Vui lòng kiểm tra lại.");
             return null;
         }
+    }
+    private void clearForm() {
+        view.tfMaTour.setText("");
+        view.tfTenTour.setText("");
+        view.tfMieuTa.setText("");
+        view.tfGiaTour.setText("");
+        view.tfNgayBatDau.setText("");
+        view.tfNgayKetThuc.setText("");
+        view.tfSoLuongMax.setText("");
+        view.tfMaTour.setEditable(true);  // Cho phép nhập lại mã tour
+        view.table.clearSelection();      // Bỏ chọn bảng
     }
 }

@@ -9,7 +9,7 @@ public class TourPanel extends JPanel {
 
     // Các thành phần giao diện
     public JTextField tfMaTour, tfTenTour, tfMieuTa, tfGiaTour, tfNgayBatDau, tfNgayKetThuc, tfSoLuongMax, tfTimKiem;
-    public JButton btnThem, btnSua, btnXoa, btnTim;
+    public JButton btnThem, btnSua, btnXoa, btnTim, btnClear;
     public JTable table;
     public DefaultTableModel model;
 
@@ -64,9 +64,11 @@ public class TourPanel extends JPanel {
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
+        btnClear = new JButton("Làm mới");
         buttonPanel.add(btnThem);
         buttonPanel.add(btnSua);
         buttonPanel.add(btnXoa);
+        buttonPanel.add(btnClear);
 
         controlPanel.add(searchPanel, BorderLayout.WEST);
         controlPanel.add(buttonPanel, BorderLayout.EAST);

@@ -4,38 +4,44 @@ public class VeTour {
     private String maVeTour;
     private String maDatVe;
     private String maTour;
-    private int soLuongNguoi;
-    private String phuongTien;
-    private String gioDi;
+    private int nguoiLon;
+    private int treEm;
+    private int nguoiGia;
 
     public VeTour() {
     }
 
-    public VeTour(String maVeTour, String maDatVe, String maTour, int soLuongNguoi, String phuongTien, String gioDi) {
+    public VeTour(String maVeTour, String maDatVe, String maTour, int nguoiLon, int treEm, int nguoiGia) {
         this.maVeTour = maVeTour;
         this.maDatVe = maDatVe;
         this.maTour = maTour;
-        this.soLuongNguoi = soLuongNguoi;
-        this.phuongTien = phuongTien;
-        this.gioDi = gioDi;
+        this.nguoiLon = nguoiLon;
+        this.treEm = treEm;
+        this.nguoiGia = nguoiGia;
     }
 
     // Getters and Setters
-    public String getMaVeTour() { return maVeTour; }
-    public void setMaVeTour(String maVeTour) { this.maVeTour = maVeTour; }
+    public String getMaVeTour() {return maVeTour;}
 
-    public String getMaDatVe() { return maDatVe; }
-    public void setMaDatVe(String maDatVe) { this.maDatVe = maDatVe; }
+    public void setMaVeTour(String maVeTour) {this.maVeTour = maVeTour;}
 
-    public String getMaTour() { return maTour; }
-    public void setMaTour(String maTour) { this.maTour = maTour; }
+    public String getMaDatVe() {return maDatVe;}
 
-    public int getSoLuongNguoi() { return soLuongNguoi; }
-    public void setSoLuongNguoi(int soLuongNguoi) { this.soLuongNguoi = soLuongNguoi; }
+    public void setMaDatVe(String maDatVe) {this.maDatVe = maDatVe;}
 
-    public String getPhuongTien() { return phuongTien; }
-    public void setPhuongTien(String phuongTien) { this.phuongTien = phuongTien; }
+    public String getMaTour() {return maTour;}
 
-    public String getGioDi() { return gioDi; }
-    public void setGioDi(String gioDi) { this.gioDi = gioDi; }
+    public void setMaTour(String maTour) {this.maTour = maTour;}
+
+    public int getNguoiLon() {return nguoiLon;}
+
+    public void setNguoiLon(int nguoiLon) {this.nguoiLon = nguoiLon;}
+    
+    public int getTreEm() {return treEm;}
+
+    public void setTreEm(int treEm) {this.treEm = treEm;}
+
+    public int getNguoiGia() {return nguoiGia;}
+
+    public void setNguoiGia(int nguoiGia) {this.nguoiGia = nguoiGia;}
 }

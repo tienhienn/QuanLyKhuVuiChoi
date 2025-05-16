@@ -14,15 +14,16 @@ public class VeTourDAO {
     public List<VeTour> getAllVeTour() {
         List<VeTour> list = new ArrayList<>();
         String sql = "SELECT * FROM VeTour";
-        try (PreparedStatement ps = conn.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 VeTour vt = new VeTour(
                         rs.getString("maVeTour"),
                         rs.getString("maDatVe"),
                         rs.getString("maTour"),
-                        rs.getInt("soLuongNguoi"),
-                        rs.getString("phuongTien"),
-                        rs.getString("gioDi")
+                        rs.getInt("nguoiLon"),
+                        rs.getInt("treEm"),
+                        rs.getInt("nguoiGia")
                 );
                 list.add(vt);
             }
@@ -33,14 +34,14 @@ public class VeTourDAO {
     }
 
     public boolean insert(VeTour vt) {
-        String sql = "INSERT INTO VeTour VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO VeTour (maVeTour, maDatVe, maTour, nguoiLon, treEm, nguoiGia) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, vt.getMaVeTour());
             ps.setString(2, vt.getMaDatVe());
             ps.setString(3, vt.getMaTour());
-            ps.setInt(4, vt.getSoLuongNguoi());
-            ps.setString(5, vt.getPhuongTien());
-            ps.setString(6, vt.getGioDi());
+            ps.setInt(4, vt.getNguoiLon());
+            ps.setInt(5, vt.getTreEm());
+            ps.setInt(6, vt.getNguoiGia());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -49,13 +50,13 @@ public class VeTourDAO {
     }
 
     public boolean update(VeTour vt) {
-        String sql = "UPDATE VeTour SET maDatVe=?, maTour=?, soLuongNguoi=?, phuongTien=?, gioDi=? WHERE maVeTour=?";
+        String sql = "UPDATE VeTour SET maDatVe=?, maTour=?, nguoiLon=?, treEm=?, nguoiGia=? WHERE maVeTour=?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, vt.getMaDatVe());
             ps.setString(2, vt.getMaTour());
-            ps.setInt(3, vt.getSoLuongNguoi());
-            ps.setString(4, vt.getPhuongTien());
-            ps.setString(5, vt.getGioDi());
+            ps.setInt(3, vt.getNguoiLon());
+            ps.setInt(4, vt.getTreEm());
+            ps.setInt(5, vt.getNguoiGia());
             ps.setString(6, vt.getMaVeTour());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -85,9 +86,9 @@ public class VeTourDAO {
                         rs.getString("maVeTour"),
                         rs.getString("maDatVe"),
                         rs.getString("maTour"),
-                        rs.getInt("soLuongNguoi"),
-                        rs.getString("phuongTien"),
-                        rs.getString("gioDi")
+                        rs.getInt("nguoiLon"),
+                        rs.getInt("treEm"),
+                        rs.getInt("nguoiGia")
                 );
             }
         } catch (SQLException e) {

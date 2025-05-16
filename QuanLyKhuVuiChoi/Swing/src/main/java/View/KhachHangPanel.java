@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class KhachHangPanel extends JPanel {
     public JTextField tfMaKH, tfTenKH, tfMatKhau, tfSDT, tfEmail, tfDiaChi, tfGioiTinh, tfNgaySinh, tfQuocTich, tfTimKiem;
-    public JButton btnThem, btnSua, btnXoa, btnTim;
+    public JButton btnThem, btnSua, btnXoa, btnTim, btnClear;
     public JTable table;
     public DefaultTableModel model;
 
@@ -61,6 +61,7 @@ public class KhachHangPanel extends JPanel {
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
+        btnClear = new JButton("Làm mới");
 
         searchPanel.add(new JLabel("Tìm kiếm:"));
         searchPanel.add(tfTimKiem);
@@ -69,6 +70,7 @@ public class KhachHangPanel extends JPanel {
         buttonPanel.add(btnThem);
         buttonPanel.add(btnSua);
         buttonPanel.add(btnXoa);
+        buttonPanel.add(btnClear);
 
         controlPanel.add(searchPanel, BorderLayout.WEST);
         controlPanel.add(buttonPanel, BorderLayout.EAST);

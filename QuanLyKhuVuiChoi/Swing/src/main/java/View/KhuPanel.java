@@ -54,7 +54,7 @@ public class KhuPanel extends JPanel {
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
-        btnReset = new JButton("Reset");
+        btnReset = new JButton("Làm mới");
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 10));
         buttonPanel.add(btnThem);

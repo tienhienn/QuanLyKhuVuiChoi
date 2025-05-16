@@ -23,6 +23,7 @@ public class KhachHangController {
         view.btnSua.addActionListener(e -> sua());
         view.btnXoa.addActionListener(e -> xoa());
         view.btnTim.addActionListener(e -> tim());
+        view.btnClear.addActionListener(e -> clearForm());
 
         view.table.getSelectionModel().addListSelectionListener(e -> fillForm());
     }
@@ -127,5 +128,18 @@ public class KhachHangController {
                     kh.getQuocTich()
             });
         }
+    }
+    private void clearForm() {
+        view.tfMaKH.setText("");
+        view.tfTenKH.setText("");
+        view.tfMatKhau.setText("");
+        view.tfSDT.setText("");
+        view.tfEmail.setText("");
+        view.tfDiaChi.setText("");
+        view.tfGioiTinh.setText("");
+        view.tfNgaySinh.setText("");
+        view.tfQuocTich.setText("");
+        view.tfMaKH.setEditable(true);  // Cho phép nhập mã mới
+        view.table.clearSelection();    // Bỏ chọn trên bảng nếu có
     }
 }

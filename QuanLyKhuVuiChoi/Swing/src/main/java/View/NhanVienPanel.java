@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class NhanVienPanel extends JPanel {
     public JTextField tfMa, tfTen, tfNgaySinh, tfSDT, tfEmail, tfNgayBD, tfLuong, tfTimKiem;
-    public JButton btnThem, btnSua, btnXoa, btnTim, btnPhanCong, btnXemCa;
+    public JButton btnThem, btnSua, btnXoa, btnTim, btnClear, btnPhanCong, btnXemCa;
     public JTable table;
     public DefaultTableModel model;
 
@@ -64,6 +64,7 @@ public class NhanVienPanel extends JPanel {
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
+        btnClear = new JButton("Làm mới");
         btnPhanCong = new JButton("Phân công ca");
         btnXemCa = new JButton("Xem ca");
 
@@ -74,6 +75,7 @@ public class NhanVienPanel extends JPanel {
         buttonPanel.add(btnThem);
         buttonPanel.add(btnSua);
         buttonPanel.add(btnXoa);
+        buttonPanel.add(btnClear);
         buttonPanel.add(btnPhanCong);
         buttonPanel.add(btnXemCa);
 

@@ -106,11 +106,18 @@ public class MainAppForm extends JFrame {
         contentPanel.add(khuPanel, "Khu");
 
         // Panel Vé
-        QuanLyVeForm quanLyVeForm = new QuanLyVeForm(conn, cardLayout, contentPanel);
-        contentPanel.add(quanLyVeForm, "Vé");
+        VeTourPanel veTourPanel = new VeTourPanel(conn);    
+        contentPanel.add(veTourPanel, "Vé");
+        new VeTourController(veTourPanel, conn);
 
-        // Các panel đơn giản
-        contentPanel.add(createLabelPanel("Quản lý Dịch vụ"), "Dịch vụ");
+        // Panel Dịch vụ
+        DichVuPanel dichVuPanel = new DichVuPanel(conn);
+        contentPanel.add(dichVuPanel, "Dịch vụ");
+//        cardLayout = new CardLayout();
+//        contentPanel = new JPanel(cardLayout);
+        
+
+        //Panel Hóa Đơn
         contentPanel.add(createLabelPanel("Quản lý Hóa đơn"), "Hóa đơn");
 
         add(contentPanel, BorderLayout.CENTER);
