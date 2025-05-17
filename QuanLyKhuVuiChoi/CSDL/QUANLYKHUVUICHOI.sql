@@ -107,12 +107,11 @@ create table nhanvien_chucvu
 			on delete
 				cascade
 )
-create table calamViec
-(
-	maCa char(5) primary key,
-	tenca nvarchar(50),
-	gio_batdau date,
-	gio_ketthuc date
+CREATE TABLE calamViec (
+    maCa CHAR(5) PRIMARY KEY,
+    tenca NVARCHAR(50),
+    gio_batdau TIME,
+    gio_ketthuc TIME
 )
 create table phanCongCa
 (
@@ -411,11 +410,11 @@ INSERT INTO nhanvien_chucvu VALUES
 
 SET DATEFORMAT dmy;
 INSERT INTO calamViec VALUES 
-		('CA001', N'Ca sáng', '01-01-2025', '01-01-2025'),
-		('CA002', N'Ca chiều', '01-01-2025', '01-01-2025'),
-		('CA003', N'Ca tối', '01-01-2025', '01-01-2025'),
-		('CA004', N'Ca linh hoạt 1', '01-01-2025', '01-01-2025'),
-		('CA005', N'Ca linh hoạt 2', '01-01-2025', '01-01-2025')
+    ('CA001', N'Ca sáng', '07:00:00', '11:00:00'),
+    ('CA002', N'Ca chiều', '13:00:00', '17:00:00'),
+    ('CA003', N'Ca tối', '18:00:00', '22:00:00'),
+    ('CA004', N'Ca linh hoạt 1', '10:00:00', '14:00:00'),
+    ('CA005', N'Ca linh hoạt 2', '15:00:00', '19:00:00');
 
 SET DATEFORMAT dmy;
 INSERT INTO phanCongCa VALUES 
