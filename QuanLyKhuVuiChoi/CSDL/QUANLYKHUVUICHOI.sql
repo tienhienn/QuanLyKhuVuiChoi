@@ -223,6 +223,8 @@ CREATE TABLE DatVe (
     maKhachHang char(5),
     NgayDat DATE,
     NgayDi DATE,
+	TongTien DECIMAL(18,2) DEFAULT 0,
+    PhuongThuc NVARCHAR(20) CHECK (PhuongThuc IN (N'Tiền mặt', N'Online')) DEFAULT N'Tiền mặt',
     FOREIGN KEY (MaKhachHang) REFERENCES KhachHang(maKhachHang)
 			on update
 				cascade
@@ -238,6 +240,7 @@ CREATE TABLE VeTour
     NguoiLon INT,
     TreEm INT,
     NguoiGia INT,
+	TongTien DECIMAL(10,2),
     FOREIGN KEY (MaDatVe) REFERENCES DatVe(MaDatVe)
 			on update
 				cascade
@@ -544,33 +547,34 @@ INSERT INTO NhanVien_Tour VALUES
 		('NV009', 'TO009'),
 		('NV010', 'TO010')
 
-SET DATEFORMAT dmy
-INSERT INTO DatVe VALUES
-		('DV001', 'KH001', '01-04-2025', '10-04-2025'),
-		('DV002', 'KH002', '02-04-2025',  '12-04-2025'),
-		('DV003', 'KH003', '03-04-2025', '20-04-2025'),
-		('DV004', 'KH004', '04-04-2025', '15-04-2025'),
-		('DV005', 'KH005', '05-04-2025', '18-04-2025'),
-		('DV006', 'KH006', '06-04-2025', '25-04-2025'),
-		('DV007', 'KH007', '07-04-2025',  '22-04-2025'),
-		('DV008', 'KH008', '08-04-2025', '28-04-2025'),
-		('DV009', 'KH009', '09-04-2025', '30-04-2025'),
-		('DV010', 'KH010', '10-04-2025', '26-04-2025')
+SET DATEFORMAT dmy;
+INSERT INTO DatVe (MaDatVe, maKhachHang, NgayDat, NgayDi, TongTien, PhuongThuc) VALUES
+    ('DV001', 'KH001', '01-04-2025', '10-04-2025', 2240000.00, N'Tiền mặt'),
+    ('DV002', 'KH002', '02-04-2025', '12-04-2025', 444000.00, N'Online'),
+    ('DV003', 'KH003', '03-04-2025', '20-04-2025', 150000.00, N'Tiền mặt'),
+    ('DV004', 'KH004', '04-04-2025', '15-04-2025', 1800000.00, N'Online'),
+    ('DV005', 'KH005', '05-04-2025', '18-04-2025', 486000.00, N'Tiền mặt'),
+    ('DV006', 'KH006', '06-04-2025', '25-04-2025', 162000.00, N'Online'),
+    ('DV007', 'KH007', '07-04-2025', '22-04-2025', 702000.00, N'Tiền mặt'),
+    ('DV008', 'KH008', '08-04-2025', '28-04-2025', 770000.00, N'Online'),
+    ('DV009', 'KH009', '09-04-2025', '30-04-2025', 1900000.00, N'Tiền mặt'),
+    ('DV010', 'KH010', '10-04-2025', '26-04-2025', 2070000.00, N'Online');
+
 
 SET DATEFORMAT dmy;
-INSERT INTO VeTour 
+INSERT INTO VeTour (MaVeTour, MaDatVe, MaTour, NguoiLon, TreEm, NguoiGia, TongTien)
 VALUES
-    ('VT001', 'DV001', 'TO001', 2, 1, 0),
-    ('VT002', 'DV002', 'TO002', 3, 0, 1),
-    ('VT003', 'DV003', 'TO003', 1, 0, 0),
-    ('VT004', 'DV004', 'TO004', 2, 2, 0),
-    ('VT005', 'DV005', 'TO005', 2, 0, 1),
-    ('VT006', 'DV006', 'TO006', 1, 1, 0),
-    ('VT007', 'DV007', 'TO007', 4, 0, 2),
-    ('VT008', 'DV008', 'TO008', 4, 1, 1),
-    ('VT009', 'DV009', 'TO009', 6, 2, 0),
-    ('VT010', 'DV010', 'TO010', 3, 1, 1)
-
+    ('VT001', 'DV001', 'TO001', 2, 1, 0, 2240000.00),
+    ('VT002', 'DV002', 'TO002', 3, 0, 1, 444000.00),
+    ('VT003', 'DV003', 'TO003', 1, 0, 0, 150000.00),
+    ('VT004', 'DV004', 'TO004', 2, 2, 0, 1800000.00),
+    ('VT005', 'DV005', 'TO005', 2, 0, 1, 486000.00),
+    ('VT006', 'DV006', 'TO006', 1, 1, 0, 162000.00),
+    ('VT007', 'DV007', 'TO007', 4, 0, 2, 702000.00),
+    ('VT008', 'DV008', 'TO008', 4, 1, 1, 770000.00),
+    ('VT009', 'DV009', 'TO009', 6, 2, 0, 1900000.00),
+    ('VT010', 'DV010', 'TO010', 3, 1, 1, 2070000.00);
+	
 
 INSERT INTO datve_dichvu VALUES
 		('DV001', 'DV001'),
@@ -662,6 +666,23 @@ go
         --WHERE maTour = @maTour;
     --END
 --END
+go
+CREATE TRIGGER CalculateTongTien
+ON VeTour
+AFTER INSERT
+AS
+BEGIN
+    -- Cập nhật TongTien cho các dòng vừa chèn
+    UPDATE VeTour
+    SET TongTien = (
+        i.NguoiLon * t.giaTour + 
+        i.TreEm * t.giaTour * 0.8 + 
+        i.NguoiGia * t.giaTour * 0.7
+    )
+    FROM VeTour v
+    INNER JOIN inserted i ON v.MaVeTour = i.MaVeTour
+    INNER JOIN Tour t ON i.MaTour = t.maTour;
+END;
 select * from Tour
 select * from khachhang
 select * from datve
