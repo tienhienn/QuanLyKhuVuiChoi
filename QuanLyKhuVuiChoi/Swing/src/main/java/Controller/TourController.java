@@ -12,10 +12,12 @@ import java.util.List;
 public class TourController {
     private TourPanel view;
     private TourDAO tourDAO;
+    private final java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
 
     public TourController(TourPanel view, Connection conn) {
         this.view = view;
         this.tourDAO = new TourDAO(conn);
+        sdf.setLenient(false);
         loadDataToTable();
 
         view.btnThem.addActionListener(e -> themTour());
@@ -31,14 +33,15 @@ public class TourController {
         List<Tour> list = tourDAO.getAllTours();
         DefaultTableModel model = (DefaultTableModel) view.table.getModel();
         model.setRowCount(0);
+
         for (Tour tour : list) {
             model.addRow(new Object[]{
                     tour.getMaTour(),
                     tour.getTenTour(),
                     tour.getMoTa(),
                     tour.getGiaTour(),
-                    tour.getTgBatDau() != null ? tour.getTgBatDau().toString() : "",
-                    tour.getTgKetThuc() != null ? tour.getTgKetThuc().toString() : "",
+                    tour.getTgBatDau() != null ? sdf.format(tour.getTgBatDau()) : "",
+                    tour.getTgKetThuc() != null ? sdf.format(tour.getTgKetThuc()) : "",
                     tour.getSoLuongMax()
             });
         }
@@ -133,20 +136,25 @@ public class TourController {
 
     private Tour layDuLieuForm() {
         try {
+            java.util.Date utilBD = sdf.parse(view.tfNgayBatDau.getText().trim());
+            java.util.Date utilKT = sdf.parse(view.tfNgayKetThuc.getText().trim());
+
             return new Tour(
-                    view.tfMaTour.getText(),
-                    view.tfTenTour.getText(),
-                    view.tfMieuTa.getText(),
-                    Double.parseDouble(view.tfGiaTour.getText()),
-                    java.sql.Date.valueOf(view.tfNgayBatDau.getText()),
-                    java.sql.Date.valueOf(view.tfNgayKetThuc.getText()),
-                    Integer.parseInt(view.tfSoLuongMax.getText())
+                    view.tfMaTour.getText().trim(),
+                    view.tfTenTour.getText().trim(),
+                    view.tfMieuTa.getText().trim(),
+                    Double.parseDouble(view.tfGiaTour.getText().trim()),
+                    new java.sql.Date(utilBD.getTime()),
+                    new java.sql.Date(utilKT.getTime()),
+                    Integer.parseInt(view.tfSoLuongMax.getText().trim())
             );
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Dữ liệu không hợp lệ! Vui lòng kiểm tra lại.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(view,
+                    "Ngày phải theo định dạng dd/MM/yyyy và dữ liệu phải hợp lệ!");
             return null;
         }
     }
+
     private void clearForm() {
         view.tfMaTour.setText("");
         view.tfTenTour.setText("");

@@ -17,6 +17,10 @@ public class DatVe {
         this.ngayDi = ngayDi;
     }
 
+    public DatVe(String maDatVe) {
+        this.maDatVe = maDatVe;
+    }
+
     // Getters and Setters
     public String getMaDatVe() { return maDatVe; }
     public void setMaDatVe(String maDatVe) { this.maDatVe = maDatVe; }
@@ -32,4 +36,9 @@ public class DatVe {
 
     public Date getNgayDi() { return ngayDi; }
     public void setNgayDi(Date ngayDi) { this.ngayDi = ngayDi; }
+    
+    @Override
+    public String toString() {
+        return maDatVe;
+    }
 }

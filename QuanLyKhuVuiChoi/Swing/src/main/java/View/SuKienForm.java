@@ -56,10 +56,10 @@ public class SuKienForm extends JPanel {
 
         panelTop.add(new JLabel("Tên Sự Kiện:"));
         panelTop.add(txtTenSuKien);
-        panelTop.add(new JLabel("Thời Gian Bắt Đầu (yyyy-MM-dd):"));
+        panelTop.add(new JLabel("Thời Gian Bắt Đầu (dd/MM/yyyy):"));
         panelTop.add(txtThoiGianBatDau);
 
-        panelTop.add(new JLabel("Thời Gian Kết Thúc (yyyy-MM-dd):"));
+        panelTop.add(new JLabel("Thời Gian Kết Thúc (dd/MM/yyyy):"));
         panelTop.add(txtThoiGianKetThuc);
         panelTop.add(new JLabel("Trạng Thái Hoạt Động:"));
         panelTop.add(txtTrangThaiHoatDong);
@@ -112,7 +112,7 @@ public class SuKienForm extends JPanel {
         btnDelete.addActionListener(e -> deleteSuKien());
         btnClear.addActionListener(e -> clearFields());
 
-        table.addMouseListener(new MouseAdapter() {
+    table.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 int row = table.getSelectedRow();
                 if (row >= 0) {
@@ -123,6 +123,7 @@ public class SuKienForm extends JPanel {
                     comboDichVu.setSelectedItem(tenDv);
 
                     txtTenSuKien.setText(tableModel.getValueAt(row, 2).toString());
+                    // Ngày đã được hiển thị trong định dạng dd/MM/yyyy nên không cần chuyển đổi
                     txtThoiGianBatDau.setText(tableModel.getValueAt(row, 3).toString());
                     txtThoiGianKetThuc.setText(tableModel.getValueAt(row, 4).toString());
                     txtTrangThaiHoatDong.setText(tableModel.getValueAt(row, 5).toString());
@@ -153,12 +154,16 @@ public class SuKienForm extends JPanel {
                     break;
                 }
             }
+            // Chuyển đổi định dạng ngày từ yyyy-MM-dd sang dd/MM/yyyy để hiển thị
+            String thoiGianBatDauDisplay = convertDateFormatToDisplay(sk.getThoiGianBatDau());
+            String thoiGianKetThucDisplay = convertDateFormatToDisplay(sk.getThoiGianKetThuc());
+            
             tableModel.addRow(new Object[]{
                     sk.getMaSuKien(),
                     tenDichVu,
                     sk.getTenSuKien(),
-                    sk.getThoiGianBatDau(),
-                    sk.getThoiGianKetThuc(),
+                    thoiGianBatDauDisplay,
+                    thoiGianKetThucDisplay,
                     sk.getTrangThaiHoatDong(),
                     sk.getMucDoCuonHut(),
                     sk.getGioiHanDoTuoi(),
@@ -181,12 +186,16 @@ public class SuKienForm extends JPanel {
                         break;
                     }
                 }
+                // Chuyển đổi định dạng ngày từ yyyy-MM-dd sang dd/MM/yyyy để hiển thị
+                String thoiGianBatDauDisplay = convertDateFormatToDisplay(sk.getThoiGianBatDau());
+                String thoiGianKetThucDisplay = convertDateFormatToDisplay(sk.getThoiGianKetThuc());
+                
                 tableModel.addRow(new Object[]{
                         sk.getMaSuKien(),
                         tenDichVu,
                         sk.getTenSuKien(),
-                        sk.getThoiGianBatDau(),
-                        sk.getThoiGianKetThuc(),
+                        thoiGianBatDauDisplay,
+                        thoiGianKetThucDisplay,
                         sk.getTrangThaiHoatDong(),
                         sk.getMucDoCuonHut(),
                         sk.getGioiHanDoTuoi(),
@@ -203,12 +212,16 @@ public class SuKienForm extends JPanel {
                         break;
                     }
                 }
+                // Chuyển đổi định dạng ngày từ yyyy-MM-dd sang dd/MM/yyyy để hiển thị
+                String thoiGianBatDauDisplay = convertDateFormatToDisplay(sk.getThoiGianBatDau());
+                String thoiGianKetThucDisplay = convertDateFormatToDisplay(sk.getThoiGianKetThuc());
+                
                 tableModel.addRow(new Object[]{
                         sk.getMaSuKien(),
                         tenDichVu,
                         sk.getTenSuKien(),
-                        sk.getThoiGianBatDau(),
-                        sk.getThoiGianKetThuc(),
+                        thoiGianBatDauDisplay,
+                        thoiGianKetThucDisplay,
                         sk.getTrangThaiHoatDong(),
                         sk.getMucDoCuonHut(),
                         sk.getGioiHanDoTuoi(),
@@ -288,14 +301,18 @@ public class SuKienForm extends JPanel {
                 return null;
             }
 
-            if (!thoiGianBatDau.matches("\\d{4}-\\d{2}-\\d{2}")
-                    || !thoiGianKetThuc.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                JOptionPane.showMessageDialog(this, "Thời gian phải theo định dạng yyyy-MM-dd.");
+            if (!thoiGianBatDau.matches("\\d{2}/\\d{2}/\\d{4}")
+                    || !thoiGianKetThuc.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                JOptionPane.showMessageDialog(this, "Thời gian phải theo định dạng dd/MM/yyyy.");
                 return null;
             }
 
+            // Chuyển đổi định dạng ngày từ dd/MM/yyyy sang yyyy-MM-dd để lưu vào database
+            String thoiGianBatDauDB = convertDateFormat(thoiGianBatDau);
+            String thoiGianKetThucDB = convertDateFormat(thoiGianKetThuc);
+
             return new SuKien(maSuKien, maDichVu, tenSuKien,
-                    thoiGianBatDau, thoiGianKetThuc,
+                    thoiGianBatDauDB, thoiGianKetThucDB,
                     trangThaiHoatDong, mucDoCuonHut,
                     gioiHanDoTuoi, sucChua);
         } catch (NumberFormatException ex) {
@@ -305,6 +322,46 @@ public class SuKienForm extends JPanel {
             JOptionPane.showMessageDialog(this, "Đã xảy ra lỗi. Vui lòng kiểm tra lại dữ liệu!");
             ex.printStackTrace();
             return null;
+        }
+    }
+    
+    // Chuyển đổi định dạng ngày từ dd/MM/yyyy sang yyyy-MM-dd để lưu vào database
+    private String convertDateFormat(String dateStr) {
+        if (dateStr == null || dateStr.isEmpty()) {
+            return "";
+        }
+        try {
+            String[] parts = dateStr.split("/");
+            if (parts.length != 3) {
+                return dateStr;
+            }
+            String day = parts[0];
+            String month = parts[1];
+            String year = parts[2];
+            return year + "-" + month + "-" + day;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return dateStr;
+        }
+    }
+    
+    // Chuyển đổi định dạng ngày từ yyyy-MM-dd sang dd/MM/yyyy để hiển thị
+    private String convertDateFormatToDisplay(String dateStr) {
+        if (dateStr == null || dateStr.isEmpty()) {
+            return "";
+        }
+        try {
+            String[] parts = dateStr.split("-");
+            if (parts.length != 3) {
+                return dateStr;
+            }
+            String year = parts[0];
+            String month = parts[1];
+            String day = parts[2];
+            return day + "/" + month + "/" + year;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return dateStr;
         }
     }
 

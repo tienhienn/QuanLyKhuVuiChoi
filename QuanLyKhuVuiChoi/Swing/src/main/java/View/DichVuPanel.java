@@ -32,7 +32,7 @@ public class DichVuPanel extends JPanel {
         // === WEST: Menu quản lý ===
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBorder(BorderFactory.createTitledBorder("**********"));
+        menuPanel.setBorder(BorderFactory.createTitledBorder("Các loại dịch vụ"));
 
         JButton btnQLDV = new JButton("DỊCH VỤ");
         JButton btnQLTroChoi = new JButton("Quản lý trò chơi");
@@ -180,36 +180,18 @@ public class DichVuPanel extends JPanel {
         String ma = txtMaDV.getText().trim();
         String ten = txtTenDV.getText().trim();
 
-        if (ma.isEmpty() || ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin!");
-            return;
-        }
-
-        DichVu dv = new DichVu(ma, ten);
-        if (controller.themDichVu(dv)) {
-            JOptionPane.showMessageDialog(this, "Thêm thành công!");
-            loadTable();
-        } else {
-            JOptionPane.showMessageDialog(this, "Thêm thất bại!");
-        }
+        String msg = controller.themDichVuSuKien(ma, ten);
+        JOptionPane.showMessageDialog(this, msg);
+        loadTable();
     }
 
     private void suaDichVu() {
         String ma = txtMaDV.getText().trim();
         String ten = txtTenDV.getText().trim();
 
-        if (ma.isEmpty() || ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn dịch vụ để sửa!");
-            return;
-        }
-
-        DichVu dv = new DichVu(ma, ten);
-        if (controller.capNhatDichVu(dv)) {
-            JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
-            loadTable();
-        } else {
-            JOptionPane.showMessageDialog(this, "Cập nhật thất bại!");
-        }
+        String msg = controller.suaDichVuSuKien(ma, ten);
+        JOptionPane.showMessageDialog(this, msg);
+        loadTable();
     }
 
     private void xoaDichVu() {
@@ -222,30 +204,19 @@ public class DichVuPanel extends JPanel {
 
         int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa?", "Xác nhận", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
-            if (controller.xoaDichVu(ma)) {
-                JOptionPane.showMessageDialog(this, "Xóa thành công!");
-                loadTable();
-            } else {
-                JOptionPane.showMessageDialog(this, "Xóa thất bại!");
-            }
+            String msg = controller.xoaDichVuSuKien(ma);
+            JOptionPane.showMessageDialog(this, msg);
+            loadTable();
         }
     }
 
     private void timKiemDichVu() {
         String keyword = txtTimKiem.getText().trim();
+        ArrayList<DichVu> list = controller.timKiemDichVuSuKien(keyword);
 
         tableModel.setRowCount(0);
-
-        if (keyword.isEmpty()) {
-            for (DichVu dv : controller.layTatCaDichVu()) {
-                tableModel.addRow(new Object[]{dv.getMaDichVu(), dv.getTenDichVu()});
-            }
-        } else {
-            for (DichVu dv : controller.layTatCaDichVu()) {
-                if (dv.getMaDichVu().contains(keyword) || dv.getTenDichVu().toLowerCase().contains(keyword.toLowerCase())) {
-                    tableModel.addRow(new Object[]{dv.getMaDichVu(), dv.getTenDichVu()});
-                }
-            }
+        for (DichVu dv : list) {
+            tableModel.addRow(new Object[]{dv.getMaDichVu(), dv.getTenDichVu()});
         }
     }
     

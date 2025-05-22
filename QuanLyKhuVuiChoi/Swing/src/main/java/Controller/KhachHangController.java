@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class KhachHangController {
@@ -52,30 +53,49 @@ public class KhachHangController {
             view.tfEmail.setText(view.table.getValueAt(row, 4).toString());
             view.tfDiaChi.setText(view.table.getValueAt(row, 5).toString());
             view.tfGioiTinh.setText(view.table.getValueAt(row, 6).toString());
-            view.tfNgaySinh.setText(view.table.getValueAt(row, 7).toString());
+
+            try {
+                String ngaySinhStr = view.table.getValueAt(row, 7).toString();
+                if (!ngaySinhStr.isEmpty()) {
+                    java.sql.Date sqlDate = java.sql.Date.valueOf(ngaySinhStr); // parse yyyy-MM-dd
+                    java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
+                    view.tfNgaySinh.setText(sdf.format(sqlDate));
+                } else {
+                    view.tfNgaySinh.setText("");
+                }
+            } catch (Exception ex) {
+                view.tfNgaySinh.setText("");
+            }
+
             view.tfQuocTich.setText(view.table.getValueAt(row, 8).toString());
             view.tfMaKH.setEditable(false);
         }
     }
 
     private KhachHang layDuLieuForm() {
-        try {
-            return new KhachHang(
-                    view.tfMaKH.getText(),
-                    view.tfTenKH.getText(),
-                    view.tfMatKhau.getText(),
-                    view.tfSDT.getText(),
-                    view.tfEmail.getText(),
-                    view.tfDiaChi.getText(),
-                    view.tfGioiTinh.getText(),
-                    Date.valueOf(view.tfNgaySinh.getText()),
-                    view.tfQuocTich.getText()
-            );
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(view, "Dữ liệu không hợp lệ!");
-            return null;
-        }
+    try {
+        String ngaySinhStr = view.tfNgaySinh.getText();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        sdf.setLenient(false); // Không cho phép ngày sai
+        java.util.Date utilDate = sdf.parse(ngaySinhStr);
+        Date sqlDate = new Date(utilDate.getTime()); // Chuyển sang java.sql.Date
+
+        return new KhachHang(
+                view.tfMaKH.getText(),
+                view.tfTenKH.getText(),
+                view.tfMatKhau.getText(),
+                view.tfSDT.getText(),
+                view.tfEmail.getText(),
+                view.tfDiaChi.getText(),
+                view.tfGioiTinh.getText(),
+                sqlDate,
+                view.tfQuocTich.getText()
+        );
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(view, "Ngày sinh phải có định dạng dd/MM/yyyy!");
+        return null;
     }
+}
 
     private void them() {
         KhachHang kh = layDuLieuForm();

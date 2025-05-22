@@ -30,6 +30,10 @@ public class Tour {
                 Date tgBatDau, Date tgKetThuc, int soLuongMax) {
         this(maTour, tenTour, moTa, giaTour, tgBatDau, tgKetThuc, soLuongMax, soLuongMax); // mặc định còn lại = max
     }
+    public Tour(String maTour, String tenTour) {
+        this.maTour = maTour;
+        this.tenTour = tenTour;
+    }
 
     // Getter - Setter
     public String getMaTour() { return maTour; }
@@ -55,4 +59,8 @@ public class Tour {
 
     public int getSoLuongConLai() { return soLuongConLai; }
     public void setSoLuongConLai(int soLuongConLai) { this.soLuongConLai = soLuongConLai; }
+    @Override
+    public String toString() {
+        return tenTour; // Hiển thị tên trong ComboBox
+    }
 }

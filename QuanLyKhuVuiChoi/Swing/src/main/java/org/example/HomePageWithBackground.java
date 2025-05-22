@@ -1,6 +1,5 @@
 package org.example;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -10,7 +9,7 @@ public class HomePageWithBackground extends JFrame {
     private JLabel lblBackground;
     private JButton btnLogin, btnRegister, btnHelp;
     private String[] images = {
-            "/Image/background1.jpg",  // Đường dẫn tài nguyên (resources)
+            "/Image/background1.jpg",
             "/Image/background2.jpg",
             "/Image/background3.jpg",
             "/Image/background4.jpg",
@@ -25,132 +24,136 @@ public class HomePageWithBackground extends JFrame {
 
     public HomePageWithBackground() {
         setTitle("Trang Chủ");
-        setSize(1500, 850);  // Thay đổi kích thước của form
+        setSize(1400, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        // Tạo Panel chính
+        // Ảnh nền ban đầu
+        lblBackground = new JLabel();
+        lblBackground.setLayout(new BorderLayout());
+        updateBackgroundImage();
+        setContentPane(lblBackground);
+
+        // Panel chính chứa tiêu đề và nút
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new BorderLayout());  // Sử dụng BorderLayout để dễ dàng chia ra các phần
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         mainPanel.setOpaque(false);
 
-        // Tạo panel tiêu đề
+        // Tiêu đề
+        Font titleFont = new Font("Segoe UI Black", Font.BOLD, 64);
+        Title3DLabel title3DLabel = new Title3DLabel("Chào mừng đến với VINPEARL CHKTT!", titleFont, rainbowColors);
+
         JPanel titlePanel = new JPanel();
-        titlePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         titlePanel.setOpaque(false);
+        titlePanel.add(title3DLabel);
 
-        // Tạo khoảng cách giữa tiêu đề và phần trên của form
-        titlePanel.add(Box.createRigidArea(new Dimension(0, 300)));
+        // Nút
+        btnLogin = createStyledButton("Đăng Nhập", new Color(0, 123, 255));
+        btnRegister = createStyledButton("Thoát", new Color(220, 53, 69));
+        btnHelp = createStyledButton("Hỗ Trợ", new Color(255, 193, 7));
 
-        // Tiêu đề trang chủ (phóng to và căn giữa)
-        lblTitle = new JLabel("Chào mừng đến với VINPEARL CHKTT!");
-        lblTitle.setFont(new Font("Arial", Font.BOLD, 60));  // Phóng to tiêu đề
-        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        titlePanel.add(lblTitle);  // Thêm tiêu đề vào panel tiêu đề
-
-        // Tạo panel cho các nút
         JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));  // Nút nằm ngang và căn giữa
-        buttonsPanel.setOpaque(false);  // Không có background
-
-        // Tạo khoảng cách giữa các nút và phần dưới của form
-        buttonsPanel.add(Box.createRigidArea(new Dimension(0, 200)));
-
-        // Đổi kích thước các nút cho phù hợp với form lớn
-        btnLogin = new JButton("Đăng Nhập");
-        btnLogin.setFont(new Font("Arial", Font.PLAIN, 20));
-        btnLogin.setPreferredSize(new Dimension(300, 50));
-        btnLogin.setBackground(new Color(0, 123, 255));  // Màu nền nút
-        btnLogin.setForeground(Color.WHITE);
-
-        btnRegister = new JButton("Thoát");
-        btnRegister.setFont(new Font("Arial", Font.PLAIN, 20));
-        btnRegister.setPreferredSize(new Dimension(300, 50));
-        btnRegister.setBackground(new Color(40, 167, 69));  // Màu nền nút
-        btnRegister.setForeground(Color.WHITE);
-
-        btnHelp = new JButton("Hỗ Trợ");
-        btnHelp.setFont(new Font("Arial", Font.PLAIN, 20));
-        btnHelp.setPreferredSize(new Dimension(300, 50));
-        btnHelp.setBackground(new Color(255, 193, 7));  // Màu nền nút
-        btnHelp.setForeground(Color.WHITE);
-
-        // Thêm các nút vào buttonsPanel
+        buttonsPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));
+        buttonsPanel.setOpaque(false);
         buttonsPanel.add(btnLogin);
         buttonsPanel.add(btnRegister);
         buttonsPanel.add(btnHelp);
 
-        // Tạo một JLabel để chèn ảnh nền
-        lblBackground = new JLabel();
-        lblBackground.setLayout(new BorderLayout());
+        // Canh chỉnh vị trí bằng khoảng trống
+        mainPanel.add(Box.createVerticalStrut(80)); // Cách trên cùng
+        mainPanel.add(titlePanel);
+        mainPanel.add(Box.createVerticalStrut(300)); // Khoảng cách giữa tiêu đề và nút
+        mainPanel.add(buttonsPanel);
+        mainPanel.add(Box.createVerticalStrut(50)); // Cách dưới
 
-        // Đổi kích thước ảnh theo kích thước của form (1500x850)
+        lblBackground.add(mainPanel, BorderLayout.CENTER);
+
+        // Sự kiện nút
+        btnLogin.addActionListener(e -> {
+            Model.UserModel model = new Model.UserModel();
+            View.LoginView loginView = new View.LoginView();
+            new Controller.LoginController(model, loginView);
+            loginView.setVisible(true);
+            dispose();
+        });
+
+        btnRegister.addActionListener(e -> System.exit(0));
+
+        btnHelp.addActionListener(e -> JOptionPane.showMessageDialog(null,
+                "Hướng dẫn sử dụng: \n1. Đăng nhập bằng tài khoản của bạn.\n2. Tìm tài khoản của bạn trong Model.\n3. Liên hệ hỗ trợ nếu gặp sự cố."));
+
+        // Timer đổi ảnh nền
+        Timer bgTimer = new Timer(5000, e -> {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateBackgroundImage();
+        });
+        bgTimer.start();
+
+        // Timer đổi màu tiêu đề
+        Timer colorChangeTimer = new Timer(1000, e -> title3DLabel.nextColor());
+        colorChangeTimer.start();
+    }
+    
+    class Title3DLabel extends JComponent {
+        private String text;
+        private Font font;
+        private Color[] colors;
+        private int colorIndex = 0;
+
+        public Title3DLabel(String text, Font font, Color[] colors) {
+            this.text = text;
+            this.font = font;
+            this.colors = colors;
+            setPreferredSize(new Dimension(1400, 100));
+            setOpaque(false);
+        }
+
+        public void nextColor() {
+            colorIndex = (colorIndex + 1) % colors.length;
+            repaint();
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
+            g2.setFont(font);
+            g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+            int x = 50;
+            int y = 70;
+
+            // Vẽ bóng 3D bằng nhiều lớp lệch nhau
+            for (int i = 5; i > 0; i--) {
+                g2.setColor(new Color(0, 0, 0, 30 + i * 20)); // các lớp bóng mờ dần
+                g2.drawString(text, x + i, y + i);
+            }
+
+            // Vẽ chữ chính với màu nổi bật
+            g2.setColor(colors[colorIndex]);
+            g2.drawString(text, x, y);
+
+            g2.dispose();
+        }
+    }
+
+    // Cập nhật ảnh nền
+    private void updateBackgroundImage() {
         ImageIcon icon = new ImageIcon(getClass().getResource(images[currentImageIndex]));
-        Image img = icon.getImage(); // Lấy ảnh gốc
-        Image scaledImg = img.getScaledInstance(1500, 850, Image.SCALE_SMOOTH); // Thay đổi kích thước ảnh
-        icon = new ImageIcon(scaledImg); // Đặt ảnh đã thay đổi kích thước
-        lblBackground.setIcon(icon);  // Đặt ảnh vào JLabel
+        Image img = icon.getImage().getScaledInstance(1500, 850, Image.SCALE_SMOOTH);
+        lblBackground.setIcon(new ImageIcon(img));
+    }
 
-        setContentPane(lblBackground);  // Thiết lập ảnh nền cho cửa sổ
-
-        // Thêm Panel vào cửa sổ chính
-        lblBackground.add(titlePanel, BorderLayout.NORTH);  // Thêm panel tiêu đề vào phần trên
-        lblBackground.add(buttonsPanel, BorderLayout.SOUTH);  // Thêm panel nút vào phần dưới
-
-        // Lắng nghe sự kiện cho các nút
-        btnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Model.UserModel model = new Model.UserModel(); // Khởi tạo model
-                View.LoginView loginView = new View.LoginView(); // Khởi tạo view
-                new Controller.LoginController(model, loginView); // Tạo controller
-                loginView.setVisible(true); // Mở form đăng nhập
-                dispose(); // Đóng form trang chủ
-            }
-        });
-
-
-
-        btnRegister.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0); // Thoát chương trình
-            }
-        });
-
-        btnHelp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Hướng dẫn sử dụng: \n1. Đăng nhập bằng tài khoản của bạn.\n2. Tìm tài khoản của bạn trong Model.\n3. Liên hệ hỗ trợ nếu gặp sự cố.");
-            }
-        });
-
-        // Sử dụng Timer để thay đổi ảnh nền sau mỗi 5 giây
-        Timer timer = new Timer(5000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                currentImageIndex = (currentImageIndex + 1) % images.length;  // Chuyển sang ảnh tiếp theo
-
-                // Đổi kích thước ảnh mới và đặt vào JLabel
-                ImageIcon newIcon = new ImageIcon(getClass().getResource(images[currentImageIndex]));
-                Image newImg = newIcon.getImage(); // Lấy ảnh gốc
-                Image scaledNewImg = newImg.getScaledInstance(1500, 850, Image.SCALE_SMOOTH); // Thay đổi kích thước ảnh
-                newIcon = new ImageIcon(scaledNewImg); // Đặt ảnh đã thay đổi kích thước
-                lblBackground.setIcon(newIcon);  // Cập nhật ảnh nền
-            }
-        });
-        timer.start();  // Bắt đầu timer
-
-        // Thay đổi màu sắc của tiêu đề liên tục (7 sắc cầu vồng)
-        Timer colorChangeTimer = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                lblTitle.setForeground(rainbowColors[titleColorIndex]);
-                titleColorIndex = (titleColorIndex + 1) % rainbowColors.length;  // Chuyển sang màu tiếp theo
-            }
-        });
-        colorChangeTimer.start();  // Bắt đầu timer thay đổi màu sắc của tiêu đề
+    // Tạo nút có style đẹp
+    private JButton createStyledButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setFont(new Font("Arial", Font.BOLD, 22));
+        button.setPreferredSize(new Dimension(300, 55));
+        button.setBackground(bgColor);
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        return button;
     }
 
     public static void main(String[] args) {

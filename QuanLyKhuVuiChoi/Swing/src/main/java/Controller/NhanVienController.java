@@ -12,6 +12,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.sql.Connection;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class NhanVienController {
@@ -53,16 +55,28 @@ public class NhanVienController {
     private void fillFormTuTable() {
         int row = view.table.getSelectedRow();
         if (row != -1) {
-            view.tfMa.setText(view.table.getValueAt(row, 0).toString());
-            view.tfTen.setText(view.table.getValueAt(row, 1).toString());
-            view.tfNgaySinh.setText(view.table.getValueAt(row, 2).toString());
-            view.tfSDT.setText(view.table.getValueAt(row, 3).toString());
-            view.tfEmail.setText(view.table.getValueAt(row, 4).toString());
-            view.tfNgayBD.setText(view.table.getValueAt(row, 5).toString());
-            view.tfLuong.setText(view.table.getValueAt(row, 6).toString());
-            view.tfMa.setEditable(false);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                view.tfMa.setText(view.table.getValueAt(row, 0).toString());
+                view.tfTen.setText(view.table.getValueAt(row, 1).toString());
+
+                Date ngaySinh = Date.valueOf(view.table.getValueAt(row, 2).toString());
+                view.tfNgaySinh.setText(sdf.format(ngaySinh));
+
+                view.tfSDT.setText(view.table.getValueAt(row, 3).toString());
+                view.tfEmail.setText(view.table.getValueAt(row, 4).toString());
+
+                Date ngayBD = Date.valueOf(view.table.getValueAt(row, 5).toString());
+                view.tfNgayBD.setText(sdf.format(ngayBD));
+
+                view.tfLuong.setText(view.table.getValueAt(row, 6).toString());
+                view.tfMa.setEditable(false);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(view, "Lỗi khi đọc dữ liệu ngày.");
+            }
         }
     }
+
 
     private void themNhanVien() {
         NhanVien nv = layDuLieuForm();
@@ -142,20 +156,37 @@ public class NhanVienController {
 
     private NhanVien layDuLieuForm() {
         try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            sdf.setLenient(false); // để bắt lỗi định dạng sai
+
+            String ma = view.tfMa.getText().trim();
+            String ten = view.tfTen.getText().trim();
+            String sdt = view.tfSDT.getText().trim();
+            String email = view.tfEmail.getText().trim();
+            double luong = Double.parseDouble(view.tfLuong.getText().trim());
+
+            java.util.Date utilNgaySinh = sdf.parse(view.tfNgaySinh.getText().trim());
+            java.util.Date utilNgayBD = sdf.parse(view.tfNgayBD.getText().trim());
+
             return new NhanVien(
-                    view.tfMa.getText(),
-                    view.tfTen.getText(),
-                    Date.valueOf(view.tfNgaySinh.getText()),
-                    view.tfSDT.getText(),
-                    view.tfEmail.getText(),
-                    Date.valueOf(view.tfNgayBD.getText()),
-                    Double.parseDouble(view.tfLuong.getText())
+                    ma,
+                    ten,
+                    new java.sql.Date(utilNgaySinh.getTime()),
+                    sdt,
+                    email,
+                    new java.sql.Date(utilNgayBD.getTime()),
+                    luong
             );
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(view, "Ngày không đúng định dạng (dd/MM/yyyy).");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(view, "Lương không hợp lệ.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(view, "Dữ liệu không hợp lệ! Vui lòng kiểm tra lại.");
-            return null;
         }
+        return null;
     }
+    
     private void clearForm() {
         view.tfMa.setText("");
         view.tfTen.setText("");

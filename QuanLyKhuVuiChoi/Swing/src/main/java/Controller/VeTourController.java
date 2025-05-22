@@ -1,6 +1,9 @@
 package Controller;
 
+import DAO.DatVeDAO;
+import DAO.TourDAO;
 import DAO.VeTourDAO;
+import Model.Tour;
 import Model.VeTour;
 import View.VeTourPanel;
 
@@ -12,10 +15,17 @@ import java.util.List;
 public class VeTourController {
     private VeTourPanel view;
     private VeTourDAO dao;
+    private TourDAO tourDAO;
+    private DatVeDAO datVeDAO;
 
     public VeTourController(VeTourPanel view, Connection conn) {
         this.view = view;
         this.dao = new VeTourDAO(conn);
+        this.tourDAO = new TourDAO(conn);
+        this.datVeDAO = new DatVeDAO(conn);
+
+        loadTourToComboBox();
+        loadDatVeToComboBox();
         loadDataToTable();
 
         view.btnThem.addActionListener(e -> them());
@@ -25,6 +35,22 @@ public class VeTourController {
         view.btnClear.addActionListener(e -> clearForm());
 
         view.table.getSelectionModel().addListSelectionListener(e -> fillForm());
+    }
+
+    private void loadTourToComboBox() {
+        List<Tour> list = tourDAO.getAllTours();
+        view.cbTour.removeAllItems();
+        for (Tour t : list) {
+            view.cbTour.addItem(t);
+        }
+    }
+
+    private void loadDatVeToComboBox() {
+        List<String> list = datVeDAO.getAllMaDatVe(); // Đúng rồi
+        view.cbMaDat.removeAllItems();
+        for (String maDatVe : list) {
+            view.cbMaDat.addItem(maDatVe);
+        }
     }
 
     private void loadDataToTable() {
@@ -43,8 +69,21 @@ public class VeTourController {
         int row = view.table.getSelectedRow();
         if (row != -1) {
             view.tfMaVeTour.setText(view.table.getValueAt(row, 0).toString());
-            view.tfMaDatVe.setText(view.table.getValueAt(row, 1).toString());
-            view.tfMaTour.setText(view.table.getValueAt(row, 2).toString());
+
+            // Set selected MaDatVe (String)
+            String maDatVe = view.table.getValueAt(row, 1).toString();
+            view.cbMaDat.setSelectedItem(maDatVe);
+
+            // Set selected Tour (Tour object)
+            String maTour = view.table.getValueAt(row, 2).toString();
+            for (int i = 0; i < view.cbTour.getItemCount(); i++) {
+                Tour t = view.cbTour.getItemAt(i);
+                if (t.getMaTour().equals(maTour)) {
+                    view.cbTour.setSelectedIndex(i);
+                    break;
+                }
+            }
+
             view.tfNguoiLon.setText(view.table.getValueAt(row, 3).toString());
             view.tfTreEm.setText(view.table.getValueAt(row, 4).toString());
             view.tfNguoiGia.setText(view.table.getValueAt(row, 5).toString());
@@ -54,9 +93,21 @@ public class VeTourController {
 
     private VeTour layDuLieuForm() {
         try {
-            String maVeTour = view.tfMaVeTour.getText();
-            String maDatVe = view.tfMaDatVe.getText();
-            String maTour = view.tfMaTour.getText();
+            String maVeTour = view.tfMaVeTour.getText().trim();
+
+            String maDatVe = (String) view.cbMaDat.getSelectedItem();
+            if (maDatVe == null || maDatVe.isEmpty()) {
+                JOptionPane.showMessageDialog(view, "Chưa chọn mã đặt vé!");
+                return null;
+            }
+
+            Tour selectedTour = (Tour) view.cbTour.getSelectedItem();
+            if (selectedTour == null) {
+                JOptionPane.showMessageDialog(view, "Chưa chọn tour!");
+                return null;
+            }
+            String maTour = selectedTour.getMaTour();
+
             int nguoiLon = Integer.parseInt(view.tfNguoiLon.getText());
             int treEm = Integer.parseInt(view.tfTreEm.getText());
             int nguoiGia = Integer.parseInt(view.tfNguoiGia.getText());
@@ -123,15 +174,15 @@ public class VeTourController {
             }
         }
     }
+
     private void clearForm() {
         view.tfMaVeTour.setText("");
-        view.tfMaDatVe.setText("");
-        view.tfMaTour.setText("");
+        view.cbMaDat.setSelectedIndex(-1);
+        view.cbTour.setSelectedIndex(-1);
         view.tfNguoiLon.setText("");
         view.tfTreEm.setText("");
         view.tfNguoiGia.setText("");
-        view.tfMaVeTour.setEditable(true);  // Cho phép nhập lại mã vé tour
-        view.table.clearSelection();        // Bỏ chọn dòng bảng
+        view.tfMaVeTour.setEditable(true);
+        view.table.clearSelection();
     }
-
 }

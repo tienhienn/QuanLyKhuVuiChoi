@@ -184,5 +184,20 @@ public class TourDAO {
         }
         return null;
     }
-
+    
+     public List<Tour> getAllTour() {
+        List<Tour> list = new ArrayList<>();
+        String sql = "SELECT maTour, tenTour FROM Tour";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                String ma = rs.getString("maTour");
+                String ten = rs.getString("tenTour");
+                list.add(new Tour(ma, ten));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 }

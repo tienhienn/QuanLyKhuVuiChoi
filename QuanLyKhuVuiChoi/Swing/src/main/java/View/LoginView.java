@@ -25,22 +25,35 @@ public class LoginView extends JFrame {
 
         // ==== Header với avatar + tên ====
         JPanel headerPanel = new JPanel();
-        headerPanel.setBackground(Color.WHITE);
+        headerPanel.setBackground(new Color(240, 244, 248)); // màu nền dịu nhẹ hơn
         headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
         headerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel avatarCircle = new JLabel("👤", SwingConstants.CENTER); // Dùng emoji thay vì ảnh
-        avatarCircle.setFont(new Font("Segoe UI", Font.PLAIN, 50));
-        avatarCircle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        try {
+            ImageIcon avatarIcon = new ImageIcon(getClass().getResource("/Image/login.png"));
+            Image img = avatarIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+            avatarIcon = new ImageIcon(img);
+
+            JLabel avatarLabel = new JLabel(avatarIcon);
+            avatarLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+            headerPanel.add(avatarLabel);
+        } catch (Exception e) {
+            JLabel avatarLabel = new JLabel("User", SwingConstants.CENTER);
+            avatarLabel.setFont(new Font("Segoe UI", Font.BOLD, 40));
+            avatarLabel.setForeground(new Color(180, 180, 180));
+            avatarLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            headerPanel.add(avatarLabel);
+        }
+
+        headerPanel.add(Box.createVerticalStrut(8)); // Khoảng cách
 
         JLabel lblUser = new JLabel("Login as Guest", SwingConstants.CENTER);
-        lblUser.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        lblUser.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
         lblUser.setForeground(new Color(100, 100, 100));
         lblUser.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        headerPanel.add(avatarCircle);
-        headerPanel.add(Box.createVerticalStrut(5));
         headerPanel.add(lblUser);
 
         // ==== Tiêu đề ====
@@ -57,52 +70,68 @@ public class LoginView extends JFrame {
         gbc.insets = new Insets(10, 20, 10, 20);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-// Custom border with rounded corners
+        // Border bo tròn nhẹ cho JTextField
         Border roundedBorder = BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(180, 180, 180), 1),
                 BorderFactory.createEmptyBorder(5, 10, 5, 10)
         );
 
-// Username
+        // Username
         JLabel lblUsername = new JLabel("Username:");
         lblUsername.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        txtUsername = new JTextField(15);
+        txtUsername = new JTextField(25);  // tăng chiều rộng
         txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         txtUsername.setBorder(roundedBorder);
 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;  // label không giãn
         formPanel.add(lblUsername, gbc);
 
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1.0;  // ô nhập username giãn rộng
         formPanel.add(txtUsername, gbc);
 
-// Password
+        // Password
         JLabel lblPassword = new JLabel("Password:");
         lblPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        txtPassword = new JPasswordField(15);
+        txtPassword = new JPasswordField(25);  // tăng chiều rộng
         txtPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
         txtPassword.setBorder(roundedBorder);
 
-// Show/hide password button
-        JToggleButton btnShowPassword = new JToggleButton("👁");
-        btnShowPassword.setFocusPainted(false);
-        btnShowPassword.setMargin(new Insets(2, 6, 2, 6));
-        btnShowPassword.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        btnShowPassword.setBackground(Color.WHITE);
-        btnShowPassword.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
+        // Load icon mắt mở và mắt đóng
+        ImageIcon eyeOpenIconRaw = new ImageIcon(getClass().getResource("/Image/viewmo.png"));
+        ImageIcon eyeClosedIconRaw = new ImageIcon(getClass().getResource("/Image/viewdong.png"));
 
-// Toggle logic
+        // Kích thước icon cố định
+        int iconSize = 24;
+
+        // Hàm resize icon (đặt trong class)
+        ImageIcon eyeOpenIcon = resizeIcon(eyeOpenIconRaw, iconSize, iconSize);
+        ImageIcon eyeClosedIcon = resizeIcon(eyeClosedIconRaw, iconSize, iconSize);
+
+        // Tạo nút toggle dùng icon đã resize
+        JToggleButton btnShowPassword = new JToggleButton(eyeClosedIcon);
+        btnShowPassword.setPreferredSize(new Dimension(iconSize + 10, iconSize + 10));
+        btnShowPassword.setFocusPainted(false);
+        btnShowPassword.setMargin(new Insets(2, 2, 2, 2));
+        btnShowPassword.setBackground(new Color(232, 238, 244));
+        btnShowPassword.setBorder(BorderFactory.createLineBorder(new Color(150, 190, 230)));
+        btnShowPassword.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
         btnShowPassword.addActionListener(e -> {
             if (btnShowPassword.isSelected()) {
                 txtPassword.setEchoChar((char) 0);
+                btnShowPassword.setIcon(eyeOpenIcon);
             } else {
                 txtPassword.setEchoChar('•');
+                btnShowPassword.setIcon(eyeClosedIcon);
             }
         });
 
+        // Tạo panel chứa password field và nút show password
         JPanel passwordFieldPanel = new JPanel(new BorderLayout());
         passwordFieldPanel.setBackground(Color.WHITE);
         passwordFieldPanel.add(txtPassword, BorderLayout.CENTER);
@@ -111,13 +140,15 @@ public class LoginView extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0;  // label không giãn
         formPanel.add(lblPassword, gbc);
 
         gbc.gridx = 1;
         gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1.0;  // ô nhập password giãn rộng
         formPanel.add(passwordFieldPanel, gbc);
 
-// Login Button
+        // Login Button
         btnLogin = new JButton("Login");
         btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnLogin.setBackground(new Color(0, 153, 102));
@@ -132,13 +163,11 @@ public class LoginView extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER;
         formPanel.add(btnLogin, gbc);
 
-// Message label
+        // Message label
         lblMessage = new JLabel("", SwingConstants.CENTER);
         lblMessage.setForeground(Color.RED);
         gbc.gridy = 3;
         formPanel.add(lblMessage, gbc);
-
-
 
         // ==== Gộp tất cả ====
         contentPanel.add(headerPanel);
@@ -161,5 +190,11 @@ public class LoginView extends JFrame {
 
     public void showMessage(String message) {
         lblMessage.setText(message);
+    }
+    
+    private ImageIcon resizeIcon(ImageIcon icon, int width, int height) {
+        Image img = icon.getImage();
+        Image resizedImg = img.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+        return new ImageIcon(resizedImg);
     }
 }

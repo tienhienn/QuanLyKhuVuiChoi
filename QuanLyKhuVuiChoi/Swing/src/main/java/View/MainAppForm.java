@@ -21,14 +21,45 @@ public class MainAppForm extends JFrame {
         setLayout(new BorderLayout());
 
         // === Header ===
-        JPanel header = new JPanel();
-        header.setBackground(new Color(33, 150, 243)); // xanh dương đậm
+        JPanel header = new JPanel() {                       // anonymous subclass để vẽ gradient
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(30, 136, 229),       // xanh dương đậm
+                        0, getHeight(), new Color(100, 181, 246)); // xanh nhạt
+                g2.setPaint(gp);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.dispose();
+            }
+        };
         header.setPreferredSize(new Dimension(1200, 70));
-        header.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 20));
+        header.setLayout(new GridBagLayout());               // GridBagLayout căn giữa hoàn hảo
+        
+        // Load và resize icon khu vui chơi
+        ImageIcon logoIcon = null;
+        java.net.URL logoURL = getClass().getResource("/Image/khuvuichoi.png");
+        if (logoURL != null) {
+            ImageIcon originalIcon = new ImageIcon(logoURL);
+            Image scaledImage = originalIcon.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            logoIcon = new ImageIcon(scaledImage);
+        } else {
+            System.err.println("Không tìm thấy file icon: /Image/khuvuichoi.png");
+        }
 
-        JLabel titleLabel = new JLabel("Quản lý Khu Vui Chơi");
+        // Tạo label tiêu đề có icon
+        JLabel titleLabel;
+        if (logoIcon != null) { 
+            titleLabel = new JLabel(" Quản lý Khu Vui Chơi", logoIcon, JLabel.LEFT);
+        } else {
+            titleLabel = new JLabel(" Quản lý Khu Vui Chơi");
+        }
+
         titleLabel.setForeground(Color.WHITE);
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        titleLabel.setIconTextGap(10);
+
         header.add(titleLabel);
         add(header, BorderLayout.NORTH);
 
@@ -41,38 +72,66 @@ public class MainAppForm extends JFrame {
         sidebar.setBorder(BorderFactory.createTitledBorder("☰ Các chức năng"));
 
         String[] menuItems = {
-                "Trang chủ", "Khách hàng", "Nhân viên", "Tour", "Khu", "Vé", "Dịch vụ", "Hóa đơn", "Đăng xuất"
+            "Trang chủ", "Khách hàng", "Nhân viên", "Tour", "Khu", "Vé", "Dịch vụ", "Hóa đơn", "Đăng xuất"
         };
 
-        for (String item : menuItems) {
-            JButton btn = new JButton(item);
+        String[] iconPaths = {
+            "/Image/home.png",
+            "/Image/people.png",
+            "/Image/nhanvien.png",
+            "/Image/tour.png",
+            "/Image/khu.png",
+            "/Image/ve.png",
+            "/Image/dichvu.png",
+            "/Image/bill.png",
+            "/Image/thoat.png"
+        };
 
-            btn.setForeground(new Color(51, 51, 51));                      // Màu chữ xám đậm
-            btn.setBackground(new Color(200, 230, 201));                    // Nền nút - Xanh lá pastel nhẹ
-            btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-            btn.setFocusPainted(false);
-            btn.setBorder(new EmptyBorder(10, 20, 10, 20));
-            btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            btn.setAlignmentX(Component.LEFT_ALIGNMENT); // Không giãn full width
-            btn.setMaximumSize(new Dimension(160, 40));  // Chiều ngang cố định 160px
-            btn.setHorizontalAlignment(SwingConstants.LEFT);              // Canh trái
 
-            // Hover đổi màu nhẹ
-            btn.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    btn.setBackground(new Color(129, 212, 250));  // Hover - Xanh dương nhạt
-                    btn.setForeground(new Color(255, 255, 255));  // Màu chữ trắng khi hover
-                }
+    for (int i = 0; i < menuItems.length; i++) {
+        String item = menuItems[i];
+        String iconPath = iconPaths[i];
 
-                public void mouseExited(java.awt.event.MouseEvent evt) {
-                    btn.setBackground(new Color(200, 230, 201));  // Nền xanh lá pastel khi không hover
-                    btn.setForeground(new Color(51, 51, 51));     // Màu chữ xám đậm
-                }
-            });
-
-            sidebar.add(btn);
-            btn.addActionListener(e -> switchPanel(item));
+        ImageIcon icon = null;
+        java.net.URL iconURL = getClass().getResource(iconPath);
+        if (iconURL != null) {
+            Image img = new ImageIcon(iconURL).getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+            icon = new ImageIcon(img);
+        } else {
+            System.err.println("Không tìm thấy icon: " + iconPath);
         }
+
+        JButton btn = new JButton(item, icon);
+        btn.setHorizontalAlignment(SwingConstants.LEFT);
+        btn.setHorizontalTextPosition(SwingConstants.RIGHT);  // Text bên phải icon
+        btn.setIconTextGap(10);  // Khoảng cách giữa icon và text
+
+        // Các thiết lập còn lại giữ nguyên
+        btn.setForeground(new Color(51, 51, 51));
+        btn.setBackground(new Color(200, 230, 201));
+        btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        btn.setFocusPainted(false);
+        btn.setBorder(new EmptyBorder(10, 20, 10, 20));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btn.setMaximumSize(new Dimension(160, 40));
+
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn.setBackground(new Color(129, 212, 250));
+                btn.setForeground(Color.WHITE);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn.setBackground(new Color(200, 230, 201));
+                btn.setForeground(new Color(51, 51, 51));
+            }
+        });
+
+        sidebar.add(btn);
+        btn.addActionListener(e -> switchPanel(item));
+    }
+
 
         add(sidebar, BorderLayout.WEST);
 
@@ -84,7 +143,8 @@ public class MainAppForm extends JFrame {
         conn = DBConnect.getConnection();
 
         // Trang chủ
-        contentPanel.add(createLabelPanel("Trang chủ"), "Trang chủ");
+        TrangChuPanel trangChuPanel = new TrangChuPanel();
+        contentPanel.add(trangChuPanel, "Trang chủ");
 
         // Panel Khách hàng
         KhachHangPanel khachHangPanel = new KhachHangPanel();
@@ -123,13 +183,46 @@ public class MainAppForm extends JFrame {
         add(contentPanel, BorderLayout.CENTER);
 
         // === Footer ===
-        JPanel footer = new JPanel();
-        footer.setBackground(new Color(245, 245, 245));
-        footer.setPreferredSize(new Dimension(1200, 40));
-        JLabel footerLabel = new JLabel("© 2025 Công ty Quản lý Khu Vui Chơi. All rights reserved.");
+        JPanel footer = new JPanel(new GridBagLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g.create();
+                GradientPaint gp = new GradientPaint(
+                        0, 0, new Color(179, 229, 252),   // xanh nhạt
+                        0, getHeight(), new Color(129, 212, 250));  // xanh sáng hơn
+                g2.setPaint(gp);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.dispose();
+            }
+        };
+        footer.setPreferredSize(new Dimension(1200, 50));
+        footer.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(100, 181, 246))); // viền trên xanh dương đậm
+        footer.setOpaque(true);
+
+        // Load icon mặt cười
+        ImageIcon smileIcon = null;
+        java.net.URL iconURL = getClass().getResource("/Image/smile.png"); // dùng smile.png (ưu tiên .png)
+        if (iconURL != null) {
+            smileIcon = new ImageIcon(iconURL);
+        } else {
+            System.err.println("Không tìm thấy file icon: /Image/smile.png");
+        }
+
+        // Tạo label footer có icon + text
+        JLabel footerLabel;
+        if (smileIcon != null) {
+            footerLabel = new JLabel(" 2025 Quản lý Khu vui chơi.    Không vui thì chơi...!!!", smileIcon, JLabel.LEFT);
+        } else {
+            footerLabel = new JLabel(" 2025 Quản lý Khu vui chơi.    Không vui thì chơi...!!!");
+        }
+
         footerLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        footerLabel.setForeground(new Color(100, 100, 100));
+        footerLabel.setForeground(new Color(25, 118, 210));  // chữ xanh đậm
+        footerLabel.setIconTextGap(8); // Khoảng cách giữa icon và text
+
         footer.add(footerLabel);
+
         add(footer, BorderLayout.SOUTH);
     }
 
