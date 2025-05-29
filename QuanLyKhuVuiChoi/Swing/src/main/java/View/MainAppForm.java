@@ -21,23 +21,22 @@ public class MainAppForm extends JFrame {
         setLayout(new BorderLayout());
 
         // === Header ===
-        JPanel header = new JPanel() {                       // anonymous subclass để vẽ gradient
+        JPanel header = new JPanel() {                 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g.create();
                 GradientPaint gp = new GradientPaint(
-                        0, 0, new Color(30, 136, 229),       // xanh dương đậm
-                        0, getHeight(), new Color(100, 181, 246)); // xanh nhạt
+                        0, 0, new Color(30, 136, 229),     
+                        0, getHeight(), new Color(100, 181, 246)); 
                 g2.setPaint(gp);
                 g2.fillRect(0, 0, getWidth(), getHeight());
                 g2.dispose();
             }
         };
         header.setPreferredSize(new Dimension(1200, 70));
-        header.setLayout(new GridBagLayout());               // GridBagLayout căn giữa hoàn hảo
+        header.setLayout(new GridBagLayout());              
         
-        // Load và resize icon khu vui chơi
         ImageIcon logoIcon = null;
         java.net.URL logoURL = getClass().getResource("/Image/khuvuichoi.png");
         if (logoURL != null) {
@@ -48,7 +47,6 @@ public class MainAppForm extends JFrame {
             System.err.println("Không tìm thấy file icon: /Image/khuvuichoi.png");
         }
 
-        // Tạo label tiêu đề có icon
         JLabel titleLabel;
         if (logoIcon != null) { 
             titleLabel = new JLabel(" Quản lý Khu Vui Chơi", logoIcon, JLabel.LEFT);
@@ -63,11 +61,10 @@ public class MainAppForm extends JFrame {
         header.add(titleLabel);
         add(header, BorderLayout.NORTH);
 
-        // === Sidebar bên trái ===
         sidebar = new JPanel();
         sidebar.setLayout(new GridLayout(9, 1, 10, 10));
         sidebar.setPreferredSize(new Dimension(240, 0));
-        sidebar.setBorder(new EmptyBorder(20, 15, 20, 15));  // Padding
+        sidebar.setBorder(new EmptyBorder(20, 15, 20, 15)); 
         sidebar.setBackground(new Color(230, 240, 255));
         sidebar.setBorder(BorderFactory.createTitledBorder("☰ Các chức năng"));
 
@@ -103,10 +100,9 @@ public class MainAppForm extends JFrame {
 
         JButton btn = new JButton(item, icon);
         btn.setHorizontalAlignment(SwingConstants.LEFT);
-        btn.setHorizontalTextPosition(SwingConstants.RIGHT);  // Text bên phải icon
-        btn.setIconTextGap(10);  // Khoảng cách giữa icon và text
+        btn.setHorizontalTextPosition(SwingConstants.RIGHT); 
+        btn.setIconTextGap(10);  
 
-        // Các thiết lập còn lại giữ nguyên
         btn.setForeground(new Color(51, 51, 51));
         btn.setBackground(new Color(200, 230, 201));
         btn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -134,8 +130,6 @@ public class MainAppForm extends JFrame {
 
 
         add(sidebar, BorderLayout.WEST);
-
-        // === Panel nội dung bên phải ===
         cardLayout = new CardLayout();
         contentPanel = new JPanel(cardLayout);
 
@@ -172,13 +166,11 @@ public class MainAppForm extends JFrame {
 
         // Panel Dịch vụ
         DichVuPanel dichVuPanel = new DichVuPanel(conn);
-        contentPanel.add(dichVuPanel, "Dịch vụ");
-//        cardLayout = new CardLayout();
-//        contentPanel = new JPanel(cardLayout);
-        
+        contentPanel.add(dichVuPanel, "Dịch vụ");        
 
         //Panel Hóa Đơn
-        contentPanel.add(createLabelPanel("Quản lý Hóa đơn"), "Hóa đơn");
+        HoaDonPanel hoaDonPanel = new HoaDonPanel(conn);
+        contentPanel.add(hoaDonPanel, "Hóa đơn");        
 
         add(contentPanel, BorderLayout.CENTER);
 
@@ -189,27 +181,26 @@ public class MainAppForm extends JFrame {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g.create();
                 GradientPaint gp = new GradientPaint(
-                        0, 0, new Color(179, 229, 252),   // xanh nhạt
-                        0, getHeight(), new Color(129, 212, 250));  // xanh sáng hơn
+                        0, 0, new Color(179, 229, 252),  
+                        0, getHeight(), new Color(129, 212, 250)); 
                 g2.setPaint(gp);
                 g2.fillRect(0, 0, getWidth(), getHeight());
                 g2.dispose();
             }
         };
         footer.setPreferredSize(new Dimension(1200, 50));
-        footer.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(100, 181, 246))); // viền trên xanh dương đậm
+        footer.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(100, 181, 246))); 
         footer.setOpaque(true);
 
-        // Load icon mặt cười
         ImageIcon smileIcon = null;
-        java.net.URL iconURL = getClass().getResource("/Image/smile.png"); // dùng smile.png (ưu tiên .png)
+        java.net.URL iconURL = getClass().getResource("/Image/smile.png"); 
         if (iconURL != null) {
             smileIcon = new ImageIcon(iconURL);
         } else {
             System.err.println("Không tìm thấy file icon: /Image/smile.png");
         }
 
-        // Tạo label footer có icon + text
+        // Tạo label footer
         JLabel footerLabel;
         if (smileIcon != null) {
             footerLabel = new JLabel(" 2025 Quản lý Khu vui chơi.    Không vui thì chơi...!!!", smileIcon, JLabel.LEFT);
@@ -218,8 +209,8 @@ public class MainAppForm extends JFrame {
         }
 
         footerLabel.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        footerLabel.setForeground(new Color(25, 118, 210));  // chữ xanh đậm
-        footerLabel.setIconTextGap(8); // Khoảng cách giữa icon và text
+        footerLabel.setForeground(new Color(25, 118, 210)); 
+        footerLabel.setIconTextGap(8);
 
         footer.add(footerLabel);
 

@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
 import java.util.ArrayList;
+import javax.swing.border.TitledBorder;
 
 public class DichVuPanel extends JPanel {
     private Connection conn;
@@ -28,48 +29,82 @@ public class DichVuPanel extends JPanel {
 
     private void initComponents() {
         setLayout(new BorderLayout(10, 10));
-
-        // === WEST: Menu quản lý ===
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
-        menuPanel.setBorder(BorderFactory.createTitledBorder("Các loại dịch vụ"));
+        JPanel topMenuPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+        topMenuPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
+        topMenuPanel.setBackground(new Color(245, 245, 245));
 
         JButton btnQLDV = new JButton("DỊCH VỤ");
-        JButton btnQLTroChoi = new JButton("Quản lý trò chơi");
-        JButton btnQLSuKien = new JButton("Quản lý sự kiện");
-        JButton btnQLNhaHang = new JButton("Quản lý nhà hàng");
+        JButton btnQLTroChoi = new JButton("TRÒ CHƠI");
+        JButton btnQLSuKien = new JButton("SỰ KIỆN");
+        JButton btnQLNhaHang = new JButton("NHÀ HÀNG");
 
-        btnQLDV.setForeground(Color.RED);
-        btnQLTroChoi.setForeground(new Color(0, 128, 0)); 
-        btnQLSuKien.setForeground(Color.BLUE);
-        btnQLNhaHang.setForeground(new Color(255, 140, 0));
+        Font menuFont = new Font("Segoe UI", Font.BOLD, 13);
 
-        Dimension btnSize = new Dimension(160, 30);
-        btnQLDV.setMaximumSize(btnSize);
-        btnQLTroChoi.setMaximumSize(btnSize);
-        btnQLSuKien.setMaximumSize(btnSize);
-        btnQLNhaHang.setMaximumSize(btnSize);
+        Color baseBgColor = Color.WHITE;
+        Color baseFgColor = Color.DARK_GRAY;
+        Color hoverBgColor = new Color(51, 255, 204); 
+        Color selectedBgColor = new Color(30, 144, 255);
+        Color selectedFgColor = Color.WHITE;
 
-        btnQLDV.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnQLTroChoi.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnQLSuKien.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btnQLNhaHang.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JButton[] buttons = {btnQLDV, btnQLTroChoi, btnQLSuKien, btnQLNhaHang};
 
-        menuPanel.add(btnQLDV);
-        menuPanel.add(Box.createVerticalStrut(16));
-        menuPanel.add(btnQLTroChoi);
-        menuPanel.add(Box.createVerticalStrut(15));
-        menuPanel.add(btnQLSuKien);
-        menuPanel.add(Box.createVerticalStrut(16));
-        menuPanel.add(btnQLNhaHang);
-        menuPanel.add(Box.createVerticalGlue()); 
-        
-        btnQLDV.addActionListener(e -> showQuanLyDichVu());
-        btnQLTroChoi.addActionListener(e -> showQuanLyTroChoi());
-        btnQLSuKien.addActionListener(e -> showQuanLySuKien());
-        btnQLNhaHang.addActionListener(e -> showQuanLyNhaHang());
+        final JButton[] btnSelected = new JButton[1]; 
 
-        add(menuPanel, BorderLayout.WEST);
+        for (JButton btn : buttons) {
+            btn.setFocusPainted(false);
+            btn.setFont(menuFont);
+            btn.setPreferredSize(new Dimension(120, 32));
+            btn.setBackground(baseBgColor);
+            btn.setForeground(baseFgColor);
+            btn.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
+            btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            btn.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    if (btn != btnSelected[0]) {
+                        btn.setBackground(hoverBgColor);
+                        btn.setForeground(selectedFgColor);
+                    }
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    if (btn != btnSelected[0]) {
+                        btn.setBackground(baseBgColor);
+                        btn.setForeground(baseFgColor);
+                    }
+                }
+            });
+
+            btn.addActionListener(e -> {
+                if (btnSelected[0] != null) {
+                    btnSelected[0].setBackground(baseBgColor);
+                    btnSelected[0].setForeground(baseFgColor);
+                }
+
+                btnSelected[0] = btn;
+                btnSelected[0].setBackground(selectedBgColor);
+                btnSelected[0].setForeground(selectedFgColor);
+
+                if (btn == btnQLDV) {
+                    showQuanLyDichVu();
+                } else if (btn == btnQLTroChoi) {
+                    showQuanLyTroChoi();
+                } else if (btn == btnQLSuKien) {
+                    showQuanLySuKien();
+                } else if (btn == btnQLNhaHang) {
+                    showQuanLyNhaHang();
+                }
+            });
+
+            topMenuPanel.add(btn);
+        }
+        btnSelected[0] = btnQLDV;
+        btnSelected[0].setBackground(selectedBgColor);
+        btnSelected[0].setForeground(selectedFgColor);
+
+        add(topMenuPanel, BorderLayout.NORTH);
 
         contentPanel = new JPanel(new BorderLayout());
         add(contentPanel, BorderLayout.CENTER);
@@ -77,7 +112,7 @@ public class DichVuPanel extends JPanel {
         showQuanLyDichVu();
     }
 
-    private void showQuanLyDichVu() {
+     private void showQuanLyDichVu() {
         contentPanel.removeAll();
         contentPanel.add(createDichVuPanel(), BorderLayout.CENTER);
         contentPanel.revalidate();
@@ -106,36 +141,109 @@ public class DichVuPanel extends JPanel {
         contentPanel.revalidate();
         contentPanel.repaint();
     }
-
     private JPanel createDichVuPanel() {
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        JPanel panel = new JPanel(new BorderLayout(15, 15));
+        panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        panel.setBackground(new Color(0xE3F2FD));
 
-        JPanel inputPanel = new JPanel(new GridLayout(3, 2, 10, 10));
-        inputPanel.setBorder(BorderFactory.createTitledBorder("Thông tin dịch vụ"));
+        JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 0));
+        inputPanel.setBackground(new Color(0xE3F2FD));
+        inputPanel.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(new Color(0x1E88E5), 2, true),
+            "Thông tin dịch vụ",
+                TitledBorder.LEFT,
+            TitledBorder.TOP,
+            new Font("Segoe UI", Font.BOLD, 16),
+            new Color(0x1E88E5)
+        ));
 
-        txtMaDV = new JTextField();
-        txtTenDV = new JTextField();
+        JLabel lblMaDV = new JLabel("Mã dịch vụ:");
+        JLabel lblTenDV = new JLabel("Tên dịch vụ:");
 
-        inputPanel.add(new JLabel("Mã dịch vụ:"));
+        lblMaDV.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblTenDV.setFont(new Font("Segoe UI", Font.BOLD, 16));
+
+        txtMaDV = new JTextField(15);
+        txtTenDV = new JTextField(20);
+        txtMaDV.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        txtTenDV.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+
+        inputPanel.add(lblMaDV);
         inputPanel.add(txtMaDV);
-        inputPanel.add(new JLabel("Tên dịch vụ:"));
+        inputPanel.add(lblTenDV);
         inputPanel.add(txtTenDV);
 
         panel.add(inputPanel, BorderLayout.NORTH);
 
         String[] columnNames = {"Mã dịch vụ", "Tên dịch vụ"};
         tableModel = new DefaultTableModel(columnNames, 0);
-        table = new JTable(tableModel);
+        table = new JTable(tableModel) {
+            @Override
+            public Component prepareRenderer(javax.swing.table.TableCellRenderer renderer, int row, int column) {
+                Component c = super.prepareRenderer(renderer, row, column);
+                if (!isRowSelected(row)) {
+                    c.setBackground(row % 2 == 0 ? Color.WHITE : new Color(220, 235, 245));
+                } else {
+                    c.setBackground(new Color(184, 207, 229));
+                }
+                return c;
+            }
+        };
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        table.setRowHeight(28);
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 15));
+        table.getTableHeader().setBackground(new Color(51, 102, 255));
+        table.getTableHeader().setForeground(Color.WHITE);
+        table.setSelectionBackground(new Color(0x64B5F6));
+
         JScrollPane scrollPane = new JScrollPane(table);
-        panel.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel tablePanel = new JPanel(new BorderLayout());
+        tablePanel.setBackground(new Color(0xE3F2FD));
+        tablePanel.setBorder(BorderFactory.createTitledBorder(
+            BorderFactory.createLineBorder(new Color(0x1E88E5), 2, true),
+            "Danh sách dịch vụ",
+            TitledBorder.LEFT,
+            TitledBorder.TOP,
+            new Font("Segoe UI", Font.BOLD, 15),
+            new Color(0x1E88E5)
+        ));
+        tablePanel.add(scrollPane, BorderLayout.CENTER);
+
+        panel.add(tablePanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        buttonPanel.setBackground(new Color(0xE3F2FD));
+
         btnThem = new JButton("Thêm");
         btnSua = new JButton("Sửa");
         btnXoa = new JButton("Xóa");
         btnLamMoi = new JButton("Làm mới");
+
         txtTimKiem = new JTextField(15);
         JButton btnTim = new JButton("Tìm");
+
+        JButton[] actionButtons = {btnThem, btnSua, btnXoa, btnLamMoi, btnTim};
+        Color baseColor = new Color(0x1E88E5);
+        Color hoverColor = new Color(0x1565C0);
+
+        for (JButton btn : actionButtons) {
+            btn.setPreferredSize(new Dimension(90, 28)); 
+            btn.setBackground(baseColor);
+            btn.setForeground(Color.WHITE);
+            btn.setFont(new Font("Segoe UI", Font.PLAIN, 14)); 
+            btn.setFocusPainted(false);
+            btn.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+            btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            btn.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    btn.setBackground(hoverColor);
+                }
+                public void mouseExited(MouseEvent e) {
+                    btn.setBackground(baseColor);
+                }
+            });
+        }
 
         buttonPanel.add(btnThem);
         buttonPanel.add(btnSua);

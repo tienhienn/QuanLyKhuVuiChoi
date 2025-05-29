@@ -19,7 +19,6 @@ public class KhuController {
         this.khuDAO = khuDAO;
     }
 
-    // Gán các component để thao tác
     public void setView(JTable table, DefaultTableModel model,
                         JTextField tfMaKhu, JTextField tfTenKhu, JTextField tfMoTa,
                         JButton btnThem, JButton btnSua, JButton btnXoa, JButton btnReset) {

@@ -11,6 +11,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.util.ArrayList;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 public class NhaHangForm extends JPanel {
     private NhaHangController controller;
@@ -34,102 +38,112 @@ public class NhaHangForm extends JPanel {
 
     private void initComponents() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(new Color(0xE3F2FD));
 
         JPanel panelTop = new JPanel(new GridBagLayout());
-        panelTop.setBorder(BorderFactory.createTitledBorder("Thông tin Nhà Hàng"));
+        LineBorder lineBorder = new LineBorder(new Color(0x1E88E5), 2);
+        TitledBorder titledBorderTop = BorderFactory.createTitledBorder(lineBorder, "Thông tin Nhà Hàng");
+        titledBorderTop.setTitleColor(new Color(0x1E88E5));
+        
+        panelTop.setBorder(titledBorderTop);
+        panelTop.setBackground(new Color(0xE3F2FD));
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(8, 10, 8, 10); 
+        gbc.insets = new Insets(8, 10, 8, 10);
         gbc.anchor = GridBagConstraints.WEST;
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridx = 0; gbc.gridy = 0;
         panelTop.add(new JLabel("Mã Nhà Hàng:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
+        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
         panelTop.add(txtMaNhaHang = new JTextField(20), gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy++;
+        gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0;
         panelTop.add(new JLabel("Tên Dịch Vụ:"), gbc);
-
-        gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
+        gbc.gridx = 1; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
         panelTop.add(comboDichVu = new JComboBox<>(), gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy++;
         panelTop.add(new JLabel("Giờ Mở Cửa:"), gbc);
-
         gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
         panelTop.add(txtGioMoCua = new JTextField(20), gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy++;
         panelTop.add(new JLabel("Giờ Đóng Cửa:"), gbc);
-
         gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
         panelTop.add(txtGioDongCua = new JTextField(20), gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy++;
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weightx = 0;
+        gbc.gridx = 0; gbc.gridy++;
         panelTop.add(new JLabel("Loại Nhà Hàng:"), gbc);
-
         gbc.gridx = 1;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
         panelTop.add(txtLoaiNhaHang = new JTextField(20), gbc);
 
         add(panelTop);
 
+        JPanel panelTable = new JPanel(new BorderLayout());
+        TitledBorder titledBorderTable = BorderFactory.createTitledBorder(lineBorder, "Danh Sách Nhà Hàng");
+        titledBorderTable.setTitleColor(new Color(0x1E88E5));
+        panelTable.setBorder(titledBorderTable);
+
+        panelTable.setBackground(new Color(0xE3F2FD));
+
         tableModel = new DefaultTableModel(new Object[]{
-                "Mã Nhà Hàng", "Tên Dịch Vụ", "Giờ Mở Cửa", "Giờ Đóng Cửa", "Loại Nhà Hàng"
+            "Mã Nhà Hàng", "Tên Dịch Vụ", "Giờ Mở Cửa", "Giờ Đóng Cửa", "Loại Nhà Hàng"
         }, 0) {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         table = new JTable(tableModel);
+        table.setRowHeight(25);
+        table.setShowGrid(false);
+        table.setIntercellSpacing(new Dimension(0, 0));
+        table.setSelectionBackground(new Color(0x90CAF9));
+        table.setSelectionForeground(Color.BLACK);
+        table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (!isSelected) {
+                    c.setBackground(row % 2 == 0 ? Color.WHITE : new Color(0xE1F5FE));
+                }
+                return c;
+            }
+        });
+
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(0x1E88E5));
+        header.setForeground(Color.WHITE);
+        header.setFont(header.getFont().deriveFont(Font.BOLD, 13f));
+
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(900, 250));
-        add(scrollPane);
+        scrollPane.getViewport().setBackground(Color.WHITE);
+        panelTable.add(scrollPane, BorderLayout.CENTER);
+        panelTable.setPreferredSize(new Dimension(950, 250));
+        add(panelTable);
 
-        // Panel điều khiển
         JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        panelButtons.setBackground(new Color(0xE3F2FD));
 
-        txtTimKiem = new JTextField(15);
-        JButton btnTimKiem = new JButton("Tìm kiếm");
-        JButton btnAdd = new JButton("Thêm");
-        JButton btnUpdate = new JButton("Sửa");
-        JButton btnDelete = new JButton("Xoá");
-        JButton btnClear = new JButton("Làm mới");
+        txtTimKiem = new JTextField(20);
+        JButton btnTimKiem = createStyledButton("Tìm kiếm");
+        JButton btnAdd = createStyledButton("Thêm");
+        JButton btnUpdate = createStyledButton("Sửa");
+        JButton btnDelete = createStyledButton("Xoá");
+        JButton btnClear = createStyledButton("Làm mới");
 
         panelButtons.add(new JLabel("Mã hoặc Loại Nhà Hàng:"));
         panelButtons.add(txtTimKiem);
         panelButtons.add(btnTimKiem);
-
         panelButtons.add(btnAdd);
         panelButtons.add(btnUpdate);
         panelButtons.add(btnDelete);
         panelButtons.add(btnClear);
-
         add(panelButtons);
 
-        // Sự kiện
         btnTimKiem.addActionListener(e -> timKiemNhaHang());
         btnAdd.addActionListener(e -> addNhaHang());
         btnUpdate.addActionListener(e -> updateNhaHang());
@@ -142,16 +156,36 @@ public class NhaHangForm extends JPanel {
                 if (row >= 0) {
                     txtMaNhaHang.setText(tableModel.getValueAt(row, 0).toString());
                     txtMaNhaHang.setEnabled(false);
-
-                    String tenDv = tableModel.getValueAt(row, 1).toString();
-                    comboDichVu.setSelectedItem(tenDv);
-
+                    comboDichVu.setSelectedItem(tableModel.getValueAt(row, 1).toString());
                     txtGioMoCua.setText(tableModel.getValueAt(row, 2).toString());
                     txtGioDongCua.setText(tableModel.getValueAt(row, 3).toString());
                     txtLoaiNhaHang.setText(tableModel.getValueAt(row, 4).toString());
                 }
             }
         });
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setFocusPainted(false);
+        button.setBackground(new Color(0x1E88E5)); 
+        button.setForeground(Color.WHITE);
+        button.setPreferredSize(new Dimension(100, 30));
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+
+        button.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button.setBackground(new Color(0x64B5F6)); 
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button.setBackground(new Color(0x1E88E5)); 
+            }
+        });
+
+        return button;
     }
 
     private void loadDichVu() {

@@ -11,6 +11,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.Connection;
 import java.util.ArrayList;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.JTableHeader;
 
 public class SuKienForm extends JPanel {
     private SuKienController controller;
@@ -34,103 +37,163 @@ public class SuKienForm extends JPanel {
     }
 
     private void initComponents() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    setLayout(new BorderLayout(10, 10));
+    setBackground(new Color(0xE3F2FD));
 
-        JPanel panelTop = new JPanel(new GridLayout(5, 4, 10, 10));
-        panelTop.setBorder(BorderFactory.createTitledBorder("Thông tin Sự Kiện"));
+    // -- Panel Thông tin Sự kiện --
+    JPanel panelTop = new JPanel(new GridLayout(5, 4, 10, 10));
+    // Border viền xanh, dày 2 px, bo tròn
+    panelTop.setBorder(BorderFactory.createTitledBorder(
+        BorderFactory.createLineBorder(new Color(0x1E88E5), 2, true),
+        "Thông tin Sự Kiện",
+        TitledBorder.LEFT,
+        TitledBorder.TOP,
+        new Font("Segoe UI", Font.BOLD, 16),
+        new Color(0x1E88E5)
+    ));
+    panelTop.setBackground(new Color(0xE3F2FD));
 
-        txtMaSuKien = new JTextField();
-        comboDichVu = new JComboBox<>();
-        txtTenSuKien = new JTextField();
-        txtThoiGianBatDau = new JTextField();
-        txtThoiGianKetThuc = new JTextField();
-        txtTrangThaiHoatDong = new JTextField();
-        txtMucDoCuonHut = new JTextField();
-        txtGioiHanDoTuoi = new JTextField();
-        txtSucChua = new JTextField();
+    txtMaSuKien = createStyledTextField();
+    comboDichVu = new JComboBox<>();
+    txtTenSuKien = createStyledTextField();
+    txtThoiGianBatDau = createStyledTextField();
+    txtThoiGianKetThuc = createStyledTextField();
+    txtTrangThaiHoatDong = createStyledTextField();
+    txtMucDoCuonHut = createStyledTextField();
+    txtGioiHanDoTuoi = createStyledTextField();
+    txtSucChua = createStyledTextField();
 
-        panelTop.add(new JLabel("Mã Sự Kiện:"));
-        panelTop.add(txtMaSuKien);
-        panelTop.add(new JLabel("Tên Dịch Vụ:"));
-        panelTop.add(comboDichVu);
+    panelTop.add(new JLabel("Mã Sự Kiện:")); panelTop.add(txtMaSuKien);
+    panelTop.add(new JLabel("Tên Dịch Vụ:")); panelTop.add(comboDichVu);
+    panelTop.add(new JLabel("Tên Sự Kiện:")); panelTop.add(txtTenSuKien);
+    panelTop.add(new JLabel("Thời Gian Bắt Đầu (dd/MM/yyyy):")); panelTop.add(txtThoiGianBatDau);
+    panelTop.add(new JLabel("Thời Gian Kết Thúc (dd/MM/yyyy):")); panelTop.add(txtThoiGianKetThuc);
+    panelTop.add(new JLabel("Trạng Thái Hoạt Động:")); panelTop.add(txtTrangThaiHoatDong);
+    panelTop.add(new JLabel("Mức Độ Cuốn Hút:")); panelTop.add(txtMucDoCuonHut);
+    panelTop.add(new JLabel("Giới Hạn Độ Tuổi:")); panelTop.add(txtGioiHanDoTuoi);
+    panelTop.add(new JLabel("Sức Chứa:")); panelTop.add(txtSucChua);
+    panelTop.add(new JLabel()); panelTop.add(new JLabel());
 
-        panelTop.add(new JLabel("Tên Sự Kiện:"));
-        panelTop.add(txtTenSuKien);
-        panelTop.add(new JLabel("Thời Gian Bắt Đầu (dd/MM/yyyy):"));
-        panelTop.add(txtThoiGianBatDau);
+    add(panelTop, BorderLayout.NORTH);
 
-        panelTop.add(new JLabel("Thời Gian Kết Thúc (dd/MM/yyyy):"));
-        panelTop.add(txtThoiGianKetThuc);
-        panelTop.add(new JLabel("Trạng Thái Hoạt Động:"));
-        panelTop.add(txtTrangThaiHoatDong);
+    // -- Table Danh Sách Sự Kiện --
+    tableModel = new DefaultTableModel(new Object[]{
+        "Mã Sự Kiện", "Tên Dịch Vụ", "Tên Sự Kiện", "Thời Gian Bắt Đầu",
+        "Thời Gian Kết Thúc", "Trạng Thái", "Mức Độ Cuốn Hút", "Giới Hạn Tuổi", "Sức Chứa"
+    }, 0);
+    table = new JTable(tableModel);
+    styleTable(table);
 
-        panelTop.add(new JLabel("Mức Độ Cuốn Hút:"));
-        panelTop.add(txtMucDoCuonHut);
-        panelTop.add(new JLabel("Giới Hạn Độ Tuổi:"));
-        panelTop.add(txtGioiHanDoTuoi);
+    JScrollPane scrollPane = new JScrollPane(table);
+    // Border viền xanh, dày 2 px, bo tròn cho scrollPane
+    scrollPane.setBorder(BorderFactory.createTitledBorder(
+        BorderFactory.createLineBorder(new Color(0x1E88E5), 2, true),
+        "Danh Sách Sự Kiện",
+            TitledBorder.LEFT,
+        TitledBorder.TOP,
+        new Font("Segoe UI", Font.BOLD, 15),
+        new Color(0x1E88E5)
+    ));
+    scrollPane.setPreferredSize(new Dimension(900, 250));
+    table.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+    table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
 
-        panelTop.add(new JLabel("Sức Chứa:"));
-        panelTop.add(txtSucChua);
-        panelTop.add(new JLabel());
-        panelTop.add(new JLabel());
+    add(scrollPane, BorderLayout.CENTER);
 
-        add(panelTop);
+    // -- Panel nút bấm --
+    JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+    panelButtons.setBackground(new Color(0xE3F2FD));
 
-        tableModel = new DefaultTableModel(new Object[]{
-                "Mã Sự Kiện", "Tên Dịch Vụ", "Tên Sự Kiện", "Thời Gian Bắt Đầu",
-                "Thời Gian Kết Thúc", "Trạng Thái", "Mức Độ Cuốn Hút", "Giới Hạn Tuổi", "Sức Chứa"
-        }, 0);
-        table = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(900, 250));
-        add(scrollPane);
+    txtTimKiem = new JTextField(20);
+    JButton btnTimKiem = createStyledButton("Tìm kiếm");
+    JButton btnAdd = createStyledButton("Thêm");
+    JButton btnUpdate = createStyledButton("Sửa");
+    JButton btnDelete = createStyledButton("Xoá");
+    JButton btnClear = createStyledButton("Làm mới");
 
-        JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+    panelButtons.add(new JLabel("Mã Sự Kiện:"));
+    panelButtons.add(txtTimKiem);
+    panelButtons.add(btnTimKiem);
+    panelButtons.add(btnAdd);
+    panelButtons.add(btnUpdate);
+    panelButtons.add(btnDelete);
+    panelButtons.add(btnClear);
+    add(panelButtons, BorderLayout.SOUTH);
 
-        txtTimKiem = new JTextField(15);
-        JButton btnTimKiem = new JButton("Tìm kiếm");
-        JButton btnAdd = new JButton("Thêm");
-        JButton btnUpdate = new JButton("Sửa");
-        JButton btnDelete = new JButton("Xoá");
-        JButton btnClear = new JButton("Làm mới");
+    // -- Action listeners --
+    btnTimKiem.addActionListener(e -> timKiemSuKien());
+    btnAdd.addActionListener(e -> addSuKien());
+    btnUpdate.addActionListener(e -> updateSuKien());
+    btnDelete.addActionListener(e -> deleteSuKien());
+    btnClear.addActionListener(e -> clearFields());
 
-        panelButtons.add(new JLabel("   Mã Sự Kiện:"));
-        panelButtons.add(txtTimKiem);
-        panelButtons.add(btnTimKiem);
-
-        panelButtons.add(btnAdd);
-        panelButtons.add(btnUpdate);
-        panelButtons.add(btnDelete);
-        panelButtons.add(btnClear);
-
-        add(panelButtons);
-
-        // Sự kiện
-        btnTimKiem.addActionListener(e -> timKiemSuKien());
-        btnAdd.addActionListener(e -> addSuKien());
-        btnUpdate.addActionListener(e -> updateSuKien());
-        btnDelete.addActionListener(e -> deleteSuKien());
-        btnClear.addActionListener(e -> clearFields());
-
+    // -- Bắt sự kiện chọn dòng bảng --
     table.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int row = table.getSelectedRow();
-                if (row >= 0) {
-                    txtMaSuKien.setText(tableModel.getValueAt(row, 0).toString());
-                    txtMaSuKien.setEnabled(false);
+        public void mouseClicked(MouseEvent e) {
+            int row = table.getSelectedRow();
+            if (row >= 0) {
+                txtMaSuKien.setText(tableModel.getValueAt(row, 0).toString());
+                txtMaSuKien.setEnabled(false);
+                comboDichVu.setSelectedItem(tableModel.getValueAt(row, 1).toString());
+                txtTenSuKien.setText(tableModel.getValueAt(row, 2).toString());
+                txtThoiGianBatDau.setText(tableModel.getValueAt(row, 3).toString());
+                txtThoiGianKetThuc.setText(tableModel.getValueAt(row, 4).toString());
+                txtTrangThaiHoatDong.setText(tableModel.getValueAt(row, 5).toString());
+                txtMucDoCuonHut.setText(tableModel.getValueAt(row, 6).toString());
+                txtGioiHanDoTuoi.setText(tableModel.getValueAt(row, 7).toString());
+                txtSucChua.setText(tableModel.getValueAt(row, 8).toString());
+            }
+        }
+    });
+}
 
-                    String tenDv = tableModel.getValueAt(row, 1).toString();
-                    comboDichVu.setSelectedItem(tenDv);
+    private JTextField createStyledTextField() {
+        JTextField txt = new JTextField();
+        txt.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(0x90CAF9)),
+                BorderFactory.createEmptyBorder(5, 10, 5, 10)
+        ));
+        return txt;
+    }
 
-                    txtTenSuKien.setText(tableModel.getValueAt(row, 2).toString());
-                    // Ngày đã được hiển thị trong định dạng dd/MM/yyyy nên không cần chuyển đổi
-                    txtThoiGianBatDau.setText(tableModel.getValueAt(row, 3).toString());
-                    txtThoiGianKetThuc.setText(tableModel.getValueAt(row, 4).toString());
-                    txtTrangThaiHoatDong.setText(tableModel.getValueAt(row, 5).toString());
-                    txtMucDoCuonHut.setText(tableModel.getValueAt(row, 6).toString());
-                    txtGioiHanDoTuoi.setText(tableModel.getValueAt(row, 7).toString());
-                    txtSucChua.setText(tableModel.getValueAt(row, 8).toString());
+    private JButton createStyledButton(String text) {
+        JButton btn = new JButton(text);
+        btn.setBackground(new Color(0x1E88E5));
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn.setBackground(new Color(0x64B5F6));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn.setBackground(new Color(0x1E88E5));
+            }
+        });
+        return btn;
+    }
+
+    private void styleTable(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        header.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        header.setBackground(new Color(0x1976D2));
+        header.setForeground(Color.WHITE);
+
+        table.setRowHeight(22);
+        table.setSelectionBackground(new Color(0xBBDEFB));
+        table.setGridColor(new Color(0x90CAF9));
+        table.setShowGrid(true);
+
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected, boolean hasFocus, int row, int column) {
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (!isSelected) {
+                    c.setBackground(row % 2 == 0 ? Color.WHITE : new Color(0xE3F2FD));
                 }
+                return c;
             }
         });
     }
@@ -154,7 +217,6 @@ public class SuKienForm extends JPanel {
                     break;
                 }
             }
-            // Chuyển đổi định dạng ngày từ yyyy-MM-dd sang dd/MM/yyyy để hiển thị
             String thoiGianBatDauDisplay = convertDateFormatToDisplay(sk.getThoiGianBatDau());
             String thoiGianKetThucDisplay = convertDateFormatToDisplay(sk.getThoiGianKetThuc());
             
@@ -186,7 +248,6 @@ public class SuKienForm extends JPanel {
                         break;
                     }
                 }
-                // Chuyển đổi định dạng ngày từ yyyy-MM-dd sang dd/MM/yyyy để hiển thị
                 String thoiGianBatDauDisplay = convertDateFormatToDisplay(sk.getThoiGianBatDau());
                 String thoiGianKetThucDisplay = convertDateFormatToDisplay(sk.getThoiGianKetThuc());
                 
@@ -212,7 +273,6 @@ public class SuKienForm extends JPanel {
                         break;
                     }
                 }
-                // Chuyển đổi định dạng ngày từ yyyy-MM-dd sang dd/MM/yyyy để hiển thị
                 String thoiGianBatDauDisplay = convertDateFormatToDisplay(sk.getThoiGianBatDau());
                 String thoiGianKetThucDisplay = convertDateFormatToDisplay(sk.getThoiGianKetThuc());
                 
@@ -284,7 +344,6 @@ public class SuKienForm extends JPanel {
                     break;
                 }
             }
-
             String tenSuKien = txtTenSuKien.getText().trim();
             String thoiGianBatDau = txtThoiGianBatDau.getText().trim();
             String thoiGianKetThuc = txtThoiGianKetThuc.getText().trim();
@@ -306,8 +365,6 @@ public class SuKienForm extends JPanel {
                 JOptionPane.showMessageDialog(this, "Thời gian phải theo định dạng dd/MM/yyyy.");
                 return null;
             }
-
-            // Chuyển đổi định dạng ngày từ dd/MM/yyyy sang yyyy-MM-dd để lưu vào database
             String thoiGianBatDauDB = convertDateFormat(thoiGianBatDau);
             String thoiGianKetThucDB = convertDateFormat(thoiGianKetThuc);
 
@@ -324,8 +381,6 @@ public class SuKienForm extends JPanel {
             return null;
         }
     }
-    
-    // Chuyển đổi định dạng ngày từ dd/MM/yyyy sang yyyy-MM-dd để lưu vào database
     private String convertDateFormat(String dateStr) {
         if (dateStr == null || dateStr.isEmpty()) {
             return "";
@@ -344,8 +399,7 @@ public class SuKienForm extends JPanel {
             return dateStr;
         }
     }
-    
-    // Chuyển đổi định dạng ngày từ yyyy-MM-dd sang dd/MM/yyyy để hiển thị
+   
     private String convertDateFormatToDisplay(String dateStr) {
         if (dateStr == null || dateStr.isEmpty()) {
             return "";
