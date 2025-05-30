@@ -77,7 +77,6 @@ public class HomePageWithBackground extends JFrame {
             loginView.setVisible(true);
             dispose();
         });
-
         btnRegister.addActionListener(e -> System.exit(0));
 
         btnHelp.addActionListener(e -> JOptionPane.showMessageDialog(null,

@@ -135,6 +135,9 @@ public class NhanVienController {
                 form.caMap.put(ca.getTenCa(), ca);
             }
 
+            // Tạo controller và kết nối với form
+            PhanCongCaController controller = new PhanCongCaController(form, conn);
+
             // Hiện form
             form.setVisible(true);
         } else {
