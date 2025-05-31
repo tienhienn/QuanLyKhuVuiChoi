@@ -309,7 +309,10 @@ INSERT INTO Khu
 	VALUES 
 		('KH001', N'Khu A', N'Khu vui chơi'),
 		('KH002', N'Khu B', N'Khu sự kiện'),
-		('KH003', N'Khu C', N'Khu ẩm thực')
+		('KH003', N'Khu C', N'Khu ẩm thực'),
+		('KH004', N'Khu F', N'Khu giải trí ngoài trời'),
+		('KH005', N'Khu G', N'Khu trưng bày nghệ thuật'),
+		('KH006', N'Khu H', N'Khu thư giãn');
 
 -- Insert into dichvu
 INSERT INTO dichvu VALUES 
@@ -322,7 +325,12 @@ INSERT INTO dichvu VALUES
 		('DV007', 'KH001', N'Tiệm đồ ăn nhanh', N'Bán thức ăn nhanh và nước uống mang đi'),
 		('DV008', 'KH003', N'Quầy giải khát', N'Phục vụ nước uống và đồ ăn nhẹ'),
 		('DV009', 'KH002', N'Phòng y tế', N'Hỗ trợ sơ cứu và chăm sóc y tế cơ bản cho khách'),
-		('DV010', 'KH001', N'WiFi miễn phí', N'Kết nối internet miễn phí trong toàn khuôn viên')
+		('DV010', 'KH001', N'WiFi miễn phí', N'Kết nối internet miễn phí trong toàn khuôn viên'),
+		('DV011', 'KH004', N'Sân bóng đá', N'Khu vực sân bóng đá ngoài trời'),
+		('DV012', 'KH004', N'Khu picnic', N'Khu vực tổ chức picnic và dã ngoại'),
+		('DV013', 'KH005', N'Phòng tranh', N'Khu vực triển lãm tranh nghệ thuật'),
+		('DV014', 'KH006', N'Khu spa', N'Khu vực thư giãn và spa'),
+		('DV015', 'KH006', N'Phòng VR', N'Khu vực trải nghiệm thực tế ảo');
 
 SET DATEFORMAT dmy;
 INSERT INTO TroChoi VALUES 
@@ -335,8 +343,13 @@ INSERT INTO TroChoi VALUES
 	('TC007', 'DV001', N'Khinh khí cầu', N'Khinh khí cầu mini', 8, 10, '01-01-2023'),
 	('TC008', 'DV001', N'Tường leo', N'Leo núi trong nhà', 10, 15, '01-01-2023'),
 	('TC009', 'DV001', N'Bắn súng', N'Bắn súng nước', 16, 20, '01-01-2023'),
-	('TC010', 'DV001', N'Đua xe', N'Đua xe mô hình', 8, 12, '01-01-2023');
-
+	('TC010', 'DV001', N'Đua xe', N'Đua xe mô hình', 8, 12, '01-01-2023'),
+	('TC011', 'DV011', N'Bóng đá mini', N'Trò chơi bóng đá thu nhỏ', 8, 10, '01-01-2023'),
+	('TC012', 'DV011', N'Mê cung', N'Mê cung giải đố trong nhà', 6, 15, '01-01-2023'),
+	('TC013', 'DV012', N'Bắn cung', N'Trò chơi bắn cung ngoài trời', 10, 20, '01-01-2023'),
+	('TC014', 'DV013', N'Khám phá nghệ thuật', N'Trò chơi tương tác nghệ thuật', 0, 30, '01-01-2023'),
+	('TC015', 'DV014', N'Massage', N'Dịch vụ massage chuyên nghiệp', 18, 5, '01-01-2023'),
+	('TC016', 'DV015', N'Chạy VR', N'Trò chơi chạy thực tế ảo', 10, 10, '01-01-2023');
 
 -- Insert into SuKien
 SET DATEFORMAT dmy;
@@ -350,8 +363,14 @@ INSERT INTO SuKien VALUES
 	('SK007', 'DV003', N'Biểu diễn xiếc', '01-04-2023', '03-04-2023', N'Hoạt động', N'Trung bình', 0, 200),
 	('SK008', 'DV003', N'Triển lãm nghệ thuật', '01-03-2023', '10-03-2023', N'Kết thúc', N'Thấp', 0, 150),
 	('SK009', 'DV004', N'Ngày Valentine', '14-02-2023', '14-02-2023', N'Kết thúc', N'Trung bình', 12, 200),
-	('SK010', 'DV004', N'Lễ hội hoa', '08-03-2023', '09-03-2023', N'Hoạt động', N'Thấp', 0, 250);
-
+	('SK010', 'DV004', N'Lễ hội hoa', '08-03-2023', '09-03-2023', N'Hoạt động', N'Thấp', 0, 250),
+	('SK011', 'DV011', N'Giải bóng đá mini', '01-07-2023', '05-07-2023', N'Hoạt động', N'Cao', 8, 50),
+	('SK012', 'DV010', N'Ngày hội học tập', '10-08-2023', '12-08-2023', N'Chuẩn bị', N'Trung bình', 0, 100),
+	('SK013', 'DV012', N'Lễ hội picnic', '20-09-2023', '22-09-2023', N'Kết thúc', N'Thấp', 0, 200),
+	('SK014', 'DV013', N'Triển lãm tranh mới', '01-10-2023', '31-10-2023', N'Hoạt động', N'Cao', 0, 150),
+	('SK015', 'DV014', N'Khóa học spa', '05-11-2023', '10-11-2023', N'Chuẩn bị', N'Trung bình', 18, 30),
+	('SK016', 'DV015', N'Cuộc thi VR', '15-12-2023', '20-12-2023', N'Kết thúc', N'Cao', 10, 40),
+	('SK017', 'DV013', N'Ngày hội khách hàng', '25-12-2023', '26-12-2023', N'Hoạt động', N'Trung bình', 0, 500);
 
 -- Insert into NhaHang
 SET DATEFORMAT dmy;
@@ -365,8 +384,14 @@ INSERT INTO NhaHang VALUES
 	('NH007', 'DV007', '01-01-2023', '01-01-2023', N'Quán bar'),
 	('NH008', 'DV010', '01-01-2023', '01-01-2023', N'Nhà hàng Âu'),
 	('NH009', 'DV001', '01-01-2023', '01-01-2023', N'Nhà hàng Á'),
-	('NH010', 'DV004', '01-01-2023', '01-01-2023', N'Nhà hàng Việt');
-
+	('NH010', 'DV004', '01-01-2023', '01-01-2023', N'Nhà hàng Việt'),
+	('NH011', 'DV005', '01-01-2023', '31-12-2023', N'Nhà hàng buffet'),
+	('NH012', 'DV006', '01-01-2023', '31-12-2023', N'Nhà hàng nướng'),
+	('NH013', 'DV007', '01-01-2023', '31-12-2023', N'Tiệm fast food'),
+	('NH014', 'DV008', '01-01-2023', '31-12-2023', N'Quầy nước giải khát'),
+	('NH015', 'DV011', '01-02-2023', '30-11-2023', N'Nhà hàng chay'),
+	('NH016', 'DV009', '01-03-2023', '31-10-2023', N'Nhà hàng hải sản'),
+	('NH017', 'DV012', '01-04-2023', '30-09-2023', N'Nhà hàng BBQ');
 
 -- Insert into ChucVu
 INSERT INTO ChucVu VALUES 
@@ -379,34 +404,51 @@ INSERT INTO ChucVu VALUES
 		('CV007', N'Nhân viên cứu hộ'),
 		('CV008', N'Nhân viên bếp'),
 		('CV009', N'Nhân viên phục vụ'),
-		('CV010', N'Nhân viên bảo trì');
+		('CV010', N'Nhân viên bảo trì'),
+		('CV011', N'Kỹ thuật viên'),
+		('CV012', N'Lễ tân'),
+		('CV013', N'Bảo vệ');
 
 -- Insert into NhanVien
 SET DATEFORMAT dmy;
 INSERT INTO NhanVien VALUES 
-		('NV001', N'Nguyễn Văn A', '01-01-1990', '0901234567', 'nva@gmail.com', '01-01-2020', 10000000),
-		('NV002', N'Trần Thị B', '02-02-1992', '0902345678', 'ttb@gmail.com', '01-02-2020', 8000000),
-		('NV003', N'Lê Văn C', '03-03-1988', '0903456789', 'lvc@gmail.com', '01-05-2019', 12000000),
-		('NV004', N'Phạm Thị D', '04-04-1995', '0904567890', 'ptd@gmail.com', '01-01-2021', 7000000),
-		('NV005', N'Hoàng Văn E', '05-05-1993', '0905678901', 'hve@gmail.com', '01-07-2020', 9000000),
-		('NV006', N'Vũ Thị F', '06-06-1991', '0906789012', 'vtf@gmail.com', '01-11-2019', 8500000),
-		('NV007', N'Đặng Văn G', '07-07-1989', '0907890123', 'dvg@gmail.com', '01-03-2018', 11000000),
-		('NV008', N'Bùi Thị H', '08-08-1994', '0908901234', 'bth@gmail.com', '01-02-2021', 7500000),
-		('NV009', N'Ngô Văn I', '09-09-1990', '0909012345', 'nvi@gmail.com', '01-05-2020', 9500000),
-		('NV010', N'Đỗ Thị K', '10-10-1992', '0900123456', 'dtk@gmail.com', '01-03-2021', 8200000)
+		('NV001', N'Nguyễn Văn Anh', '01-01-1990', '0901234567', 'nvananh@gmail.com', '01-01-2020', 10000000),
+		('NV002', N'Trần Thị Bích', '02-02-1992', '0302345678', 'trantbich@gmail.com', '01-02-2020', 8000000),
+		('NV003', N'Lê Văn Chữ', '03-03-1988', '0903456789', 'lvanchu@gmail.com', '01-05-2019', 12000000),
+		('NV004', N'Phạm Thị Dinh Hoa', '04-04-1995', '0704567890', 'pthidHoa@gmail.com', '01-01-2021', 7000000),
+		('NV005', N'Hoàng Văn Thái', '05-05-1993', '0905678901', 'hvThai@gmail.com', '01-07-2020', 9000000),
+		('NV006', N'Vũ Minh Hoàng', '06-06-1991', '0306789012', 'vminhHoang@gmail.com', '01-11-2019', 8500000),
+		('NV007', N'Đặng Văn Tài', '07-07-1989', '0907890123', 'dvanTai@gmail.com', '01-03-2018', 11000000),
+		('NV008', N'Bùi Thị Hương Giang', '08-08-1994', '0708901234', 'bthuongGiang@gmail.com', '01-02-2021', 7500000),
+		('NV009', N'Ngô Quyền', '09-09-1990', '0909012345', 'nquyen@gmail.com', '01-05-2020', 9500000),
+		('NV010', N'Đỗ Thị Diễm My', '10-10-1992', '0900123456', 'dothidMy@gmail.com', '01-03-2021', 8200000),
+		('NV011', N'Nguyễn Ngọc Sơn', '15-05-1985', '0309123456', 'nguyenNgocson@gmail.com', '01-01-2020', 8000000),
+		('NV012', N'Trần Thị Thúy', '20-08-1990', '0909876543', 'tranthithuy@gmail.com', '15-02-2021', 7000000),
+		('NV013', N'Lê Văn Trung', '10-03-1988', '0712345678', 'levanTrung@gmail.com', '20-05-2019', 7500000),
+		('NV014', N'Phạm Thái Hoàng', '01-12-1992', '0901122334', 'phamthaiHoag@gmail.com', '01-06-2022', 6800000),
+		('NV015', N'Võ Đinh Công Tiến', '22-07-1987', '0709988776', 'vodctien@gmail.com', '15-11-2020', 7200000),
+		('NV016', N'Ngô Bùi Bích Phương', '18-04-1991', '0911223344', 'ngobuiBphuong@gmail.com', '10-09-2021', 6900000),
+		('NV017', N'Đinh Bộ Lĩnh', '05-09-1989', '0306677889', 'dinhBlinh@gmail.com', '25-08-2018', 7300000);
 
 SET DATEFORMAT dmy;
 INSERT INTO nhanvien_chucvu VALUES 
-		('NV001', 'CV001', '01-01-2020', '31-12-2022'),
+		('NV001', 'CV001', '01-01-2020', '11-12-2022'),
 		('NV002', 'CV002', '15-03-2020', '30-06-2023'),
 		('NV003', 'CV003', '01-07-2021', NULL),
 		('NV004', 'CV004', '01-01-2022', NULL),
-		('NV005', 'CV001', '01-05-2019', '31-12-2021'),
-		('NV006', 'CV002', '01-01-2023', NULL),
+		('NV005', 'CV005', '01-05-2019', '08-12-2021'),
+		('NV006', 'CV003', '01-01-2023', NULL),
 		('NV007', 'CV005', '01-08-2022', NULL),
 		('NV008', 'CV004', '15-09-2021', NULL),
-		('NV009', 'CV003', '01-04-2020', '31-10-2022'),
-		('NV010', 'CV002', '01-11-2021', NULL)
+		('NV009', 'CV003', '01-04-2020', '20-10-2022'),
+		('NV010', 'CV002', '01-11-2021', NULL),
+		('NV011', 'CV010', '01-01-2020', NULL),
+		('NV012', 'CV012', '15-02-2021', NULL),
+		('NV013', 'CV012', '20-05-2019', NULL),
+		('NV014', 'CV013', '01-06-2022', '15-12-2022'),
+		('NV015', 'CV011', '15-11-2020', NULL),
+		('NV016', 'CV009', '10-09-2021', NULL),
+		('NV017', 'CV008', '25-08-2018', NULL);
 
 SET DATEFORMAT dmy;
 INSERT INTO calamViec VALUES 
@@ -414,20 +456,35 @@ INSERT INTO calamViec VALUES
     ('CA002', N'Ca chiều', '13:00:00', '17:00:00'),
     ('CA003', N'Ca tối', '18:00:00', '22:00:00'),
     ('CA004', N'Ca linh hoạt 1', '10:00:00', '14:00:00'),
-    ('CA005', N'Ca linh hoạt 2', '15:00:00', '19:00:00');
+    ('CA005', N'Ca linh hoạt 2', '15:00:00', '19:00:00'),
+	('CA006', N'Ca sáng sớm', '05:00:00', '09:00:00'),
+    ('CA007', N'Ca giữa sáng', '09:00:00', '13:00:00'),
+    ('CA008', N'Ca giữa chiều', '11:00:00', '15:00:00'),
+    ('CA009', N'Ca chiều muộn', '14:00:00', '18:00:00'),
+    ('CA010', N'Ca tối muộn', '20:00:00', '00:00:00'),
+    ('CA011', N'Ca đêm 1', '22:00:00', '02:00:00'),
+    ('CA012', N'Ca đêm 2', '00:00:00', '04:00:00'),
+    ('CA013', N'Ca linh hoạt 3', '16:00:00', '20:00:00');
 
 SET DATEFORMAT dmy;
 INSERT INTO phanCongCa VALUES 
-		('NV001', 'CA001', '01-04-2025'),
-		('NV002', 'CA002', '01-04-2025'),
-		('NV003', 'CA003', '01-04-2025'),
-		('NV004', 'CA001', '01-04-2025'),
-		('NV005', 'CA002', '01-04-2025'),
-		('NV006', 'CA003', '01-04-2025'),
-		('NV007', 'CA001', '01-04-2025'),
-		('NV008', 'CA002', '01-04-2025'),
-		('NV009', 'CA003', '01-04-2025'),
-		('NV010', 'CA001', '01-04-2025')
+		('NV001', 'CA001', '01-02-2025'),
+		('NV002', 'CA002', '05-02-2025'),
+		('NV003', 'CA006', '14-03-2025'),
+		('NV004', 'CA008', '18-04-2025'),
+		('NV005', 'CA005', '10-04-2025'),
+		('NV006', 'CA003', '02-04-2025'),
+		('NV007', 'CA007', '04-05-2025'),
+		('NV008', 'CA012', '07-05-2025'),
+		('NV009', 'CA003', '08-04-2025'),
+		('NV010', 'CA011', '10-04-2025'),
+		('NV011', 'CA001', '13-05-2023'),
+		('NV012', 'CA011', '10-05-2023'),
+		('NV013', 'CA010', '04-05-2023'),
+		('NV014', 'CA009', '09-05-2023'),
+		('NV015', 'CA008', '01-05-2023'),
+		('NV016', 'CA006', '15-05-2023'),
+		('NV017', 'CA007', '04-05-2023');
 
 INSERT INTO nhanvien_dichvu VALUES 
 		('NV001', 'DV001'),
@@ -436,25 +493,36 @@ INSERT INTO nhanvien_dichvu VALUES
 		('NV004', 'DV001'),
 		('NV005', 'DV004'),
 		('NV006', 'DV005'),
-		('NV007', 'DV001'),
-		('NV008', 'DV002'),
-		('NV009', 'DV003'),
-		('NV010', 'DV004')
+		('NV007', 'DV006'),
+		('NV008', 'DV007'),
+		('NV009', 'DV012'),
+		('NV010', 'DV011'),
+		('NV011', 'DV010'),
+		('NV012', 'DV008'),
+		('NV013', 'DV009'),
+		('NV014', 'DV014'),
+		('NV015', 'DV004'),
+		('NV016', 'DV004'),
+		('NV017', 'DV004');
 
 SET DATEFORMAT dmy
 INSERT INTO khachhang 
 VALUES 
-    ('KH001', N'Nguyễn Văn A', 'matkhau123', '0901234567', 'a@gmail.com', N'123 Lê Lợi', N'Nam', '01/01/1990', N'Việt Nam'),
-    ('KH002', N'Trần Thị B', 'matkhau345', '0912345678', 'b@gmail.com', N'234 Trần Hưng Đạo', N'Nữ', '02/02/1991', N'Việt Nam'),
-    ('KH003', N'Lê Văn C', 'matkhau723', '0923456789', 'c@gmail.com', N'345 Nguyễn Huệ', N'Nam', '03/03/1992', N'Việt Nam'),
-    ('KH004', N'Phạm Thị D', 'matkhfsd123', '0934567890', 'd@gmail.com', N'456 Hai Bà Trưng', N'Nữ', '04/04/1993', N'Việt Nam'),
-    ('KH005', N'Hoàng Văn E', 'matkhdfsgdsfu123', '0945678901', 'e@gmail.com', N'567 Lý Thường Kiệt', N'Nam', '05/05/1994', N'Việt Nam'),
-    ('KH006', N'Đỗ Thị F', 'matgsdhau123', '0957890012', 'f@gmail.com', N'678 Nguyễn Trãi', N'Nữ', '06/06/1995', N'Việt Nam'),
-    ('KH007', N'Bùi Văn G', 'matkhdfgsau123', '0967890123', 'g@gmail.com', N'789 Phan Đình Phùng', N'Nam', '07/07/1996', N'Việt Nam'),
-    ('KH008', N'Vũ Thị H', 'matkh21au123', '0978901234', 'h@gmail.com', N'890 Trường Chinh', N'Nữ', '08/08/1997', N'Việt Nam'),
-    ('KH009', N'Tô Văn I', 'matkha2234u123', '0989012345', 'i@gmail.com', N'901 Cách Mạng Tháng 8', N'Nam', '09/09/1998', N'Việt Nam'),
-    ('KH010', N'Phan Thị J', 'matkxchdhau123', '0990123456', 'j@gmail.com', N'012 Điện Biên Phủ', N'Nữ', '10/10/1999', N'Việt Nam');
-
+    ('KH001', N'Nguyễn Văn An', 'matkhau123', '0301234567', 'anvan@gmail.com', N'123 Lê Lợi', N'Nam', '01/01/1990', N'Việt Nam'),
+    ('KH002', N'Trần Thị Hòa', 'matkhau345', '0312345678', 'thihoa@gmail.com', N'234 Trần Hưng Đạo', N'Nữ', '02/02/1991', N'Việt Nam'),
+    ('KH003', N'Lê Văn Cường', 'matkhau723', '0923456789', 'cuongvan@gmail.com', N'345 Nguyễn Huệ', N'Nam', '03/03/1992', N'Việt Nam'),
+    ('KH004', N'Phạm Thị Huyền', 'matkhfsd123', '0334567890', 'phanthi@gmail.com', N'456 Hai Bà Trưng', N'Nữ', '04/04/1993', N'Việt Nam'),
+    ('KH005', N'Hoàng Văn Én', 'matkhdfsgdsfu123', '0945678901', 'enhoang@gmail.com', N'567 Lý Thường Kiệt', N'Nam', '05/05/1994', N'Việt Nam'),
+    ('KH006', N'Đỗ Thị My', 'matgsdhau123', '0757890012', 'thimy@gmail.com', N'678 Nguyễn Trãi', N'Nữ', '06/06/1995', N'Việt Nam'),
+    ('KH007', N'Bùi Văn Giang', 'matkhdfgsau123', '0967890123', 'giangbui@gmail.com', N'789 Phan Đình Phùng', N'Nam', '07/07/1996', N'Việt Nam'),
+    ('KH008', N'Vũ Thị Hà', 'matkh21au123', '0378901234', 'havu@gmail.com', N'890 Trường Chinh', N'Nữ', '08/08/1997', N'Việt Nam'),
+    ('KH009', N'Tô Văn Tứ', 'matkha2234u123', '0989012345', 'vantu@gmail.com', N'901 Cách Mạng Tháng 8', N'Nam', '09/09/1998', N'Việt Nam'),
+    ('KH010', N'Phan Thị Lê', 'matkxchdhau123', '0790123456', 'thile@gmail.com', N'012 Điện Biên Phủ', N'Nữ', '10/10/1999', N'Việt Nam'),
+	('KH011', N'Nguyễn Thị Kiều', 'matkhau456', '0301122334', 'kieuthi@gmail.com', N'123 Trần Phú', N'Nữ', '11/11/2000', N'Việt Nam'),
+    ('KH012', N'Trần Văn Linh', 'matkhau789', '0902233445', 'linhnguyen@gmail.com', N'234 Lê Lai', N'Nam', '12/12/2001', N'Việt Nam'),
+    ('KH013', N'Lê Thị Mai', 'matkhau012', '0903344556', 'maithile@gmail.com', N'345 Nguyễn Du', N'Nữ', '13/01/2002', N'Việt Nam'),
+    ('KH014', N'Phạm Văn Ngô', 'matkhau3456', '0304455667', 'ngopham@gmail.com', N'456 Phan Bội Châu', N'Nam', '14/02/2003', N'Việt Nam'),
+    ('KH015', N'Hoàng Thị Hương', 'matkhau6789', '0705566778', 'huongthi@gmail.com', N'567 Trần Nhân Tông', N'Nữ', '15/03/2004', N'Việt Nam');
 
 SET DATEFORMAT dmy
 INSERT INTO voucher VALUES 
@@ -467,7 +535,14 @@ INSERT INTO voucher VALUES
 		('VC007', N'Ưu đãi thành viên mới', '01-04-2025', '31-12-2025', 12.50, 70),
 		('VC008', N'Tặng vé buffet trưa', '20-03-2025', '20-06-2025', 50.00, 60),
 		('VC009', N'Combo gia đình', '01-02-2025', '31-07-2025', 25.00, 40),
-		('VC010', N'Miễn phí gửi xe', '01-01-2025', '31-12-2025', 3.00, 500)
+		('VC010', N'Miễn phí gửi xe', '01-01-2025', '31-12-2025', 3.00, 500),
+		('VC011', N'Giảm 30% vé trò chơi', '01-06-2025', '31-08-2025', 30.00, 60),
+		('VC012', N'Tặng áo mưa mini', '15-05-2025', '15-07-2025', 2.00, 300),
+		('VC013', N'Giảm 50% vé trẻ em', '01-06-2025', '30-09-2025', 50.00, 100),
+		('VC014', N'Ưu đãi sinh nhật', '01-01-2025', '31-12-2025', 20.00, 200),
+		('VC015', N'Mua 1 tặng 1 nước ngọt', '01-07-2025', '31-07-2025', 10.00, 250),
+		('VC016', N'Combo mùa hè', '01-06-2025', '31-08-2025', 18.00, 120),
+		('VC017', N'Tặng quà lưu niệm', '01-05-2025', '30-06-2025', 5.00, 90);
 
 SET DATEFORMAT dmy
 INSERT INTO KhachHang_Voucher VALUES
@@ -480,7 +555,14 @@ INSERT INTO KhachHang_Voucher VALUES
 		('KH007', 'VC007', 2, 1, '25-11-2024'),
 		('KH008', 'VC008', 1, 0, '15-12-2024'),
 		('KH009', 'VC009', 2, 0, '10-01-2025'),
-		('KH010', 'VC010', 3, 1, '01-02-2025')
+		('KH010', 'VC010', 3, 1, '01-02-2025'),
+		('KH011', 'VC011', 2, 0, '05-02-2025'),
+		('KH002', 'VC012', 1, 0, '06-02-2025'),
+		('KH013', 'VC013', 3, 1, '07-02-2025'),
+		('KH004', 'VC014', 2, 2, '08-02-2025'),
+		('KH005', 'VC015', 1, 0, '09-02-2025'),
+		('KH015', 'VC016', 2, 1, '10-02-2025'),
+		('KH007', 'VC017', 1, 0, '11-02-2025');
 
 SET DATEFORMAT dmy
 INSERT INTO Tour VALUES
@@ -544,7 +626,14 @@ INSERT INTO NhanVien_Tour VALUES
 		('NV007', 'TO007'),
 		('NV008', 'TO008'),
 		('NV009', 'TO009'),
-		('NV010', 'TO010')
+		('NV010', 'TO010'),
+		('NV011', 'TO004'),
+		('NV012', 'TO009'),
+		('NV013', 'TO001'),
+		('NV014', 'TO010'),
+		('NV015', 'TO003'),
+		('NV016', 'TO008'),
+		('NV017', 'TO002');
 
 SET DATEFORMAT dmy;
 INSERT INTO DatVe (MaDatVe, maKhachHang, NgayDat, NgayDi, TongTien, PhuongThuc) VALUES
@@ -557,8 +646,15 @@ INSERT INTO DatVe (MaDatVe, maKhachHang, NgayDat, NgayDi, TongTien, PhuongThuc) 
     ('DV007', 'KH007', '07-04-2025', '22-04-2025', 702000.00, N'Tiền mặt'),
     ('DV008', 'KH008', '08-04-2025', '28-04-2025', 770000.00, N'Online'),
     ('DV009', 'KH009', '09-04-2025', '30-04-2025', 1900000.00, N'Tiền mặt'),
-    ('DV010', 'KH010', '10-04-2025', '26-04-2025', 2070000.00, N'Online');
-
+    ('DV010', 'KH010', '10-04-2025', '26-04-2025', 2070000.00, N'Online'),
+	('DV011', 'KH011', '11-04-2025', '01-05-2025', 1250000.00, N'Tiền mặt'),
+    ('DV012', 'KH012', '12-04-2025', '02-05-2025', 890000.00, N'Online'),
+    ('DV013', 'KH013', '13-04-2025', '03-05-2025', 430000.00, N'Tiền mặt'),
+    ('DV014', 'KH014', '14-04-2025', '04-05-2025', 780000.00, N'Online'),
+    ('DV015', 'KH015', '15-04-2025', '05-05-2025', 2100000.00, N'Tiền mặt'),
+    ('DV016', 'KH007', '16-04-2025', '06-05-2025', 990000.00, N'Online'),
+    ('DV017', 'KH012', '17-04-2025', '07-05-2025', 560000.00, N'Tiền mặt'),
+    ('DV018', 'KH010', '18-04-2025', '08-05-2025', 1370000.00, N'Online');
 
 SET DATEFORMAT dmy;
 INSERT INTO VeTour (MaVeTour, MaDatVe, MaTour, NguoiLon, TreEm, NguoiGia, TongTien)
@@ -572,8 +668,17 @@ VALUES
     ('VT007', 'DV007', 'TO007', 4, 0, 2, 702000.00),
     ('VT008', 'DV008', 'TO008', 4, 1, 1, 770000.00),
     ('VT009', 'DV009', 'TO009', 6, 2, 0, 1900000.00),
-    ('VT010', 'DV010', 'TO010', 3, 1, 1, 2070000.00);
-	
+    ('VT010', 'DV010', 'TO010', 3, 1, 1, 2070000.00),
+	('VT011', 'DV011', 'TO004', 2, 1, 1, 1250000.00),
+    ('VT012', 'DV012', 'TO007', 3, 0, 0, 890000.00),
+    ('VT013', 'DV013', 'TO010', 1, 1, 0, 430000.00),
+    ('VT014', 'DV014', 'TO001', 2, 2, 0, 780000.00),
+    ('VT015', 'DV015', 'TO005', 4, 0, 1, 2100000.00),
+    ('VT016', 'DV011', 'TO007', 2, 2, 1, 990000.00),
+    ('VT017', 'DV012', 'TO006', 1, 1, 1, 560000.00),
+    ('VT018', 'DV007', 'TO008', 3, 0, 2, 1370000.00),
+    ('VT019', 'DV001', 'TO010', 2, 2, 0, 800000.00),
+    ('VT020', 'DV002', 'TO009', 1, 1, 1, 670000.00);
 
 INSERT INTO datve_dichvu VALUES
 		('DV001', 'DV001'),
@@ -585,7 +690,15 @@ INSERT INTO datve_dichvu VALUES
 		('DV007', 'DV007'),
 		('DV008', 'DV008'),
 		('DV009', 'DV009'),
-		('DV010', 'DV010')
+		('DV010', 'DV010'),
+		('DV011', 'DV011'),
+		('DV012', 'DV012'),
+		('DV013', 'DV013'),
+		('DV014', 'DV014'),
+		('DV015', 'DV013'),
+		('DV016', 'DV008'),
+		('DV017', 'DV012');
+
 --Danh sách khách hàng cùng số voucher còn lại
 SELECT KH.maKhachHang, KH.tenKhachHang, V.tenVoucher, KHV.soLuong - KHV.SoLuongDaDung AS SoLuongConLai
 FROM KhachHang KH
