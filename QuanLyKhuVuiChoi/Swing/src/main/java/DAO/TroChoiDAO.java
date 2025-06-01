@@ -3,12 +3,15 @@ package DAO;
 import Model.TroChoi;
 import java.sql.*;
 import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 
 public class TroChoiDAO {
     private Connection conn;
+    private SimpleDateFormat dateFormat;
 
     public TroChoiDAO(Connection conn) {
         this.conn = conn;
+        this.dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     
@@ -27,7 +30,12 @@ public class TroChoiDAO {
                 tc.setMoTa(rs.getString("mota"));
                 tc.setGioiHanDoTuoi(rs.getString("gioiHanDoTuoi"));
                 tc.setSucChua(rs.getInt("sucChua"));
-                tc.setThoiGianHoatDong(rs.getString("thoiGianHoatDong")); // Chuyển Date -> String
+                
+                // Chuyển đổi định dạng ngày
+                Date sqlDate = rs.getDate("thoiGianHoatDong");
+                String formattedDate = sqlDate != null ? dateFormat.format(sqlDate) : "";
+                tc.setThoiGianHoatDong(formattedDate);
+                
                 tc.setTenDichVu(rs.getString("tenDichVu"));
                 list.add(tc);
             }
@@ -46,7 +54,16 @@ public class TroChoiDAO {
             ps.setString(4, tc.getMoTa());
             ps.setString(5, tc.getGioiHanDoTuoi());
             ps.setInt(6, tc.getSucChua());
-            ps.setString(7, tc.getThoiGianHoatDong()); // Lưu string thời gian
+            
+            // Chuyển đổi từ dd/MM/yyyy sang định dạng SQL Date
+            try {
+                java.util.Date parsedDate = dateFormat.parse(tc.getThoiGianHoatDong());
+                ps.setDate(7, new java.sql.Date(parsedDate.getTime()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,7 +79,16 @@ public class TroChoiDAO {
             ps.setString(3, tc.getMoTa());
             ps.setString(4, tc.getGioiHanDoTuoi());
             ps.setInt(5, tc.getSucChua());
-            ps.setString(6, tc.getThoiGianHoatDong());
+            
+            // Chuyển đổi từ dd/MM/yyyy sang định dạng SQL Date
+            try {
+                java.util.Date parsedDate = dateFormat.parse(tc.getThoiGianHoatDong());
+                ps.setDate(6, new java.sql.Date(parsedDate.getTime()));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+            
             ps.setString(7, tc.getMaTroChoi());
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -101,7 +127,12 @@ public class TroChoiDAO {
                     tc.setMoTa(rs.getString("mota"));
                     tc.setGioiHanDoTuoi(rs.getString("gioiHanDoTuoi"));
                     tc.setSucChua(rs.getInt("sucChua"));
-                    tc.setThoiGianHoatDong(rs.getString("thoiGianHoatDong"));
+                    
+                    // Chuyển đổi định dạng ngày
+                    Date sqlDate = rs.getDate("thoiGianHoatDong");
+                    String formattedDate = sqlDate != null ? dateFormat.format(sqlDate) : "";
+                    tc.setThoiGianHoatDong(formattedDate);
+                    
                     tc.setTenDichVu(rs.getString("tenDichVu"));
                     list.add(tc);
                 }

@@ -3,177 +3,309 @@ package View;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.awt.geom.RoundRectangle2D;
 
 public class LoginView extends JFrame {
     public JTextField txtUsername;
     public JPasswordField txtPassword;
     public JButton btnLogin;
     public JLabel lblMessage;
+    private Color primaryColor = new Color(41, 128, 185);
+    private Color hoverColor = new Color(52, 152, 219);
 
     public LoginView() {
-        setTitle("User Login");
-        setSize(500, 400);
+        setTitle("Đăng Nhập - Hệ Thống Quản Lý Khu Vui Chơi");
+        setSize(500, 450);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
+        setUndecorated(true); // Loại bỏ window decoration
+        setShape(new RoundRectangle2D.Double(0, 0, 500, 450, 20, 20)); // Bo tròn cửa sổ
 
-        // Tổng thể
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
-        contentPanel.setBackground(Color.WHITE);
+        // Panel chính với gradient
+        JPanel mainPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                GradientPaint gp = new GradientPaint(0, 0, new Color(41, 128, 185), 
+                                                   0, getHeight(), new Color(44, 62, 80));
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+        };
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
-        // ==== Header với avatar + tên ====
+        // Close button
+        JPanel titleBar = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        titleBar.setOpaque(false);
+        JButton closeButton = new JButton("×");
+        closeButton.setFont(new Font("Arial", Font.BOLD, 20));
+        closeButton.setForeground(Color.WHITE);
+        closeButton.setBorder(null);
+        closeButton.setContentAreaFilled(false);
+        closeButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        closeButton.addActionListener(e -> System.exit(0));
+        closeButton.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                closeButton.setForeground(new Color(231, 76, 60));
+            }
+            public void mouseExited(MouseEvent e) {
+                closeButton.setForeground(Color.WHITE);
+            }
+        });
+        titleBar.add(closeButton);
+        mainPanel.add(titleBar);
+
+        // Header Panel
         JPanel headerPanel = new JPanel();
-        headerPanel.setBackground(new Color(240, 244, 248)); // màu nền dịu nhẹ hơn
-        headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 10, 0));
+        headerPanel.setOpaque(false);
         headerPanel.setLayout(new BoxLayout(headerPanel, BoxLayout.Y_AXIS));
-        headerPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 30, 0));
 
+        // Logo
         try {
             ImageIcon avatarIcon = new ImageIcon(getClass().getResource("/Image/login.png"));
-            Image img = avatarIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+            Image img = avatarIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
             avatarIcon = new ImageIcon(img);
-
             JLabel avatarLabel = new JLabel(avatarIcon);
             avatarLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
             headerPanel.add(avatarLabel);
         } catch (Exception e) {
             JLabel avatarLabel = new JLabel("User", SwingConstants.CENTER);
             avatarLabel.setFont(new Font("Segoe UI", Font.BOLD, 40));
-            avatarLabel.setForeground(new Color(180, 180, 180));
+            avatarLabel.setForeground(Color.WHITE);
             avatarLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             headerPanel.add(avatarLabel);
         }
 
-        headerPanel.add(Box.createVerticalStrut(8)); // Khoảng cách
-
-        JLabel lblUser = new JLabel("Login as Guest", SwingConstants.CENTER);
-        lblUser.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 16));
-        lblUser.setForeground(new Color(100, 100, 100));
-        lblUser.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        headerPanel.add(lblUser);
-
-        // ==== Tiêu đề ====
-        JLabel lblTitle = new JLabel("Welcome Back!", SwingConstants.CENTER);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        lblTitle.setForeground(new Color(34, 87, 122));
+        // Welcome text
+        JLabel lblTitle = new JLabel("Chào mừng trở lại!", SwingConstants.CENTER);
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblTitle.setForeground(Color.WHITE);
         lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-        lblTitle.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        headerPanel.add(Box.createVerticalStrut(20));
+        headerPanel.add(lblTitle);
 
-        // ==== Form ====
-        JPanel formPanel = new JPanel(new GridBagLayout());
-        formPanel.setBackground(Color.WHITE);
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 20, 10, 20);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        JLabel lblSubtitle = new JLabel("Đăng nhập để tiếp tục", SwingConstants.CENTER);
+        lblSubtitle.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        lblSubtitle.setForeground(new Color(236, 240, 241));
+        lblSubtitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        headerPanel.add(Box.createVerticalStrut(5));
+        headerPanel.add(lblSubtitle);
 
-        // Border bo tròn nhẹ cho JTextField
-        Border roundedBorder = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(180, 180, 180), 1),
-                BorderFactory.createEmptyBorder(5, 10, 5, 10)
-        );
+        mainPanel.add(headerPanel);
 
-        // Username
-        JLabel lblUsername = new JLabel("Username:");
-        lblUsername.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        txtUsername = new JTextField(25);  // tăng chiều rộng
-        txtUsername.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        txtUsername.setBorder(roundedBorder);
+        // Form Panel
+        JPanel formPanel = new JPanel();
+        formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+        formPanel.setOpaque(false);
+        formPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.weightx = 0;  // label không giãn
-        formPanel.add(lblUsername, gbc);
+        // Username field
+        JPanel userPanel = new JPanel(new BorderLayout(10, 0));
+        userPanel.setOpaque(false);
+        userPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        
+        txtUsername = createStyledTextField("Tên đăng nhập");
+        userPanel.add(txtUsername, BorderLayout.CENTER);
+        formPanel.add(userPanel);
 
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.weightx = 1.0;  // ô nhập username giãn rộng
-        formPanel.add(txtUsername, gbc);
+        // Password field with show/hide button
+        JPanel passPanel = new JPanel(new BorderLayout(10, 0));
+        passPanel.setOpaque(false);
+        passPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
 
-        // Password
-        JLabel lblPassword = new JLabel("Password:");
-        lblPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        txtPassword = new JPasswordField(25);  // tăng chiều rộng
-        txtPassword.setFont(new Font("Segoe UI", Font.PLAIN, 14));
-        txtPassword.setBorder(roundedBorder);
+        txtPassword = createStyledPasswordField("Mật khẩu");
+        passPanel.add(txtPassword, BorderLayout.CENTER);
 
-        // Load icon mắt mở và mắt đóng
-        ImageIcon eyeOpenIconRaw = new ImageIcon(getClass().getResource("/Image/viewmo.png"));
-        ImageIcon eyeClosedIconRaw = new ImageIcon(getClass().getResource("/Image/viewdong.png"));
+        // Show/Hide password button
+        JToggleButton btnShowPassword = createPasswordToggleButton();
+        passPanel.add(btnShowPassword, BorderLayout.EAST);
+        
+        formPanel.add(passPanel);
 
-        // Kích thước icon cố định
-        int iconSize = 24;
-
-        // Hàm resize icon (đặt trong class)
-        ImageIcon eyeOpenIcon = resizeIcon(eyeOpenIconRaw, iconSize, iconSize);
-        ImageIcon eyeClosedIcon = resizeIcon(eyeClosedIconRaw, iconSize, iconSize);
-
-        // Tạo nút toggle dùng icon đã resize
-        JToggleButton btnShowPassword = new JToggleButton(eyeClosedIcon);
-        btnShowPassword.setPreferredSize(new Dimension(iconSize + 10, iconSize + 10));
-        btnShowPassword.setFocusPainted(false);
-        btnShowPassword.setMargin(new Insets(2, 2, 2, 2));
-        btnShowPassword.setBackground(new Color(232, 238, 244));
-        btnShowPassword.setBorder(BorderFactory.createLineBorder(new Color(150, 190, 230)));
-        btnShowPassword.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-        btnShowPassword.addActionListener(e -> {
-            if (btnShowPassword.isSelected()) {
-                txtPassword.setEchoChar((char) 0);
-                btnShowPassword.setIcon(eyeOpenIcon);
-            } else {
-                txtPassword.setEchoChar('•');
-                btnShowPassword.setIcon(eyeClosedIcon);
-            }
-        });
-
-        // Tạo panel chứa password field và nút show password
-        JPanel passwordFieldPanel = new JPanel(new BorderLayout());
-        passwordFieldPanel.setBackground(Color.WHITE);
-        passwordFieldPanel.add(txtPassword, BorderLayout.CENTER);
-        passwordFieldPanel.add(btnShowPassword, BorderLayout.EAST);
-
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.weightx = 0;  // label không giãn
-        formPanel.add(lblPassword, gbc);
-
-        gbc.gridx = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.weightx = 1.0;  // ô nhập password giãn rộng
-        formPanel.add(passwordFieldPanel, gbc);
-
-        // Login Button
-        btnLogin = new JButton("Login");
-        btnLogin.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        btnLogin.setBackground(new Color(0, 153, 102));
-        btnLogin.setForeground(Color.WHITE);
-        btnLogin.setFocusPainted(false);
-        btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        btnLogin.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 20));
-
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.gridwidth = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
-        formPanel.add(btnLogin, gbc);
+        // Login button
+        btnLogin = createStyledButton("ĐĂNG NHẬP");
+        btnLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
+        formPanel.add(Box.createVerticalStrut(20));
+        formPanel.add(btnLogin);
 
         // Message label
         lblMessage = new JLabel("", SwingConstants.CENTER);
-        lblMessage.setForeground(Color.RED);
-        gbc.gridy = 3;
-        formPanel.add(lblMessage, gbc);
+        lblMessage.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        lblMessage.setForeground(new Color(231, 76, 60));
+        lblMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
+        formPanel.add(Box.createVerticalStrut(15));
+        formPanel.add(lblMessage);
 
-        // ==== Gộp tất cả ====
-        contentPanel.add(headerPanel);
-        contentPanel.add(lblTitle);
-        contentPanel.add(formPanel);
-        add(contentPanel);
+        mainPanel.add(formPanel);
+        add(mainPanel);
+
+        // Make window draggable
+        addWindowDragListener();
+    }
+
+    private JTextField createStyledTextField(String placeholder) {
+        JTextField field = new JTextField(20) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (getText().isEmpty() && !hasFocus()) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2d.setColor(new Color(189, 195, 199));
+                    g2d.setFont(getFont().deriveFont(Font.PLAIN));
+                    g2d.drawString(placeholder, getInsets().left, g.getFontMetrics().getMaxAscent() + getInsets().top);
+                }
+            }
+        };
+        field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        field.setForeground(Color.WHITE);
+        field.setBackground(new Color(44, 62, 80));
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(189, 195, 199)),
+            BorderFactory.createEmptyBorder(5, 8, 5, 8)
+        ));
+        field.setCaretColor(Color.WHITE);
+        
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                field.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createMatteBorder(0, 0, 2, 0, primaryColor),
+                    BorderFactory.createEmptyBorder(5, 8, 5, 8)
+                ));
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                field.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(189, 195, 199)),
+                    BorderFactory.createEmptyBorder(5, 8, 5, 8)
+                ));
+            }
+        });
+        
+        return field;
+    }
+
+    private JPasswordField createStyledPasswordField(String placeholder) {
+        JPasswordField field = new JPasswordField(20) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                if (getPassword().length == 0 && !hasFocus()) {
+                    Graphics2D g2d = (Graphics2D) g;
+                    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2d.setColor(new Color(189, 195, 199));
+                    g2d.setFont(getFont().deriveFont(Font.PLAIN));
+                    g2d.drawString(placeholder, getInsets().left, g.getFontMetrics().getMaxAscent() + getInsets().top);
+                }
+            }
+        };
+        field.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        field.setForeground(Color.WHITE);
+        field.setBackground(new Color(44, 62, 80));
+        field.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(189, 195, 199)),
+            BorderFactory.createEmptyBorder(5, 8, 5, 8)
+        ));
+        field.setCaretColor(Color.WHITE);
+        field.setEchoChar('•');
+
+        field.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                field.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createMatteBorder(0, 0, 2, 0, primaryColor),
+                    BorderFactory.createEmptyBorder(5, 8, 5, 8)
+                ));
+            }
+            @Override
+            public void focusLost(FocusEvent e) {
+                field.setBorder(BorderFactory.createCompoundBorder(
+                    BorderFactory.createMatteBorder(0, 0, 2, 0, new Color(189, 195, 199)),
+                    BorderFactory.createEmptyBorder(5, 8, 5, 8)
+                ));
+            }
+        });
+
+        return field;
+    }
+
+    private JToggleButton createPasswordToggleButton() {
+        ImageIcon eyeOpenIconRaw = new ImageIcon(getClass().getResource("/Image/viewmo.png"));
+        ImageIcon eyeClosedIconRaw = new ImageIcon(getClass().getResource("/Image/viewdong.png"));
+        
+        int iconSize = 20;
+        ImageIcon eyeOpenIcon = resizeIcon(eyeOpenIconRaw, iconSize, iconSize);
+        ImageIcon eyeClosedIcon = resizeIcon(eyeClosedIconRaw, iconSize, iconSize);
+
+        JToggleButton btn = new JToggleButton(eyeClosedIcon);
+        btn.setPreferredSize(new Dimension(iconSize + 10, iconSize + 10));
+        btn.setBackground(new Color(44, 62, 80));
+        btn.setBorder(null);
+        btn.setFocusPainted(false);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        btn.addActionListener(e -> {
+            if (btn.isSelected()) {
+                txtPassword.setEchoChar((char) 0);
+                btn.setIcon(eyeOpenIcon);
+            } else {
+                txtPassword.setEchoChar('•');
+                btn.setIcon(eyeClosedIcon);
+            }
+        });
+
+        return btn;
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                if (getModel().isPressed()) {
+                    g2.setColor(primaryColor.darker());
+                } else if (getModel().isRollover()) {
+                    g2.setColor(hoverColor);
+                } else {
+                    g2.setColor(primaryColor);
+                }
+                g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 10, 10));
+                g2.dispose();
+
+                super.paintComponent(g);
+            }
+        };
+        button.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        button.setForeground(Color.WHITE);
+        button.setContentAreaFilled(false);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        button.setPreferredSize(new Dimension(200, 40));
+
+        return button;
+    }
+
+    private void addWindowDragListener() {
+        Point offset = new Point();
+        addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                offset.setLocation(e.getX(), e.getY());
+            }
+        });
+        addMouseMotionListener(new MouseMotionAdapter() {
+            public void mouseDragged(MouseEvent e) {
+                Point p = getLocation();
+                setLocation(p.x + e.getX() - offset.x, p.y + e.getY() - offset.y);
+            }
+        });
     }
 
     public String getUsername() {

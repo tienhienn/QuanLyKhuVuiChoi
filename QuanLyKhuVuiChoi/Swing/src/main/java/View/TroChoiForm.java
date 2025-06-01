@@ -58,7 +58,7 @@ public class TroChoiForm extends JPanel {
         JLabel[] labels = {
             new JLabel("Mã Trò Chơi:"), new JLabel("Tên Dịch Vụ:"), new JLabel("Tên Trò Chơi:"),
             new JLabel("Mô Tả:"), new JLabel("Giới Hạn Tuổi:"), new JLabel("Sức Chứa:"),
-            new JLabel("Thời Gian Hoạt Động (yyyy-mm-dd):"), new JLabel(), new JLabel(), new JLabel()
+            new JLabel("Thời Gian Hoạt Động (dd/MM/yyyy):"), new JLabel(), new JLabel(), new JLabel()
         };
 
         for (JLabel lbl : labels) lbl.setFont(mainFont);
@@ -328,8 +328,8 @@ public class TroChoiForm extends JPanel {
                     JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin.");
                     return null;
                 }
-                if (!thoiGianHoatDong.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                    JOptionPane.showMessageDialog(this, "Thời gian hoạt động phải theo định dạng yyyy-MM-dd.");
+                if (!thoiGianHoatDong.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                    JOptionPane.showMessageDialog(this, "Thời gian hoạt động phải theo định dạng dd/MM/yyyy.");
                     return null;
                 }
 

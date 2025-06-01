@@ -42,7 +42,7 @@ public class HomePageWithBackground extends JFrame {
 
         // Tiêu đề
         Font titleFont = new Font("Segoe UI Black", Font.BOLD, 64);
-        Title3DLabel title3DLabel = new Title3DLabel("Chào mừng đến với VINPEARL CHKTT!", titleFont, rainbowColors);
+        Title3DLabel title3DLabel = new Title3DLabel("Chào mừng đến với QL KHU VUI CHƠI!", titleFont, rainbowColors);
 
         JPanel titlePanel = new JPanel();
         titlePanel.setOpaque(false);

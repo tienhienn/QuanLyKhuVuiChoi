@@ -118,7 +118,7 @@ public class HoaDonPanel extends JPanel {
 
         model = new DefaultTableModel();
         model.setColumnIdentifiers(new String[]{
-                "Mã Đặt Vé", "Tên Khách Hàng", "Tháng/Năm Đặt", "Số Người", "Tổng Tiền (VND)", "Sử Dụng Voucher"
+                "Mã Đặt Vé", "Tên Khách Hàng", "Ngày Đặt", "Số Người", "Tổng Tiền (VND)"
         });
 
         tblHoaDon = new JTable(model) {
@@ -414,20 +414,18 @@ public class HoaDonPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Không có dữ liệu hóa đơn để hiển thị.");
             return;
         }
-        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM");
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd/MM/yyyy");
         for (HoaDon hd : list) {
             String thangNam = "";
             if (hd.getNgayDat() != null) {
                 thangNam = sdf.format(hd.getNgayDat());
             }
-            String suDungVoucher = "Không";
             model.addRow(new Object[]{
                     hd.getMaDatVe(),
                     hd.getTenKhachHang(),
                     thangNam,
                     hd.getNguoiLon() + hd.getTreEm() + hd.getNguoiGia(), 
-                    String.format("%,.0f", hd.getTongTien()), 
-                    suDungVoucher
+                    String.format("%,.0f", hd.getTongTien())
             });
         }
     }
@@ -480,6 +478,11 @@ public class HoaDonPanel extends JPanel {
             DataFormat format = workbook.createDataFormat();
             moneyStyle.setDataFormat(format.getFormat("#,##0"));
 
+            // Style cho ngày tháng
+            CellStyle dateStyle = workbook.createCellStyle();
+            dateStyle.cloneStyleFrom(dataStyle);
+            dateStyle.setDataFormat(format.getFormat("dd/mm/yyyy"));
+
             // Tạo header
             Row headerRow = sheet.createRow(0);
             String[] columns = {
@@ -495,16 +498,12 @@ public class HoaDonPanel extends JPanel {
                 sheet.setColumnWidth(i, 15 * 256); // 15 ký tự
             }
 
-            // Format date
-            CellStyle dateStyle = workbook.createCellStyle();
-            dateStyle.cloneStyleFrom(dataStyle);
-            dateStyle.setDataFormat(format.getFormat("dd/mm/yyyy"));
-
             // Thêm dữ liệu
             List<HoaDon> list = hoaDonController.getAllHoaDon();
             int rowNum = 1;
             double tongDoanhThu = 0;
 
+            java.text.SimpleDateFormat sdfExcel = new java.text.SimpleDateFormat("dd/MM/yyyy");
             for (HoaDon hd : list) {
                 Row row = sheet.createRow(rowNum++);
 
@@ -515,12 +514,12 @@ public class HoaDonPanel extends JPanel {
                 // Ngày tháng
                 if (hd.getNgayDat() != null) {
                     Cell cellNgayDat = row.createCell(2);
-                    cellNgayDat.setCellValue(hd.getNgayDat());
+                    cellNgayDat.setCellValue(sdfExcel.format(hd.getNgayDat()));
                     cellNgayDat.setCellStyle(dateStyle);
                 }
                 if (hd.getNgayDi() != null) {
                     Cell cellNgayDi = row.createCell(3);
-                    cellNgayDi.setCellValue(hd.getNgayDi());
+                    cellNgayDi.setCellValue(sdfExcel.format(hd.getNgayDi()));
                     cellNgayDi.setCellStyle(dateStyle);
                 }
 
